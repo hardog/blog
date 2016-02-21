@@ -1,0 +1,171 @@
+/* reset style */
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+article {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+a {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  text-decoration: none;
+}
+ul {
+  list-style: none;
+}
+html,
+body {
+  height: 100%;
+}
+/* common style */
+.post-title h3 > a {
+  color: #555;
+  font-size: 1.125em;
+  font-weight: bold;
+  padding-bottom: 17px;
+  display: inline-block;
+}
+.post-title h3 > a:hover {
+  color: black;
+}
+.post-title .article-meta {
+  width: 60%;
+  font-size: 0.75em;
+  color: #999;
+  padding-bottom: 18px;
+  border-bottom: 1px dashed #d9d9d9;
+}
+.post-title .article-meta .article-tag > a {
+  color: #999;
+}
+.post-title .article-meta .article-tag > a:hover {
+  color: #717171;
+}
+/* auto-meta style */
+body {
+  font-size: 16px;
+  font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+body .author-meta {
+  width: 25%;
+  height: 100%;
+  color: #fff;
+  float: left;
+  background: url(../images/theme/book.jpg);
+  background-size: cover;
+}
+body .author-meta a {
+  color: #fff;
+}
+body .site-title {
+  padding: 38px 30px 30px 30px;
+}
+body .site-title h1 {
+  font-size: 2.4em;
+  line-height: 60px;
+}
+body .site-title h3 span {
+  font-size: 1em;
+  line-height: 1.8em;
+  display: block;
+}
+body .site-title h3 .site-title-offset {
+  padding-left: 2em;
+}
+/* article list style */
+.article-list {
+  width: 75%;
+  height: 100%;
+  float: left;
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 32px 0 32px 8.44%;
+}
+.article-list .article {
+  padding-top: 18px;
+}
+.article-list .article h3 > a {
+  color: #555;
+  font-size: 1.125em;
+  font-weight: bold;
+  padding-bottom: 17px;
+  display: inline-block;
+}
+.article-list .article h3 > a:hover {
+  color: black;
+}
+.article-list .article .article-meta {
+  width: 60%;
+  font-size: 0.75em;
+  color: #999;
+  padding-bottom: 18px;
+  border-bottom: 1px dashed #d9d9d9;
+}
+.article-list .article .article-meta .article-tag > a {
+  color: #999;
+}
+.article-list .article .article-meta .article-tag > a:hover {
+  color: #717171;
+}
+/* post style */
+.post {
+  width: 75%;
+  height: 100%;
+  float: left;
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 32px 3.125% 32px 3.125%;
+}
+.post .post-head h3 > a {
+  color: #555;
+  font-size: 1.125em;
+  font-weight: bold;
+  padding-bottom: 17px;
+  display: inline-block;
+}
+.post .post-head h3 > a:hover {
+  color: black;
+}
+.post .post-head .article-meta {
+  width: 60%;
+  font-size: 0.75em;
+  color: #999;
+  padding-bottom: 18px;
+  border-bottom: 1px dashed #d9d9d9;
+}
+.post .post-head .article-meta .article-tag > a {
+  color: #999;
+}
+.post .post-head .article-meta .article-tag > a:hover {
+  color: #717171;
+}
+.post .post-head h3 > a {
+  font-size: 1.6em;
+}
+/* markdown style */
+.markdown img {
+  max-width: 600px;
+  margin: 20px;
+}
