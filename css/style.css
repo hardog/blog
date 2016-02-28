@@ -165,7 +165,38 @@ body .site-title h3 .site-title-offset {
   font-size: 1.6em;
 }
 /* markdown style */
-.markdown img {
+/* markdown editor */
+.markdown-text p {
+  white-space: pre-wrap;
+  /* CSS3 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
+  line-height: 2em;
+  margin: 1em 0;
+}
+.markdown-text > *:first-child {
+  margin-top: 0;
+}
+.markdown-text > *:last-child {
+  margin-bottom: 1em;
+}
+.markdown-text li {
+  font-size: 14px;
+  line-height: 2em;
+}
+.markdown-text p code,
+.markdown-text li code {
+  color: black;
+  background-color: #fcfafa;
+  padding: 4px 6px;
+}
+.markdown-text img {
   max-width: 600px;
   margin: 20px;
 }
