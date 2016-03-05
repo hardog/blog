@@ -66,6 +66,14 @@ body {
   color: #717171;
 }
 /* markdown style */
+.markdown-text h1,
+.markdown-text h2,
+.markdown-text h3,
+.markdown-text h4,
+.markdown-text h5,
+.markdown-text h6 {
+  line-height: 2.5em;
+}
 .markdown-text h1 {
   font-size: 1.25em;
 }
@@ -146,7 +154,6 @@ body .site-title {
 }
 body .site-title h1 {
   font-size: 2.4em;
-  line-height: 60px;
 }
 body .site-title h3 span {
   font-size: 1em;
