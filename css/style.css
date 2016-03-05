@@ -66,14 +66,6 @@ body {
   color: #717171;
 }
 /* markdown style */
-.markdown-text h1,
-.markdown-text h2,
-.markdown-text h3,
-.markdown-text h4,
-.markdown-text h5,
-.markdown-text h6 {
-  line-height: 2.5em;
-}
 .markdown-text h1 {
   font-size: 1.25em;
 }
@@ -119,7 +111,7 @@ body {
 }
 .markdown-text .highlight.plain {
   padding: 0;
-  margin: 0;
+  margin: 1em 0;
 }
 .markdown-text .highlight .gutter {
   display: none;
