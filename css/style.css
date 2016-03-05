@@ -63,6 +63,62 @@ body {
 .post-title .article-meta .article-tag > a:hover {
   color: #717171;
 }
+/* markdown style */
+.markdown-text h1 {
+  font-size: 1.25em;
+}
+.markdown-text p {
+  color: #2f2f2f;
+  line-height: 2em;
+  margin: 1em 0;
+  white-space: pre-wrap;
+  /* CSS3 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
+}
+.markdown-text > *:first-child {
+  margin-top: 0;
+}
+.markdown-text > *:last-child {
+  margin-bottom: 1em;
+}
+.markdown-text li {
+  font-size: 14px;
+  line-height: 2em;
+}
+.markdown-text p code,
+.markdown-text li code {
+  color: black;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+  padding: 4px 6px;
+}
+.markdown-text img {
+  max-width: 600px;
+  margin: 20px;
+}
+.markdown-text .highlight.plain {
+  padding: 0;
+  margin: 0;
+}
+.markdown-text .highlight .gutter {
+  display: none;
+}
+.markdown-text .highlight .code {
+  background-color: whitesmoke;
+  word-break: break-word;
+  border-left: 4px solid #999999;
+  padding-left: 10px;
+}
+.markdown-text .highlight .code.line {
+  word-break: break-word;
+}
 /* auto-meta style */
 body {
   font-size: 16px;
@@ -163,40 +219,4 @@ body .site-title h3 .site-title-offset {
 }
 .post .post-head h3 > a {
   font-size: 1.6em;
-}
-/* markdown style */
-/* markdown editor */
-.markdown-text p {
-  white-space: pre-wrap;
-  /* CSS3 */
-  white-space: -moz-pre-wrap;
-  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;
-  /* Opera 4-6 */
-  white-space: -o-pre-wrap;
-  /* Opera 7 */
-  word-wrap: break-word;
-  /* Internet Explorer 5.5+ */
-  line-height: 2em;
-  margin: 1em 0;
-}
-.markdown-text > *:first-child {
-  margin-top: 0;
-}
-.markdown-text > *:last-child {
-  margin-bottom: 1em;
-}
-.markdown-text li {
-  font-size: 14px;
-  line-height: 2em;
-}
-.markdown-text p code,
-.markdown-text li code {
-  color: black;
-  background-color: #fcfafa;
-  padding: 4px 6px;
-}
-.markdown-text img {
-  max-width: 600px;
-  margin: 20px;
 }
