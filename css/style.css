@@ -40,21 +40,23 @@ body {
   height: 100%;
 }
 /* common style */
-.post-title h3 > a {
+.post-title h3 {
+  margin-bottom: 0.618em;
+}
+.post-title h3 a {
   color: #555;
   font-size: 1.125em;
   font-weight: bold;
-  padding-bottom: 17px;
   display: inline-block;
 }
-.post-title h3 > a:hover {
+.post-title h3 a:hover {
   color: black;
 }
 .post-title .article-meta {
   width: 60%;
   font-size: 0.75em;
   color: #999;
-  padding-bottom: 18px;
+  line-height: 1.5em;
   border-bottom: 1px dashed #d9d9d9;
 }
 .post-title .article-meta .article-tag > a {
@@ -88,9 +90,13 @@ body {
 .markdown-text > *:last-child {
   margin-bottom: 1em;
 }
-.markdown-text li {
+.markdown-text ul {
+  padding: 0 40px;
+}
+.markdown-text ul li {
   font-size: 14px;
   line-height: 2em;
+  list-style: disc;
 }
 .markdown-text p code,
 .markdown-text li code {
@@ -114,7 +120,7 @@ body {
   background-color: whitesmoke;
   word-break: break-word;
   border-left: 4px solid #999999;
-  padding-left: 10px;
+  padding: 0 10px;
 }
 .markdown-text .highlight .code.line {
   word-break: break-word;
@@ -157,26 +163,28 @@ body .site-title h3 .site-title-offset {
   float: left;
   overflow: auto;
   box-sizing: border-box;
-  padding: 32px 0 32px 8.44%;
+  padding: 2em 0 2em 8.44%;
 }
 .article-list .article {
-  padding-top: 18px;
+  padding-top: 2em;
 }
-.article-list .article h3 > a {
+.article-list .article h3 {
+  margin-bottom: 0.618em;
+}
+.article-list .article h3 a {
   color: #555;
   font-size: 1.125em;
   font-weight: bold;
-  padding-bottom: 17px;
   display: inline-block;
 }
-.article-list .article h3 > a:hover {
+.article-list .article h3 a:hover {
   color: black;
 }
 .article-list .article .article-meta {
   width: 60%;
   font-size: 0.75em;
   color: #999;
-  padding-bottom: 18px;
+  line-height: 1.5em;
   border-bottom: 1px dashed #d9d9d9;
 }
 .article-list .article .article-meta .article-tag > a {
@@ -194,21 +202,26 @@ body .site-title h3 .site-title-offset {
   box-sizing: border-box;
   padding: 32px 3.125% 32px 3.125%;
 }
-.post .post-head h3 > a {
+.post .post-head {
+  margin-bottom: 2em;
+}
+.post .post-head h3 {
+  margin-bottom: 0.618em;
+}
+.post .post-head h3 a {
   color: #555;
   font-size: 1.125em;
   font-weight: bold;
-  padding-bottom: 17px;
   display: inline-block;
 }
-.post .post-head h3 > a:hover {
+.post .post-head h3 a:hover {
   color: black;
 }
 .post .post-head .article-meta {
   width: 60%;
   font-size: 0.75em;
   color: #999;
-  padding-bottom: 18px;
+  line-height: 1.5em;
   border-bottom: 1px dashed #d9d9d9;
 }
 .post .post-head .article-meta .article-tag > a {
