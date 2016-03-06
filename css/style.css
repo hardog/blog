@@ -71,7 +71,7 @@ body {
 }
 .markdown-text p {
   color: #2f2f2f;
-  line-height: 2em;
+  line-height: 1.6em;
   margin: 1em 0;
   white-space: pre-wrap;
   /* CSS3 */
