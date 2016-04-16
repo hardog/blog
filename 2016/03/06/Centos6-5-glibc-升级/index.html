@@ -38,13 +38,27 @@
 </article>
 	</div>
 	<div class="markdown-text">
-		<h1 id="场景需求"><a href="#场景需求" class="headerlink" title="场景需求"></a>场景需求</h1><p>默认的Centos6.5 glibc版本最高为2.12, 而在进行Nodejs开发时项目所依赖的包往往需要更高版本的glibc库支持, 因此在不升级系统的前提下, 需要主动更新系统glibc库. 一般遇到错误<code>libc.so.6: version GLIBC_2.14 not found</code>时表示需要对glibc进行升级了.</p>
-<h1 id="glibc版本"><a href="#glibc版本" class="headerlink" title="glibc版本"></a>glibc版本</h1><p>查看系统glibc库版本可使用如下命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ strings /lib64/libc.so.6 |grep GLIBC_</span><br></pre></td></tr></table></figure></p>
-<p>Centos6.5输出如下glibc版本列表, 从此图可以看出系统最高支持glibc的2.12版本:<br><img src="/images/post/20160306/glibc2.12.png" alt="glibc-2.12"><br>另外, 执行<code>$ ll /lib64/libc**</code>可以看到此时的libc.so.6是libc-2.12.so的别名, 如下图所示:<br><img src="/images/post/20160306/ll2.12.png" alt="glibc-2.12-ll"></p>
-<h1 id="glibc安装"><a href="#glibc安装" class="headerlink" title="glibc安装"></a>glibc安装</h1><p>首先, 点击此处下载glibc<a href="http://ftp.gnu.org/gnu/glibc/glibc-2.14.tar.gz" target="_blank" rel="external">点击下载</a>, 得到<code>glibc-2.14.tar.gz</code>使用如下命令解压<code>glibc-2.14.tar.gz</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -xzvf glibc-2.14.tar.gz</span><br></pre></td></tr></table></figure></p>
-<p>当前目录下得到目录<code>glibc-2.14</code>, 执行<code>$cd glibc-2.14</code>命令进入目录, 依次执行如下命令编译安装glibc-2.14:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir build&#9;// &#22312;glibc-2.14&#30446;&#24405;&#19979;&#24314;&#31435;build&#25991;&#20214;&#22841;&#10;$ cd build&#9;&#9;// &#36827;&#20837;build&#30446;&#24405;&#10;$ ../configure --prefix=/opt/glibc-2.14 // &#37197;&#32622;glibc&#24182;&#35774;&#32622;&#24403;&#21069;glibc-2.14&#23433;&#35013;&#30446;&#24405;&#10;$ make &#38;&#38; make install&#9;&#9;// &#32534;&#35793;&#23433;&#35013;glibc-2.14&#24211;</span><br></pre></td></tr></table></figure></p>
-<h1 id="glibc软链"><a href="#glibc软链" class="headerlink" title="glibc软链"></a>glibc软链</h1><p>安装完成后, 建立软链指向glibc-2.14, 执行如下命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rm -rf /lib64/libc.so.6 &#9;&#9;&#9;// &#20808;&#21024;&#38500;&#20808;&#21069;&#30340;libc.so.6&#36719;&#38142;&#10;$ ln -s /opt/glibc-2.14/lib/libc-2.14.so /lib64/libc.so.6</span><br></pre></td></tr></table></figure></p>
-<p>此时查看系统glibc版本如下图所示:<br><img src="/images/post/20160306/glibc.png" alt="glibc"><br>可以看到当前glibc最高版本为2.14, libc.so.6软链指向如下图所示:<br><img src="/images/post/20160306/ll.png" alt="ll"></p>
+		<h1>场景需求</h1>
+<p>默认的Centos6.5 glibc版本最高为2.12, 而在进行Nodejs开发时项目所依赖的包往往需要更高版本的glibc库支持, 因此在不升级系统的前提下, 需要主动更新系统glibc库. 一般遇到错误<code>libc.so.6: version GLIBC_2.14 not found</code>时表示需要对glibc进行升级了.</p>
+<h1>glibc版本</h1>
+<p>查看系统glibc库版本可使用如下命令:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ strings /lib64/libc.so.6 |grep GLIBC_</span><br></pre></td></tr></table></figure></p>
+<p>Centos6.5输出如下glibc版本列表, 从此图可以看出系统最高支持glibc的2.12版本:
+<img src="/images/post/20160306/glibc2.12.png" alt="glibc-2.12">
+另外, 执行<code>$ ll /lib64/libc**</code>可以看到此时的libc.so.6是libc-2.12.so的别名, 如下图所示:
+<img src="/images/post/20160306/ll2.12.png" alt="glibc-2.12-ll"></p>
+<h1>glibc安装</h1>
+<p>首先, 点击此处下载glibc<a href="http://ftp.gnu.org/gnu/glibc/glibc-2.14.tar.gz" target="_blank" rel="external">点击下载</a>, 得到<code>glibc-2.14.tar.gz</code>使用如下命令解压<code>glibc-2.14.tar.gz</code>:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -xzvf glibc-2.14.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>当前目录下得到目录<code>glibc-2.14</code>, 执行<code>$cd glibc-2.14</code>命令进入目录, 依次执行如下命令编译安装glibc-2.14:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir build&#9;// &#22312;glibc-2.14&#30446;&#24405;&#19979;&#24314;&#31435;build&#25991;&#20214;&#22841;&#10;$ cd build&#9;&#9;// &#36827;&#20837;build&#30446;&#24405;&#10;$ ../configure --prefix=/opt/glibc-2.14 // &#37197;&#32622;glibc&#24182;&#35774;&#32622;&#24403;&#21069;glibc-2.14&#23433;&#35013;&#30446;&#24405;&#10;$ make &#38;&#38; make install&#9;&#9;// &#32534;&#35793;&#23433;&#35013;glibc-2.14&#24211;</span><br></pre></td></tr></table></figure></p>
+<h1>glibc软链</h1>
+<p>安装完成后, 建立软链指向glibc-2.14, 执行如下命令:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rm -rf /lib64/libc.so.6 &#9;&#9;&#9;// &#20808;&#21024;&#38500;&#20808;&#21069;&#30340;libc.so.6&#36719;&#38142;&#10;$ ln -s /opt/glibc-2.14/lib/libc-2.14.so /lib64/libc.so.6</span><br></pre></td></tr></table></figure></p>
+<p>此时查看系统glibc版本如下图所示:
+<img src="/images/post/20160306/glibc.png" alt="glibc">
+可以看到当前glibc最高版本为2.14, libc.so.6软链指向如下图所示:
+<img src="/images/post/20160306/ll.png" alt="ll"></p>
 
 	</div>
 </div>
