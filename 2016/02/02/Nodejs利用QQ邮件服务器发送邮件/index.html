@@ -66,7 +66,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var nodemailer = require(&#39;nodemailer&#39;);&#10;var iconv = require(&#39;iconv-lite&#39;); &#10;&#10;var options = &#123;&#10;    service: &#39;QQ&#39;,&#10;    auth: &#123;&#10;        user: &#39;qqmail@qq.com&#39;,&#10;        pass: &#39;xxxx&#39;            &#9;&#9;&#9;// &#25480;&#26435;&#30721;&#10;    &#125;&#10;&#125;;&#10;&#10;var transporter = nodemailer.createTransport(options);&#10;&#10;var mailBody = &#123;&#10;    from: &#39;sender@qq.com &#39;,             // &#21457;&#36865;&#32773;&#37038;&#31665;, &#24517;&#39035;&#36755;&#20837;&#37038;&#20214;&#22320;&#22336;&#10;    to: &#39;recever@qq.com&#39;,                 // &#25509;&#25910;&#32773;&#37038;&#31665;, &#21487;&#35774;&#32622;&#22810;&#20010;&#10;    subject: &#39;Hello &#10004;&#39;,                     // &#23376;&#26631;&#39064;&#10;    html: &#39;&#60;b&#62;Hello world from Frand&#10004;&#60;/b&#62;&#39;  // &#37038;&#20214;&#27491;&#25991;&#10;&#125;;&#10;&#10;transporter.sendMail(mailBody, function(error, info)&#123;&#10;    if(error)&#123;&#10;        console.log(iconv.decode(error.response,&#39;GBK&#39;), error);&#10;    &#125;else&#123;&#10;        console.log(&#39;Message sent: &#39; + iconv.decode(info.response,&#39;GBK&#39;));&#10;    &#125;&#10;&#125;);</span><br></pre></td></tr></table></figure>
 	</div>
 </div>
-</body>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -79,4 +78,5 @@
 
 </script>
 
+</body>
 </html>
