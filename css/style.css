@@ -107,7 +107,7 @@ body {
 }
 .markdown-text img {
   max-width: 600px;
-  margin: 20px;
+  width: 100%;
 }
 .markdown-text .highlight.plain {
   padding: 0;
