@@ -2,7 +2,7 @@
 	function translateTozhCN(eng){
 		var param = $.param({
 			keyfrom: 'startexample',
-			key: 1172896456,
+			key: '1172896456',
 			type: 'data',
 			doctype: 'json',
 			version: '1.1',
@@ -10,17 +10,17 @@
 		});
 
 		var url = 'http://fanyi.youdao.com/openapi.do?' + param;
-
 		$.get(url, function(data, status, xhr){
 			console.log('data', data);
 		});
 	}
 
 	function showSelect(){
-		var selecter = window.getSelection();
+		var sel = window.getSelection();
+		var selstr = (sel || '').toString();
 
-        if(selecter != null && $.trim(selecter) != ''){
-        	translateTozhCN(selecter);
+        if($.trim(selstr) != ''){
+        	translateTozhCN(selstr);
     	}
 	}
 
