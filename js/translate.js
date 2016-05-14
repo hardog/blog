@@ -6,6 +6,8 @@
 			type: 'data',
 			doctype: 'json',
 			version: '1.1',
+			translate: 'on',
+			only: 'translate',
 			q: eng
 		});
 
