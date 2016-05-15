@@ -30,65 +30,48 @@
 <div class="post">
 	<div class="post-head">
 		<article class="article">
-	<h3> <a href="/2015/09/29/Javascript 函数传递对象参数/">Javascript 函数传递对象参数</a> </h3>
-	<aside class="article-meta">
-		<span>时间: 2015-09-29 11:58:22 </span>
-		<span class="article-tag">
-		标签:
-		
+	
+		<h3> <a href="/2015/09/29/Javascript 函数传递对象参数/">Javascript 函数传递对象参数</a> </h3>
+		<aside class="article-meta">
+			<span>时间: 2015-09-29 11:58:22 </span>
+			<span class="article-tag">
+			标签:
 			
-			<a href="/tags/前端/">前端</a>
-		
-		</span>
-	</aside>
+				
+				<a href="/tags/前端/">前端</a>
+			
+			</span>
+		</aside>
+	
 </article>
 
 	</div>
 	<div class="markdown-text">
-		<h1>本文目标</h1>
-<ul>
-<li>试着解释Javascript(以下简称js)函数基本类型与对象类型传参的两种方式。
-&lt;!-- more --&gt;</li>
+		<h1 id="本文目标"><a href="#本文目标" class="headerlink" title="本文目标"></a>本文目标</h1><ul>
+<li>试着解释Javascript(以下简称js)函数基本类型与对象类型传参的两种方式。<a id="more"></a>
+</li>
 </ul>
-<h1>本文测试环境</h1>
-<ul>
+<h1 id="本文测试环境"><a href="#本文测试环境" class="headerlink" title="本文测试环境"></a>本文测试环境</h1><ul>
 <li><code>chrome 45.0.2454.85 m</code>控制台。</li>
 </ul>
-<h1>函数传参类型</h1>
-<p>js函数的参数可以分为两种类型：</p>
+<h1 id="函数传参类型"><a href="#函数传参类型" class="headerlink" title="函数传参类型"></a>函数传参类型</h1><p>js函数的参数可以分为两种类型：</p>
 <ul>
 <li>基本类型参数(<code>null,undefined,String,Boolean,Number,Symbol</code>)</li>
 <li>对象类型参数(<code>Object,Array,Set,Function...</code>)</li>
 </ul>
-<h2>基本类型的传参</h2>
-<p>对于基本类型的参数传递，在js语法中采用的是<code>按值传递</code>的<code>求值策略</code>，即对于传入函
-数中的基本类型的值，传入函数内部时，会对传入的参数拷贝一份副本然后对副本进行操作，如下所示：</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var fn = function(param)&#123;&#10;    // &#23545;param&#36827;&#34892;&#20462;&#25913;&#10;    param = 4;&#10;&#125;;&#10;&#10;var param1 = 12;&#10;console.log(&#39;before call fn:&#39;+param1);&#10;fn(param1);&#10;console.log(&#39;after call fn:&#39;+param1);</span><br></pre></td></tr></table></figure></p>
-<p>结果如下：
-![按值传递](/images/post/20150929/js call by1.png)
-可见调用函数前后并不会对基本类型值<code>param1</code>产生影响，即<code>按值传递</code>并不会修改传入
-函数的基本类型值。</p>
-<h2>对象类型的传参</h2>
-<p>对于对象类型的参数，js采用的是<code>按共享传递</code>的<code>求值策略</code>，即对于传入函数中的对象
-参数，实际是传递对象的引用地址拷贝，函数的形参与实参指向的是相同的堆内存地址，
-所以在函数中对形参对象的属性进行修改时会影响实参的值，如下所示：</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var fn = function(object)&#123;&#10;    object.property = &#39;modified&#39;;&#10;&#125;;&#10;&#10;var obj = &#123;&#10;    property:&#39;origin&#39;&#10;&#125;;&#10;&#10;console.log(&#39;before call:&#39;);&#10;console.log(obj);&#10;fn(obj);&#10;console.log(&#39;after call:&#39;);&#10;console.log(obj);</span><br></pre></td></tr></table></figure></p>
-<p>执行结果如下：
-![按共享传递](/images/post/20150929/js call by2.png)
-从上图中可以看出执行函数后，实参的对象属性值是被改变了的，即<code>按共享传递</code>的求值策略将会改变原先传入函数的对象参数的属性值。
-<strong>注意</strong>上述只是修改了对象属性的值，如果我们给整个对象赋值会是什么样子的呢？看如下图所示：</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var fn = function(object)&#123;&#10;    object = &#39;modified&#39;;&#10;    console.log(&#39;fn inner:&#39;);&#10;    console.log(object);&#10;&#125;;&#10;&#10;var obj = &#123;&#10;    property1:&#39;origin1&#39;,&#10;    property2:&#39;origin2&#39;&#10;&#125;;&#10;&#10;console.log(&#39;before call:&#39;);&#10;console.log(obj);&#10;fn(obj);&#10;console.log(&#39;after call:&#39;);&#10;console.log(obj);</span><br></pre></td></tr></table></figure></p>
-<p>结果如下：
-![按共享传递-覆盖整个对象](/images/post/20150929/js call by3.png)
-从上图可以看出，给整个对象赋值调用函数前后并不会修改实际对象的值，这也就是<code>按共享传递</code>与<code>按引用传递</code>求值策略的区别所在。</p>
-<h1>总结</h1>
-<ul>
+<h2 id="基本类型的传参"><a href="#基本类型的传参" class="headerlink" title="基本类型的传参"></a>基本类型的传参</h2><p>对于基本类型的参数传递，在js语法中采用的是<code>按值传递</code>的<code>求值策略</code>，即对于传入函<br>数中的基本类型的值，传入函数内部时，会对传入的参数拷贝一份副本然后对副本进行操作，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var fn = function(param)&#123;&#10;    // &#23545;param&#36827;&#34892;&#20462;&#25913;&#10;    param = 4;&#10;&#125;;&#10;&#10;var param1 = 12;&#10;console.log(&#39;before call fn:&#39;+param1);&#10;fn(param1);&#10;console.log(&#39;after call fn:&#39;+param1);</span><br></pre></td></tr></table></figure>
+<p>结果如下：<br><img src="/images/post/20150929/js call by1.png" alt="按值传递"><br>可见调用函数前后并不会对基本类型值<code>param1</code>产生影响，即<code>按值传递</code>并不会修改传入<br>函数的基本类型值。</p>
+<h2 id="对象类型的传参"><a href="#对象类型的传参" class="headerlink" title="对象类型的传参"></a>对象类型的传参</h2><p>对于对象类型的参数，js采用的是<code>按共享传递</code>的<code>求值策略</code>，即对于传入函数中的对象<br>参数，实际是传递对象的引用地址拷贝，函数的形参与实参指向的是相同的堆内存地址，<br>所以在函数中对形参对象的属性进行修改时会影响实参的值，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var fn = function(object)&#123;&#10;    object.property = &#39;modified&#39;;&#10;&#125;;&#10;&#10;var obj = &#123;&#10;    property:&#39;origin&#39;&#10;&#125;;&#10;&#10;console.log(&#39;before call:&#39;);&#10;console.log(obj);&#10;fn(obj);&#10;console.log(&#39;after call:&#39;);&#10;console.log(obj);</span><br></pre></td></tr></table></figure>
+<p>执行结果如下：<br><img src="/images/post/20150929/js call by2.png" alt="按共享传递"><br>从上图中可以看出执行函数后，实参的对象属性值是被改变了的，即<code>按共享传递</code>的求值策略将会改变原先传入函数的对象参数的属性值。<br><strong>注意</strong>上述只是修改了对象属性的值，如果我们给整个对象赋值会是什么样子的呢？看如下图所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var fn = function(object)&#123;&#10;    object = &#39;modified&#39;;&#10;    console.log(&#39;fn inner:&#39;);&#10;    console.log(object);&#10;&#125;;&#10;&#10;var obj = &#123;&#10;    property1:&#39;origin1&#39;,&#10;    property2:&#39;origin2&#39;&#10;&#125;;&#10;&#10;console.log(&#39;before call:&#39;);&#10;console.log(obj);&#10;fn(obj);&#10;console.log(&#39;after call:&#39;);&#10;console.log(obj);</span><br></pre></td></tr></table></figure>
+<p>结果如下：<br><img src="/images/post/20150929/js call by3.png" alt="按共享传递-覆盖整个对象"><br>从上图可以看出，给整个对象赋值调用函数前后并不会修改实际对象的值，这也就是<code>按共享传递</code>与<code>按引用传递</code>求值策略的区别所在。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
 <li><code>按值传递</code>，按值传递，在函数内部会对传入的实参进行副本拷贝，所以对形参的操作并不会影响实参的值，但是这种方式一般只适用于基本类型的值，而对于复杂的数据结构或者拥有大量属性对象的传值并不太适用，这将很大程度上影响程序性能。</li>
 <li><code>按共享传递</code>，当对传入函数的对象进行整体赋值时，原本持有实参内存地址引用的形参将会被赋予新的内存地址引用，原有的内存地址引用将会被切断，此时形参指向了新的内存地址。这种传值方式的优点很明显，避免了多属性传参带来的大对象拷贝开销，但是缺点是如果在很多的函数中调用，将会对人产生使用上的困扰，稍不留神可能就不知道哪里修改了对象的属性值。</li>
-<li><code>按引用传递</code>，在<code>c,c++</code>等语言中，可以接触到指针的概念，这些语言中函数传递引用参数时，始终都指向同一内存地址，所以对传入形参引用的修改，始终都会对实参的值产生影响。</li>
+<li><code>按引用传递</code>，在<code>c,c++</code>等语言中，可以接触到指针的概念，这些语言中函数传递引用参数时，始终都指向同一内存地址，所以对传入形参引用的修改，始终都会对实参的值产生影响。<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><a href="http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/" target="_blank" rel="external">http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/</a></li>
 </ul>
-<h1>参考</h1>
-<p><a href="http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/" target="_blank" rel="external">http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/</a></p>
 
 	</div>
 </div>

@@ -200,6 +200,27 @@ body .article-list .article .article-meta .article-tag > a {
 body .article-list .article .article-meta .article-tag > a:hover {
   color: #717171;
 }
+body .article-list .tags-wrap {
+  width: 60%;
+  overflow-x: scroll;
+}
+body .article-list .tags-wrap .tags {
+  padding: 5px;
+}
+body .article-list .tags-wrap .tags a {
+  color: #555;
+  font-weight: bold;
+  padding: 0 5px;
+}
+body .article-list .tags-wrap .tags a:first-child {
+  padding-left: 0;
+}
+body .article-list .tags-wrap .tags a:last-child {
+  padding-right: 0;
+}
+body .article-list .tags-wrap .tags a:hover {
+  color: black;
+}
 body .post {
   width: 75%;
   height: 100%;
@@ -264,7 +285,11 @@ body .post .post-head h3 > a {
   border-radius: 2px;
 }
 .show-text {
-  font-size: inherit;
   display: inline-block;
-  margin-right: 5px;
+  visibility: hidden;
+  background: #f0f0f0;
+  padding: 5px;
+  font-size: 12px;
+  margin-top: -1px;
+  vertical-align: middle;
 }
