@@ -54,16 +54,23 @@
 
 	</div>
 	<div class="markdown-text">
-		<h1 id="测试环境概要"><a href="#测试环境概要" class="headerlink" title="测试环境概要"></a>测试环境概要</h1><p>本次测试基于以下环境:</p>
+		<h1>测试环境概要</h1>
+<p>本次测试基于以下环境:</p>
 <ul>
 <li>ApacheBench(v2.3)</li>
 <li>Mac OS X 10.10.5</li>
 <li>2.7 GHz Intel Core i5</li>
 <li>Memory 8GB</li>
 </ul>
-<h1 id="内容概要"><a href="#内容概要" class="headerlink" title="内容概要"></a>内容概要</h1><p>该文主要收集ab test的各项参数的具体含义并举例介绍ab test的基本使用方法.</p>
-<h1 id="关于ApacheBench-以下简称ab"><a href="#关于ApacheBench-以下简称ab" class="headerlink" title="关于ApacheBench(以下简称ab)"></a>关于ApacheBench(以下简称ab)</h1><p>官方释义如下:<br><code>ab is a tool for benchmarking your Apache Hypertext Transfer Protocol (HTTP) server</code><br>简单来说就是一款压力测试工具, 可以通过创建多线程模拟多用户同时请求服务器行为, 从而实现对目标服务器进行压力测试的目标.对<code>https://github.com</code>网站模拟压力测试的效果图如下:<br><img src="/images/post/20160410/ab.png" alt="ab test"></p>
-<h1 id="ab参数详解"><a href="#ab参数详解" class="headerlink" title="ab参数详解"></a>ab参数详解</h1><p>联系上图对ab测试的各项参数进行阐述:</p>
+<h1>内容概要</h1>
+<p>该文主要收集ab test的各项参数的具体含义并举例介绍ab test的基本使用方法.</p>
+<h1>关于ApacheBench(以下简称ab)</h1>
+<p>官方释义如下:
+<code>ab is a tool for benchmarking your Apache Hypertext Transfer Protocol (HTTP) server</code>
+简单来说就是一款压力测试工具, 可以通过创建多线程模拟多用户同时请求服务器行为, 从而实现对目标服务器进行压力测试的目标.对<code>https://github.com</code>网站模拟压力测试的效果图如下:
+<img src="/images/post/20160410/ab.png" alt="ab test"></p>
+<h1>ab参数详解</h1>
+<p>联系上图对ab测试的各项参数进行阐述:</p>
 <ul>
 <li>Server Software</li>
 </ul>
@@ -140,8 +147,11 @@
 <li>Percentage of the requests served within a certain time (ms)</li>
 </ul>
 <p>这里表示请求处理时间的分布与上面<code>Time per request</code>对应, 从图中可以看到50%的处理时间小于1535ms, 根据<code>Connection Times</code>可以看到最长的处理时间为6394ms, 最短处理时间为1306ms.</p>
-<h1 id="使用gnuplot工具可以直观的根据图标分析"><a href="#使用gnuplot工具可以直观的根据图标分析" class="headerlink" title="使用gnuplot工具可以直观的根据图标分析"></a>使用<code>gnuplot</code>工具可以直观的根据图标分析</h1><p>使用<code>-g</code>参数结合<code>gnuplot</code>可以从图标中更加直观的看到分析结果, 如下图为一个简单的ab测试后使用<code>gnuplot</code>生成的图:<br><img src="/images/post/20160410/g.jpg" alt="ab-gnuplot"></p>
-<h1 id="基本的使用示例"><a href="#基本的使用示例" class="headerlink" title="基本的使用示例"></a>基本的使用示例</h1><p>以下介绍几个基本的使用场景, 更多ab参数请点击参考链接查看官网介绍.</p>
+<h1>使用<code>gnuplot</code>工具可以直观的根据图标分析</h1>
+<p>使用<code>-g</code>参数结合<code>gnuplot</code>可以从图标中更加直观的看到分析结果, 如下图为一个简单的ab测试后使用<code>gnuplot</code>生成的图:
+<img src="/images/post/20160410/g.jpg" alt="ab-gnuplot"></p>
+<h1>基本的使用示例</h1>
+<p>以下介绍几个基本的使用场景, 更多ab参数请点击参考链接查看官网介绍.</p>
 <ul>
 <li>模拟GET请求<code>－n1000</code></li>
 </ul>
@@ -149,11 +159,13 @@
 <ul>
 <li>模拟POST请求<code>-n1000</code></li>
 </ul>
-<p>此处在当前文件夹下面需要准备<code>p.json</code>文件, 文件内容为json格式的key/value对:<br><code>ab -n1000 -p p.json -T application/json http://www.example.com/</code></p>
+<p>此处在当前文件夹下面需要准备<code>p.json</code>文件, 文件内容为json格式的key/value对:
+<code>ab -n1000 -p p.json -T application/json http://www.example.com/</code></p>
 <ul>
 <li>模拟并发<code>-n1000 -c20</code>(c &lt;= n)</li>
 </ul>
-<p>并发数不能大于总请求数:<br><code>ab -n1000 -c20 http://www.example.com/</code></p>
+<p>并发数不能大于总请求数:
+<code>ab -n1000 -c20 http://www.example.com/</code></p>
 <ul>
 <li>查看返回头信息<code>-n1000 -v 3</code>(-v 可选2、3、4)</li>
 </ul>
@@ -161,8 +173,14 @@
 <ul>
 <li>图标展示结果<code>-n1000 -g g.tsv</code></li>
 </ul>
-<p>生成<code>gnuplot</code>生成分析图所需要的数据文件:<br><code>ab -n1000 －g g.tsv http://www.example.com/</code></p>
-<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p>主要参考链接如下:<br><a href="http://httpd.apache.org/docs/2.4/programs/ab.html" target="_blank" rel="external">Apache httpd(v2.4)</a><br><a href="https://blog.linuxeye.com/124.html" target="_blank" rel="external">各项参数含义</a><br><a href="https://www.appneta.com/blog/web-app-performance-apache-bench/" target="_blank" rel="external">Connection Times</a><br><a href="http://gnuplot.sourceforge.net/" target="_blank" rel="external">关于gnuplot</a></p>
+<p>生成<code>gnuplot</code>生成分析图所需要的数据文件:
+<code>ab -n1000 －g g.tsv http://www.example.com/</code></p>
+<h1>参考链接</h1>
+<p>主要参考链接如下:
+<a href="http://httpd.apache.org/docs/2.4/programs/ab.html" target="_blank" rel="external">Apache httpd(v2.4)</a>
+<a href="https://blog.linuxeye.com/124.html" target="_blank" rel="external">各项参数含义</a>
+<a href="https://www.appneta.com/blog/web-app-performance-apache-bench/" target="_blank" rel="external">Connection Times</a>
+<a href="http://gnuplot.sourceforge.net/" target="_blank" rel="external">关于gnuplot</a></p>
 
 	</div>
 </div>
