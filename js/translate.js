@@ -52,6 +52,8 @@ $(function(){
 	});
 
 	if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){
+		console.log('is mobile from touch');
+		alert('is mobile from touch');
 		$(document).on('touchend', function(e){
 			curPosEvent = e;
 			alert(e);
