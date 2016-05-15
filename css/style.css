@@ -112,6 +112,7 @@ body {
 .markdown-text .highlight.plain {
   padding: 0;
   margin: 1em 0;
+  overflow: scroll;
 }
 .markdown-text .highlight .gutter {
   display: none;
