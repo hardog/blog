@@ -51,6 +51,11 @@ $(function(){
 		showSelect();
 	});
 
+	var agent = navigator.userAgent;
+
+	alert(agent);
+	alert(agent.match(/(iPhone|iPod|Android|ios)/i))
+
 	if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){
 		console.log('is mobile from touch');
 		alert('is mobile from touch');
