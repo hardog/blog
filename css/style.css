@@ -251,7 +251,7 @@ body .post .post-head h3 > a {
 }
 .translate {
   font-size: 16px;
-  position: absolute;
+  position: fixed;
   top: 10px;
   right: 20px;
 }
