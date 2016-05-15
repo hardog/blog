@@ -7,7 +7,7 @@ function show(data){
 	// 500ms clear showText
 	clearTimeout(cacheTimeoutHandler);
 	cacheTimeoutHandler = setTimeout(function(){
-		$('.show-text').css('visibility', 'hidden');
+		// $('.show-text').css('visibility', 'hidden');
 	}, 2000);
 }
 
