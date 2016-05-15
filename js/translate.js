@@ -6,7 +6,7 @@ function show(data){
 	// 500ms clear showText
 	setTimeout(function(){
 		$('.show-text').css('visibility', 'hidden');
-	}, 1000);
+	}, 2000);
 }
 
 function translateTozhCN(eng){
