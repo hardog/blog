@@ -1,11 +1,11 @@
 function show(data){
 	// clear before
 	if(data.errorCode !== 0){return;}
-	$('.showText').html(data.translation.join(','));
-	$('.showText').css('display', 'block');
+	$('.show-text').html(data.translation.join(','));
+	$('.show-text').css('visibility', 'visible');
 	// 500ms clear showText
 	setTimeout(function(){
-		$('.showText').css('display', 'none');
+		$('.show-text').css('visibility', 'hidden');
 	}, 1000);
 }
 
@@ -35,5 +35,5 @@ function showSelect(){
 }
 
 $(function(){
-	$('.tozhCN').on('click', showSelect);
+	$('.translate-btn').on('click', showSelect);
 });
