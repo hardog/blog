@@ -201,7 +201,7 @@ body .article-list .article .article-meta .article-tag > a:hover {
   color: #717171;
 }
 body .article-list .tags-wrap {
-  width: 60%;
+  width: 80%;
   overflow-x: scroll;
 }
 body .article-list .tags-wrap .tags {
