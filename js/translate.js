@@ -63,6 +63,7 @@ $(function(){
 			curPosEvent = e;
 			alert(e);
 			showSelect();
+			e.preventDefault();
 		});
 	}
 });
