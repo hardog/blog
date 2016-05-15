@@ -8,7 +8,6 @@ function show(data){
 	var width  = curPosEvent.clientX;
 	var height = curPosEvent.clientY - 40;
 
-	console.log(curPosEvent.clientX, curPosEvent.clientY);
 	var style = 'left:' + width + 'px;top:' + height + 'px';
 	$('body').append('<div class="showText" style="' + style + '">' 
 					 + data.translation.join(',')
@@ -51,6 +50,16 @@ $(function(){
 		curPosEvent = e;
 		showSelect();
 	});
-});
 
-document.onmouseup = showSelect;
+	$(document).on('touchend', function(e){
+		curPosEvent = e;
+		alert('touch end', e);
+		showSelect();
+	});
+
+	$(document).on('taphold', function(e){
+		curPosEvent = e;
+		alert('tap hold', e);
+		showSelect();
+	});
+});
