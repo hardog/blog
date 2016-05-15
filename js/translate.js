@@ -51,15 +51,11 @@ $(function(){
 		showSelect();
 	});
 
-	$(document).on('touchend', function(e){
-		curPosEvent = e;
-		alert('touch end', e);
-		showSelect();
-	});
-
-	$(document).on('taphold', function(e){
-		curPosEvent = e;
-		alert('tap hold', e);
-		showSelect();
-	});
+	if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){
+		$(document).on('touchend', function(e){
+			curPosEvent = e;
+			alert(e);
+			showSelect();
+		});
+	}
 });
