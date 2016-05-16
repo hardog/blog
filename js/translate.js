@@ -19,7 +19,6 @@ function translateTozhCN(){
 		doctype: 'jsonp',
 		version: '1.1',
 		callback: 'show',
-		only: 'translate',
 		q: selectedText
 	});
 
