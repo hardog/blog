@@ -2,7 +2,7 @@ var selectedText, cacheTimeoutHandler;
 function show(data){
 	// clear before
 	if(data.errorCode !== 0){return;}
-	$('.show-text').html(data.translation.join(','));
+	$('.show-text').html(data.basic.explains.join(','));
 	$('.show-text').css('visibility', 'visible');
 	// 500ms clear showText
 	clearTimeout(cacheTimeoutHandler);
