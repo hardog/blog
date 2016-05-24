@@ -5,7 +5,7 @@ function show(data){
 	var showText;
 
 	if(isSentence){
-		showText = data.translation;
+		showText = data.translation.join(',');
 	}else{
 		showText = data.basic.explains.join(',');
 	}
