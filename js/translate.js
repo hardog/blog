@@ -33,7 +33,8 @@ function translateTozhCN(){
 	});
 
 	// if include space is a sentence
-	if(selectedText.indexOf(' ') !== -1){
+	if(selectedText.indexOf(' ') !== -1
+		|| selectedText.indexOf('-') !== -1){
 		isSentence = true;
 	}
 
