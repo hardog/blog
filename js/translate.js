@@ -1,9 +1,19 @@
-var selectedText, cacheTimeoutHandler;
+var selectedText, cacheTimeoutHandler, isSentence;
 function show(data){
 	// clear before
 	if(data.errorCode !== 0){return;}
-	$('.show-text').html(data.basic.explains.join(','));
+	var showText;
+
+	if(isSentence){
+		showText = data.translation;
+	}else{
+		showText = data.basic.explains.join(',');
+	}
+
+	$('.show-text').html(showText);
 	$('.show-text').css('visibility', 'visible');
+	// reset
+	isSentence = false;
 	// 500ms clear showText
 	clearTimeout(cacheTimeoutHandler);
 	cacheTimeoutHandler = setTimeout(function(){
@@ -21,6 +31,11 @@ function translateTozhCN(){
 		callback: 'show',
 		q: selectedText
 	});
+
+	// if include space is a sentence
+	if(selectedText.indexOf(' ') !== -1){
+		isSentence = true;
+	}
 
 	var url = 'http://fanyi.youdao.com/openapi.do?' + param;
 	$('body').append('<script src=' + url + '></script>')
