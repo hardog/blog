@@ -36,7 +36,7 @@
 	</div>
 	<div class="markdown-text">
 		<p>原文链接: <a href="http://nedbatchelder.com/text/assert.html" target="_blank" rel="external">Asserts</a></p>
-<h2 id="简述TODO"><a href="#简述TODO" class="headerlink" title="简述TODO"></a><code>简述TODO</code></h2><p>Asserts are a valuable tool for testing code. They allow you to verify your understanding of the system you are building. A condition that must be true (an assertion) is tested to see if it is true.</p>
+<h2 id="断言失败时的几种处理方式-1-整个程序停止运行以防止脏数据的产生-2-对正在运行对程序抛出异常而不会影响整个运用-3-把断言失败信息记录下来并继续运行-4-调试模式下弹出提示框供选择-注意断言自身产生的BUG和陷阱"><a href="#断言失败时的几种处理方式-1-整个程序停止运行以防止脏数据的产生-2-对正在运行对程序抛出异常而不会影响整个运用-3-把断言失败信息记录下来并继续运行-4-调试模式下弹出提示框供选择-注意断言自身产生的BUG和陷阱" class="headerlink" title="断言失败时的几种处理方式:1. 整个程序停止运行以防止脏数据的产生. 2. 对正在运行对程序抛出异常而不会影响整个运用. 3. 把断言失败信息记录下来并继续运行. 4. 调试模式下弹出提示框供选择. 注意断言自身产生的BUG和陷阱!"></a><code>断言失败时的几种处理方式:1. 整个程序停止运行以防止脏数据的产生. 2. 对正在运行对程序抛出异常而不会影响整个运用. 3. 把断言失败信息记录下来并继续运行. 4. 调试模式下弹出提示框供选择. 注意断言自身产生的BUG和陷阱!</code></h2><p>Asserts are a valuable tool for testing code. They allow you to verify your understanding of the system you are building. A condition that must be true (an assertion) is tested to see if it is true.</p>
 <h1 id="Semantics"><a href="#Semantics" class="headerlink" title="Semantics"></a>Semantics</h1><p>In keeping with the importance of well-defined interfaces, I’m going to separate the caller’s view of an assert (its semantics) from its behavior.</p>
 <p>The assert facility takes the form of a function call with one argument. (Whether it is actually a function, a macro, or a built-in depends on the language and the implementation). The argument is a condition (an expression) which must be true, for example:</p>
 <p><code>ASSERT(pFoo != NULL);</code></p>
