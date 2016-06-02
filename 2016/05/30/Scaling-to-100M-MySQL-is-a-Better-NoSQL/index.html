@@ -25,7 +25,7 @@
 </div>
 <div class="translate">
 	<span class="show-text"></span>
-	<input type="button" value="zh-CN" class="translate-btn" />
+	<input type="button" value="Trans" class="translate-btn" />
 </div>
 <div class="post">
 	<div class="post-head">
@@ -36,7 +36,7 @@
 	</div>
 	<div class="markdown-text">
 		<p>原文链接: <a href="http://blog.wix.engineering/2015/12/10/scaling-to-100m-mysql-is-a-better-nosql/?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=ios" target="_blank" rel="external">Scaling to 100M: MySQL is a Better NoSQL</a></p>
-<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a><code>TODO</code></h2><p>MySQL is a better NoSQL. When considering a NoSQL use case, such as key/value storage, MySQL makes more sense in terms of performance, ease of use, and stability. MySQL is a solid engine with lots of online material, ranging from operations and failure cases, to replication and different patterns of usage. For this reason, it has an advantage over newer NoSQL engines that are not as battle tested.</p>
+<h2 id="将MySQL当作非关系型数据库来使用-需要遵循一个的规则以达到数据一致性高吞吐量的目的-例如-设计模型的时候不遵循传统标准的模式-只在表中添加需要建立索引的字段-不要对表使用alter命令会引入锁-etc"><a href="#将MySQL当作非关系型数据库来使用-需要遵循一个的规则以达到数据一致性高吞吐量的目的-例如-设计模型的时候不遵循传统标准的模式-只在表中添加需要建立索引的字段-不要对表使用alter命令会引入锁-etc" class="headerlink" title="将MySQL当作非关系型数据库来使用, 需要遵循一个的规则以达到数据一致性高吞吐量的目的, 例如:设计模型的时候不遵循传统标准的模式, 只在表中添加需要建立索引的字段, 不要对表使用alter命令会引入锁 etc."></a><code>将MySQL当作非关系型数据库来使用, 需要遵循一个的规则以达到数据一致性高吞吐量的目的, 例如:设计模型的时候不遵循传统标准的模式, 只在表中添加需要建立索引的字段, 不要对表使用alter命令会引入锁 etc.</code></h2><p>MySQL is a better NoSQL. When considering a NoSQL use case, such as key/value storage, MySQL makes more sense in terms of performance, ease of use, and stability. MySQL is a solid engine with lots of online material, ranging from operations and failure cases, to replication and different patterns of usage. For this reason, it has an advantage over newer NoSQL engines that are not as battle tested.</p>
 <p>In recent years, NoSQL engines have become mainstream. Many developers look at NoSQL engines—such as MongoDB, Cassandra, Redis, or Hadoop—as their first choice for building applications, considering them a single family of products that deprecates the old SQL engines.</p>
 <p>The choice to use a NoSQL database is often based on hype, or a wrong assumption that relational databases cannot perform as well as a NoSQL database. Operational costs, as well as other stability and maturity concerns, are often overlooked by engineers when it comes to selecting a database. For more information about the limitations and shortcomings of different NoSQL (and SQL) engines, take a look at the Jepsen series of articles from Aphyr.<br>This post will explain why we’ve found that using MySQL for the key/value use case is better than most of the dedicated NoSQL engines, and provide guidelines to follow when using MySQL in this way.</p>
 <h1 id="Wix-Site-Resolution"><a href="#Wix-Site-Resolution" class="headerlink" title="Wix Site Resolution"></a>Wix Site Resolution</h1><p>When someone clicks a link to a Wix site, his browser sends an HTTP request to a server at Wix with the site address. This happens whether the address is to a Wix premium site with a custom domain (e.g., domain.com) or a free site on a subdomain of the Wix domain (e.g., user.wix.com/site). That server has to resolve the requested site from the site address by performing a key/value lookup URL to a site. We denote the URL as a route for the following discussion.</p>
