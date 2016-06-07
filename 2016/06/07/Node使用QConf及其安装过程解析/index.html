@@ -62,12 +62,11 @@
 <li><p>yum install texinfo</p>
 </li>
 <li>yum install cmake</li>
-<li>qconf源码安装<br>下载源码, 编译安装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/Qihoo360/QConf.git&#10;$ cd QConf &#38;&#38; mkdir build &#38;&#38; cd build &#38;&#38; cmake ..&#10;$ make&#10;$ make install</span><br></pre></td></tr></table></figure>
+<li><p>qconf源码安装<br>下载源码, 编译安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/Qihoo360/QConf.git&#10;$ cd QConf &#38;&#38; mkdir build &#38;&#38; cd build &#38;&#38; cmake ..&#10;$ make&#10;$ make install&#10;$ // &#21551;&#21160;qconf-agent&#10;$ cd /usr/local/qconf&#10;$ cd bin &#38;&#38; sh agent-cmd.sh start&#10;$ export PATH=$PATH:/usr/local/qconf/bin  //&#21487;&#20197;&#20889;&#22312;/etc/profile&#37324;&#38754;&#27704;&#20037;&#29983;&#25928;&#10;$ source /etc/profile  //(&#21487;&#36873;, &#20462;&#25913;/etc/profile&#25991;&#20214;&#21518;&#20351;&#20854;&#31435;&#21363;&#29983;&#25928;)</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
-<p>启动qconf-agent<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd /usr/local/qconf&#10;$ cd bin &#38;&#38; sh agent-cmd.sh start&#10;$ export PATH=$PATH:/usr/local/qconf/bin  //&#21487;&#20197;&#20889;&#22312;/etc/profile&#37324;&#38754;&#27704;&#20037;&#29983;&#25928;&#10;$ source /etc/profile  //(&#21487;&#36873;, &#20462;&#25913;/etc/profile&#25991;&#20214;&#21518;&#20351;&#20854;&#31435;&#21363;&#29983;&#25928;)</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>调整共享内存大小为2G<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sysctl -a | grep shm     // &#26597;&#30475;&#20849;&#20139;&#20869;&#23384;&#22823;&#23567;&#10;$ sysctl kernel.shmmax=2048000000&#10;$ sysctl kernel.shmall=4294967296</span><br></pre></td></tr></table></figure>
+<li><p>调整共享内存大小为2G</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sysctl -a | grep shm     // &#26597;&#30475;&#20849;&#20139;&#20869;&#23384;&#22823;&#23567;&#10;$ sysctl kernel.shmmax=2048000000&#10;$ sysctl kernel.shmall=4294967296</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h1 id="QConf简单界面访问安装"><a href="#QConf简单界面访问安装" class="headerlink" title="QConf简单界面访问安装"></a>QConf简单界面访问安装</h1><ul>
