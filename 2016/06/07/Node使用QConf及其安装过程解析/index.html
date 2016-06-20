@@ -53,60 +53,35 @@
 	</div>
 	<div class="markdown-text">
 		<p><strong>本次QConf安装在Centos7系统环境下面, 本文仅供参考, 每个系统环境不一样安装的依赖也不一样</strong></p>
-<h1>相关参考链接以及软件下载地址</h1>
-<p>QConf <a href="http://catkang.github.io/2015/06/23/qconf.html" target="_blank" rel="external">点击访问设计初衷</a>
-QConf <a href="https://github.com/Qihoo360/QConf/wiki/QConf-%E7%AE%80%E6%98%93%E9%83%A8%E7%BD%B2%E5%92%8C%E4%BD%BF%E7%94%A8" target="_blank" rel="external">点击安装文档地址</a>
-GitHub <a href="https://github.com/Qihoo360/QConf" target="_blank" rel="external">QConf-GitHub地址</a>
-QConf Node API: <a href="https://github.com/bluedapp/node-qconf" target="_blank" rel="external">点击访问</a>
-Zookeeper homepage: <a href="https://zookeeper.apache.org/" target="_blank" rel="external">点击访问</a>
-Zookeeper install: <a href="http://cn.soulmachine.me/blog/20140207/" target="_blank" rel="external">文档一</a> <a href="http://blog.csdn.net/shirdrn/article/details/7183503" target="_blank" rel="external">文档二</a></p>
-<h1>安装步骤</h1>
-<ul>
-<li>
-<p>yum groupinstall &quot;Development Tools&quot; (升级当前系统软件包)</p>
+<h1 id="相关参考链接以及软件下载地址"><a href="#相关参考链接以及软件下载地址" class="headerlink" title="相关参考链接以及软件下载地址"></a>相关参考链接以及软件下载地址</h1><p>QConf <a href="http://catkang.github.io/2015/06/23/qconf.html" target="_blank" rel="external">点击访问设计初衷</a><br>QConf <a href="https://github.com/Qihoo360/QConf/wiki/QConf-%E7%AE%80%E6%98%93%E9%83%A8%E7%BD%B2%E5%92%8C%E4%BD%BF%E7%94%A8" target="_blank" rel="external">点击安装文档地址</a><br>GitHub <a href="https://github.com/Qihoo360/QConf" target="_blank" rel="external">QConf-GitHub地址</a><br>QConf Node API: <a href="https://github.com/bluedapp/node-qconf" target="_blank" rel="external">点击访问</a><br>Zookeeper homepage: <a href="https://zookeeper.apache.org/" target="_blank" rel="external">点击访问</a><br>Zookeeper install: <a href="http://cn.soulmachine.me/blog/20140207/" target="_blank" rel="external">文档一</a> <a href="http://blog.csdn.net/shirdrn/article/details/7183503" target="_blank" rel="external">文档二</a></p>
+<h1 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h1><ul>
+<li>yum groupinstall “Development Tools” (升级当前系统软件包)</li>
+<li><p>升级 automate 到1.14版本, 仓库地址:<a href="http://ftp.gnu.org/gnu/automake/" target="_blank" rel="external">http://ftp.gnu.org/gnu/automake/</a><br>安装过程:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -xzvf automake-1.14.tar.gz&#10;$ cd automake-1.14 &#38;&#38; ./configure&#10;$ make &#38;&#38; make install&#10;//&#36864;&#20986;cmd&#21629;&#20196;&#34892;, &#37325;&#26032;&#30331;&#24405;&#20351;&#24471;&#23433;&#35013;&#30340;&#36719;&#20214;&#29983;&#25928;</span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>升级 automate 到1.14版本, 仓库地址:http://ftp.gnu.org/gnu/automake/
-安装过程:
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -xzvf automake-1.14.tar.gz&#10;$ cd automake-1.14 &#38;&#38; ./configure&#10;$ make &#38;&#38; make install&#10;//&#36864;&#20986;cmd&#21629;&#20196;&#34892;, &#37325;&#26032;&#30331;&#24405;&#20351;&#24471;&#23433;&#35013;&#30340;&#36719;&#20214;&#29983;&#25928;</span><br></pre></td></tr></table></figure></p>
+<li><p>yum install texinfo</p>
 </li>
-<li>
-<p>yum install texinfo</p>
+<li>yum install cmake</li>
+<li><p>qconf源码安装<br>下载源码, 编译安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/Qihoo360/QConf.git&#10;$ cd QConf &#38;&#38; mkdir build &#38;&#38; cd build &#38;&#38; cmake ..&#10;$ make&#10;$ make install&#10;$ // &#21551;&#21160;qconf-agent&#10;$ cd /usr/local/qconf&#10;$ cd bin &#38;&#38; sh agent-cmd.sh start&#10;$ export PATH=$PATH:/usr/local/qconf/bin  //&#21487;&#20197;&#20889;&#22312;/etc/profile&#37324;&#38754;&#27704;&#20037;&#29983;&#25928;&#10;$ source /etc/profile  //(&#21487;&#36873;, &#20462;&#25913;/etc/profile&#25991;&#20214;&#21518;&#20351;&#20854;&#31435;&#21363;&#29983;&#25928;)</span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>yum install cmake</p>
-</li>
-<li>
-<p>qconf源码安装
-下载源码, 编译安装
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/Qihoo360/QConf.git&#10;$ cd QConf &#38;&#38; mkdir build &#38;&#38; cd build &#38;&#38; cmake ..&#10;$ make&#10;$ make install&#10;$ // &#21551;&#21160;qconf-agent&#10;$ cd /usr/local/qconf&#10;$ cd bin &#38;&#38; sh agent-cmd.sh start&#10;$ export PATH=$PATH:/usr/local/qconf/bin  //&#21487;&#20197;&#20889;&#22312;/etc/profile&#37324;&#38754;&#27704;&#20037;&#29983;&#25928;&#10;$ source /etc/profile  //(&#21487;&#36873;, &#20462;&#25913;/etc/profile&#25991;&#20214;&#21518;&#20351;&#20854;&#31435;&#21363;&#29983;&#25928;)</span><br></pre></td></tr></table></figure></p>
-</li>
-<li>
-<p>调整共享内存大小为2G
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sysctl -a | grep shm     // &#26597;&#30475;&#20849;&#20139;&#20869;&#23384;&#22823;&#23567;&#10;$ sysctl kernel.shmmax=2048000000&#10;$ sysctl kernel.shmall=4294967296</span><br></pre></td></tr></table></figure></p>
+<li><p>调整共享内存大小为2G</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sysctl -a | grep shm     // &#26597;&#30475;&#20849;&#20139;&#20869;&#23384;&#22823;&#23567;&#10;$ sysctl kernel.shmmax=2048000000&#10;$ sysctl kernel.shmall=4294967296</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h1>QConf简单界面访问安装</h1>
-<ul>
-<li>
-<p>界面访问安装过程
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd QConf/manager/&#10;$ mkdir build &#38;&#38; cd build&#10;$ cmake ..&#10;$ make&#10;$ make install</span><br></pre></td></tr></table></figure></p>
+<h1 id="QConf简单界面访问安装"><a href="#QConf简单界面访问安装" class="headerlink" title="QConf简单界面访问安装"></a>QConf简单界面访问安装</h1><ul>
+<li><p>界面访问安装过程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd QConf/manager/&#10;$ mkdir build &#38;&#38; cd build&#10;$ cmake ..&#10;$ make&#10;$ make install</span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>修改配置文件idc.conf, 文件位置<code>/usr/local/qconf/manage/demo/www/conf</code>, 修改zk集群地址.
-通过浏览器访问[SERVER_IP]:8080/qconf_manage.cgi 即可看到如下界面:
-<img src="/images/post/20160607/qconf.jpeg" alt="/images/post/20160202/qconf.jpeg"></p>
+<li><p>修改配置文件idc.conf, 文件位置<code>/usr/local/qconf/manage/demo/www/conf</code>, 修改zk集群地址.<br>通过浏览器访问[SERVER_IP]:8080/qconf_manage.cgi 即可看到如下界面:<br><img src="/images/post/20160607/qconf.jpeg" alt="/images/post/20160202/qconf.jpeg"></p>
 </li>
 </ul>
-<h1>node-qconf api</h1>
-<p>GitHub地址: <a href="https://github.com/bluedapp/node-qconf" target="_blank" rel="external">访问node-qconf</a></p>
+<h1 id="node-qconf-api"><a href="#node-qconf-api" class="headerlink" title="node-qconf api"></a>node-qconf api</h1><p>GitHub地址: <a href="https://github.com/bluedapp/node-qconf" target="_blank" rel="external">访问node-qconf</a></p>
 <ul>
-<li>首先设置库路径, 修改<code>/[user]/.bashrc</code>配置文件, 加入以下内容:<code>export NODE_PATH=$NODE_HOME/lib/node_modules:$PATH</code>
-使用如下的脚本可查询值:
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var qconf = require(&#39;node-qconf&#39;);&#10;&#10;console.log(&#39;version:&#39;, qconf.version())&#10;console.log(&#39;getConf:&#39;, qconf.getConf(&#39;/demo&#39;))&#10;console.log(&#39;getBatchKeys:&#39;, qconf.getBatchKeys(&#39;/backend&#39;, &#39;test&#39;))&#10;console.log(&#39;getBatchConf:&#39;, qconf.getBatchConf(&#39;/backend/umem/users&#39;))&#10;console.log(&#39;getAllHost:&#39;, qconf.getAllHost(&#39;/backend/umem/users&#39;))&#10;console.log(&#39;getHost:&#39;, qconf.getHost(&#39;/backend/umem/users&#39;))</span><br></pre></td></tr></table></figure></li>
+<li>首先设置库路径, 修改<code>/[user]/.bashrc</code>配置文件, 加入以下内容:<code>export NODE_PATH=$NODE_HOME/lib/node_modules:$PATH</code><br>使用如下的脚本可查询值:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var qconf = require(&#39;node-qconf&#39;);&#10;&#10;console.log(&#39;version:&#39;, qconf.version())&#10;console.log(&#39;getConf:&#39;, qconf.getConf(&#39;/demo&#39;))&#10;console.log(&#39;getBatchKeys:&#39;, qconf.getBatchKeys(&#39;/backend&#39;, &#39;test&#39;))&#10;console.log(&#39;getBatchConf:&#39;, qconf.getBatchConf(&#39;/backend/umem/users&#39;))&#10;console.log(&#39;getAllHost:&#39;, qconf.getAllHost(&#39;/backend/umem/users&#39;))&#10;console.log(&#39;getHost:&#39;, qconf.getHost(&#39;/backend/umem/users&#39;))</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<h1>QConf存在问题</h1>
-<p>由于本次试验中主要是用来存储服务器集群地址的, 因为需要在配置修改时实时同步到各个qconf客户端, 如果没法及时同步, 会存在服务短暂不可用情况. QConf的设计过程中, 在父节点新增子节点的情况下会先将该父节点下的所有节点数据删除重新拉取数据, 因此会存在服务短暂不可用情况, 而对于修改删除节点来说数据同步还是比较快的.</p>
+<h1 id="QConf存在问题"><a href="#QConf存在问题" class="headerlink" title="QConf存在问题"></a>QConf存在问题</h1><p>由于本次试验中主要是用来存储服务器集群地址的, 因为需要在配置修改时实时同步到各个qconf客户端, 如果没法及时同步, 会存在服务短暂不可用情况. QConf的设计过程中, 在父节点新增子节点的情况下会先将该父节点下的所有节点数据删除重新拉取数据, 因此会存在服务短暂不可用情况, 而对于修改删除节点来说数据同步还是比较快的.</p>
 
 	</div>
 </div>
