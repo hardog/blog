@@ -69,8 +69,8 @@
 </ul>
 <p>假设当前目录下存在<code>3.jpg</code>图片, 可使用如下CLI命令生成webp格式的图片:<br><code>$ gm convert 3.jpg 3.webp</code></p>
 <p>使用<code>du</code>命令查看转换前后图片大小对比:<br><img src="/images/post/20160623/webp.png" alt="webp"></p>
-<p>原<code>3.jpg</code>格式图片:<br><img src="/images/post/20160623/3.jpg" alt="3.jpg"></p>
-<p>转换后的<code>3.webp</code>格式图片:<br><img src="/images/post/20160623/3.jpg" alt="3.jpg"></p>
+<p>原<code>3.jpg</code>格式图片, 浏览器下载耗时与大小:<br><img src="/images/post/20160623/3-jpg-browser.png" alt="3-jpg-browser.png"></p>
+<p>转换后的<code>3.webp</code>格式图片, 浏览器耗时与大小:<br><img src="/images/post/20160623/3-webp-browser.png" alt="3-webp-browser.png"></p>
 <ul>
 <li>gm包生成webp图片</li>
 </ul>
@@ -82,7 +82,7 @@
 </ul>
 <p>可使用如下CLI命令生成渐进式图片:<br><code>$ gm convert 3.jpg -interlace Line 3-line.jpg</code></p>
 <p>原图如下所示:<br><img src="/images/post/20160623/3.jpg" alt="3.jpg"></p>
-<p>生成后的渐进式图片如下所示:<br><img src="/images/post/20160623/3-line.jpg" alt="3-line.jpg"></p>
+<p>生成后的渐进式图片如下所示(网络较快的情况下可能看不到渐进的效果, 可以在chrome设置网络条件观察效果):<br><img src="/images/post/20160623/3-line.jpg" alt="3-line.jpg"></p>
 <ul>
 <li>gm包生成渐进式图片</li>
 </ul>
