@@ -153,6 +153,7 @@ body .author-meta {
   float: left;
   background: url(../images/theme/book.jpg);
   background-size: cover;
+  position: relative;
 }
 body .author-meta a {
   color: #fff;
@@ -170,6 +171,16 @@ body .site-title h3 span {
 }
 body .site-title h3 .site-title-offset {
   padding-left: 2em;
+}
+body .site-popularize {
+  position: absolute;
+  bottom: 20px;
+  text-align: left;
+  padding-left: 30px;
+  width: 100%;
+}
+body .site-popularize div {
+  padding-bottom: 5px;
 }
 body .article-list {
   width: 75%;
