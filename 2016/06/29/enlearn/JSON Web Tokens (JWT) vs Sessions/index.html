@@ -22,6 +22,11 @@
 			<span class="site-title-offset">技术因专注而精进</span>
 		</h3>
 	</div>
+	<div class="site-popularize">
+		<div><span>QQ群: </span>572218159</div>
+		<div><span>Email: </span>1273203953@qq.com</div>
+		<div><span>GitHub: </span><a target="_blank" href="https://github.com/ncuzp">https://github.com/ncuzp</a></div>
+	</div>
 </div>
 <div class="translate">
 	<span class="show-text"></span>
@@ -51,49 +56,58 @@
 	<div class="markdown-text">
 		<p>原文链接: <a href="https://float-middle.com/json-web-tokens-jwt-vs-sessions/?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=ios" target="_blank" rel="external">JSON Web Tokens (JWT) vs Sessions</a></p>
 <p><code>TODO</code></p>
-<h1 id="What-is-JWT"><a href="#What-is-JWT" class="headerlink" title="What is JWT?"></a>What is JWT?</h1><blockquote>
-<p>In essence it’s a signed piece of data in JSON format. Because it’s signed the recipient can verify its authenticity. Because it’s JSON it weights very little. If you are after the formal definition, it’s in the <a href="https://tools.ietf.org/html/rfc7519" target="_blank" rel="external">RFC 7519</a>.</p>
+<h1>What is JWT?</h1>
+<blockquote>
+<p>In essence it's a signed piece of data in JSON format. Because it's signed the recipient can verify its authenticity. Because it's JSON it weights very little. If you are after the formal definition, it's in the <a href="https://tools.ietf.org/html/rfc7519" target="_blank" rel="external">RFC 7519</a>.</p>
 </blockquote>
 <p>This article was featured on Hacker News. Have a look at the case study exposing analytics, SEO impact, performance hit and more.</p>
-<p>Signed data is nothing new - what’s thrilling here is how JWT can be used to create truly RESTful services, with no sessions. As it turns out the the idea has been around for a while. Here’s how it works in physical world - I will draw the analogies straight after:</p>
-<p>Imagine you are coming back to your country from holidays abroad. You are at the border and you say - you can pass me through, I’m a homie. All fine and dandy but how can you support your claim? Most probably you are carrying a passport confirming your identity. Let’s assume the border staff has all that is required to tell for sure if the passport is genuinely issued the Passport Office of your country. The passport proves to be in order and they let you through.</p>
-<p>Now, let’s look at the story from JWT perspective to see who is who:</p>
+<p>Signed data is nothing new - what's thrilling here is how JWT can be used to create truly RESTful services, with no sessions. As it turns out the the idea has been around for a while. Here's how it works in physical world - I will draw the analogies straight after:</p>
+<p>Imagine you are coming back to your country from holidays abroad. You are at the border and you say - you can pass me through, I'm a homie. All fine and dandy but how can you support your claim? Most probably you are carrying a passport confirming your identity. Let's assume the border staff has all that is required to tell for sure if the passport is genuinely issued the Passport Office of your country. The passport proves to be in order and they let you through.</p>
+<p>Now, let's look at the story from JWT perspective to see who is who:</p>
 <ul>
 <li>The Passport Office - authentication service which issued the JWT.</li>
-<li>Passport - your JWT signed by the Passport Office. Your identity is readable to everyone who looks at it but interested parties can verify if it’s genuine.</li>
+<li>Passport - your JWT signed by the Passport Office. Your identity is readable to everyone who looks at it but interested parties can verify if it's genuine.</li>
 <li>Citizenship - your claim contained in the JWT (your passport).</li>
 <li>Border - security layer in your app verifying the JWT token before granting access to a secured resource, in this case - the country.</li>
 <li>Country - resource you want access to (e.g. API).</li>
 </ul>
-<h1 id="Look-ma-no-session"><a href="#Look-ma-no-session" class="headerlink" title="Look ma, no session!"></a>Look ma, no session!</h1><p>In very simple terms, JWT are cool because you don’t need to keep session data on the server in order to authenticate the user. The workflow goes like so:</p>
+<h1>Look ma, no session!</h1>
+<p>In very simple terms, JWT are cool because you don't need to keep session data on the server in order to authenticate the user. The workflow goes like so:</p>
 <ul>
 <li>The user calls authentication service, usually sending username and password.</li>
 <li>The authentication service responds with a signed JWT, which says who the user is.</li>
 <li>The user requests access to a secured service sending the token back.</li>
-<li>Security layer checks the signature on the token and if it’s genuine the access is granted.</li>
+<li>Security layer checks the signature on the token and if it's genuine the access is granted.</li>
 </ul>
-<p>Let’s think for a moment about the consequences.</p>
-<h1 id="No-session-storage"><a href="#No-session-storage" class="headerlink" title="No session storage"></a>No session storage</h1><p>No sessions means no session storage. Sounds like not much unless your applications needs to scale horizontally. If your application is run on multiple servers then sharing the session data becomes a burden. You either need a specialised server just for session storage or shared disk space or sticky sessions on the load balancer. None of that is needed when you don’t use sessions.</p>
-<h1 id="No-garbage-collection-for-sessions"><a href="#No-garbage-collection-for-sessions" class="headerlink" title="No garbage collection for sessions"></a>No garbage collection for sessions</h1><p>Usually sessions need to be expired and garbage collected. JWT can carry its own expiry date along with the user data. Therefore the security layer checking JWT’s authenticity can also check the expiry time and simply refuse access.</p>
-<h1 id="Truly-RESTful-services"><a href="#Truly-RESTful-services" class="headerlink" title="Truly RESTful services"></a>Truly RESTful services</h1><p>Only without sessions you can create truly RESTful services, as they are supposed to be stateless. JWT is small so it can be sent with each request, just like a session cookie. Unlike the session cookie however, it does not point to any data stored on the server, JWT has the data.</p>
-<h1 id="How-does-JWT-look-exactly"><a href="#How-does-JWT-look-exactly" class="headerlink" title="How does JWT look, exactly?"></a>How does JWT look, exactly?</h1><p>There is one thing we need get straight before we dive in any further. JWT is not a thing of its own. It is a type of either <a href="https://tools.ietf.org/html/rfc7516" target="_blank" rel="external">JSON Web Signature (JWS) or JSON Web Encryption (JWE)</a>. Definition time:</p>
+<p>Let's think for a moment about the consequences.</p>
+<h1>No session storage</h1>
+<p>No sessions means no session storage. Sounds like not much unless your applications needs to scale horizontally. If your application is run on multiple servers then sharing the session data becomes a burden. You either need a specialised server just for session storage or shared disk space or sticky sessions on the load balancer. None of that is needed when you don't use sessions.</p>
+<h1>No garbage collection for sessions</h1>
+<p>Usually sessions need to be expired and garbage collected. JWT can carry its own expiry date along with the user data. Therefore the security layer checking JWT's authenticity can also check the expiry time and simply refuse access.</p>
+<h1>Truly RESTful services</h1>
+<p>Only without sessions you can create truly RESTful services, as they are supposed to be stateless. JWT is small so it can be sent with each request, just like a session cookie. Unlike the session cookie however, it does not point to any data stored on the server, JWT has the data.</p>
+<h1>How does JWT look, exactly?</h1>
+<p>There is one thing we need get straight before we dive in any further. JWT is not a thing of its own. It is a type of either <a href="https://tools.ietf.org/html/rfc7516" target="_blank" rel="external">JSON Web Signature (JWS) or JSON Web Encryption (JWE)</a>. Definition time:</p>
 <blockquote>
 <p>The claims in a JWT are encoded as a JSON object that is used as the payload of a JSON Web Signature (JWS) structure or as the plaintext of a JSON Web Encryption (JWE) structure</p>
 </blockquote>
-<p>The former gives us just the signature and the data it contains (or the “claims” as they call it in JWT nomenclature) is readable to anyone. The latter offers encryption, so only someone with a key can decrypt it. The JWS implementation is much easier and the basic usage does not require encryption - after all if you have a key on the client you may as well leave the whole thing unencrypted. Therefore JWS is used in most cases and so I am going to focus on it here.</p>
-<h1 id="So-what-goes-into-the-JWT-JWS"><a href="#So-what-goes-into-the-JWT-JWS" class="headerlink" title="So what goes into the JWT/JWS?"></a>So what goes into the JWT/JWS?</h1><ul>
+<p>The former gives us just the signature and the data it contains (or the &quot;claims&quot; as they call it in JWT nomenclature) is readable to anyone. The latter offers encryption, so only someone with a key can decrypt it. The JWS implementation is much easier and the basic usage does not require encryption - after all if you have a key on the client you may as well leave the whole thing unencrypted. Therefore JWS is used in most cases and so I am going to focus on it here.</p>
+<h1>So what goes into the JWT/JWS?</h1>
+<ul>
 <li>Header - information about the signing algorithm, the type of payload (JWT) and so on in JSON format.</li>
 <li>Payload - the actual data (or claims if you like) in JSON format.</li>
-<li>Signature - well… the signature.</li>
+<li>Signature - well... the signature.</li>
 </ul>
-<p>I will explain the details later on. For now let’s analyse the basics.</p>
+<p>I will explain the details later on. For now let's analyse the basics.</p>
 <p>Each part mentioned above (header, payload and signature) is base64url-encoded, then they are glued together with a . to form JWT. Here is how the implementation could look like:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var header = &#123;  &#10;    // The signing algorithm.&#10;    &#34;alg&#34;: &#34;HS256&#34;,&#10;    // The type (typ) property says it&#39;s &#34;JWT&#34;,&#10;    // because with JWS you can sign any type of data.&#10;    &#34;typ&#34;: &#34;JWT&#34;&#10;&#125;,&#10;// Base64 representation of the header object.&#10;headerB64 = btoa(JSON.stringify(header)),&#10;// The payload here is our JWT claims.&#10;payload = &#123;&#10;    &#34;name&#34;: &#34;John Doe&#34;,&#10;    &#34;admin&#34;: true&#10;&#125;,&#10;// Base64 representation of the payload object.&#10;payloadB64 = btoa(JSON.stringify(payload)),&#10;// The signature is calculated on the base64 representation&#10;// of the header and the payload.&#10;signature = signatureCreatingFunction(headerB64 + &#39;.&#39; + payloadB64),&#10;// Base64 representation of the signature.&#10;signatureB64 = btoa(signature),&#10;// Finally, the whole JWS - all base64 parts glued together with a &#39;.&#39;&#10;jwt = headerB64 + &#39;.&#39; + payloadB64 + &#39;.&#39; + signatureB64;</span><br></pre></td></tr></table></figure>
-<p>The resulting JWS looks neat and sweet and somewhat like this:<br><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJhZG1pbiI6dHJ1ZX0.OLvs36KmqB9cmsUrMpUutfhV52_iSz4bQMYJjkI_TLQ</code></p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var header = &#123;  &#10;    // The signing algorithm.&#10;    &#34;alg&#34;: &#34;HS256&#34;,&#10;    // The type (typ) property says it&#39;s &#34;JWT&#34;,&#10;    // because with JWS you can sign any type of data.&#10;    &#34;typ&#34;: &#34;JWT&#34;&#10;&#125;,&#10;// Base64 representation of the header object.&#10;headerB64 = btoa(JSON.stringify(header)),&#10;// The payload here is our JWT claims.&#10;payload = &#123;&#10;    &#34;name&#34;: &#34;John Doe&#34;,&#10;    &#34;admin&#34;: true&#10;&#125;,&#10;// Base64 representation of the payload object.&#10;payloadB64 = btoa(JSON.stringify(payload)),&#10;// The signature is calculated on the base64 representation&#10;// of the header and the payload.&#10;signature = signatureCreatingFunction(headerB64 + &#39;.&#39; + payloadB64),&#10;// Base64 representation of the signature.&#10;signatureB64 = btoa(signature),&#10;// Finally, the whole JWS - all base64 parts glued together with a &#39;.&#39;&#10;jwt = headerB64 + &#39;.&#39; + payloadB64 + &#39;.&#39; + signatureB64;</span><br></pre></td></tr></table></figure></p>
+<p>The resulting JWS looks neat and sweet and somewhat like this:
+<code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJhZG1pbiI6dHJ1ZX0.OLvs36KmqB9cmsUrMpUutfhV52_iSz4bQMYJjkI_TLQ</code></p>
 <p>You can play around with creating the tokens on jwt.io website.</p>
 <p>Quite an important thing is that the the signature is calculated for both the header and the payload in one go. Thus the authenticity of the header and the payload can be easily checked in one go as well:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[headerB64, payloadB64, signatureB64] = jwt.split(&#39;.&#39;);&#10;&#10;if (atob(signatureB64) === signatureCreatingFunction(headerB64 + &#39;.&#39; + payloadB64) &#123;  &#10;    // good&#10;&#125; else&#10;    // no good&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="What-can-be-in-the-JWT-header"><a href="#What-can-be-in-the-JWT-header" class="headerlink" title="What can be in the JWT header?"></a>What can be in the JWT header?</h1><p>As a matter of fact, the JWT header is called JOSE header. JOSE stands for JSON Object Signing and Encryption. As you would expect, both JWS and JWE have such a header, however each has slightly different set of registered parameters. Below’s the list of the header parameters registered for JWS. All except the first one (alg) are optional:</p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[headerB64, payloadB64, signatureB64] = jwt.split(&#39;.&#39;);&#10;&#10;if (atob(signatureB64) === signatureCreatingFunction(headerB64 + &#39;.&#39; + payloadB64) &#123;  &#10;    // good&#10;&#125; else&#10;    // no good&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<h1>What can be in the JWT header?</h1>
+<p>As a matter of fact, the JWT header is called JOSE header. JOSE stands for JSON Object Signing and Encryption. As you would expect, both JWS and JWE have such a header, however each has slightly different set of registered parameters. Below's the list of the header parameters registered for JWS. All except the first one (alg) are optional:</p>
 <ul>
 <li>alg Algorithm (compulsory)</li>
 <li>typ Type (for JWT it has a value JWT, if present)</li>
@@ -108,9 +122,10 @@
 <li>crit Critical</li>
 </ul>
 <p>The first two are the most commonly used, therefore the typical header looks somewhat along these lines:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#10;    &#34;alg&#34;: &#34;HS256&#34;,&#10;    &#34;typ&#34;: &#34;JWT&#34;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>The third header parameter listed above, kid, proves to be handy for security reasons. cty on the other hand should be used only when dealing with nested JWTs. The rest of them you can read upon in the spec, as I believe they don’t fit in the scope of this post.</p>
-<h1 id="alg-algorithm"><a href="#alg-algorithm" class="headerlink" title="alg (algorithm)"></a>alg (algorithm)</h1><p>The value of the alg parameter can be anything specified in JSON Web Algorithms (JWA) - yet another spec, I know. Here’s the registered list for JWS:</p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#10;    &#34;alg&#34;: &#34;HS256&#34;,&#10;    &#34;typ&#34;: &#34;JWT&#34;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>The third header parameter listed above, kid, proves to be handy for security reasons. cty on the other hand should be used only when dealing with nested JWTs. The rest of them you can read upon in the spec, as I believe they don't fit in the scope of this post.</p>
+<h1>alg (algorithm)</h1>
+<p>The value of the alg parameter can be anything specified in JSON Web Algorithms (JWA) - yet another spec, I know. Here's the registered list for JWS:</p>
 <ul>
 <li>HS256 - HMAC using SHA-256</li>
 <li>HS384 - HMAC using SHA-384</li>
@@ -126,19 +141,23 @@
 <li>PS512 - RSASSA-PSS using SHA-512 and MGF1 with SHA-512</li>
 <li>none - No digital signature or MAC performed</li>
 </ul>
-<p>Please note the last one, none, which is the most interesting from the security perspective. It’s been known to be used for a downgrade attack angle. How does it work? Imagine a JWT is generated by the client with some made up claims. It specifies the none signature algorithm in the header and it sends it for verification. If the issuer is naive it takes the alg parameter as true and grants access where it shouldn’t.</p>
-<p>The baseline is, the security layer of your app should always be suspicious about the alg parameter from the header. That’s where the kid comes handy.</p>
-<h1 id="typ-type"><a href="#typ-type" class="headerlink" title="typ (type)"></a>typ (type)</h1><p>This one’s pretty straightforward. If it’s known that it is a JWT, because the application does not expect anything else, this parameter would be ignored. Therefore it’s optional. If specified though, it should be spelled in capitals - JWT.</p>
-<p>In some cases when the app accepts non-JWTs containing JWT it’s important to specify it, so that the app does not go bonkers.</p>
-<h1 id="kid-key-id"><a href="#kid-key-id" class="headerlink" title="kid (key id)"></a>kid (key id)</h1><p>If the security layer in your app uses just one algorithm for signing the JWTs, you don’t have to worry about the alg parameter, because you are always checking integrity of the token with the same key and algorithm. If however, your app uses a bunch of different algorithms and keys, you need to be able to figure out which the token was signed with.</p>
-<p>As we saw earlier, relying on the alg parameter alone may lead to some… inconveniences. However, if your application maintained a list of key/algorithm pairs, and each of the pairs had a name (id), you could add that key id to the header and then during verification of the JWT you would have more confidence in picking the algorithm. That’s what goes into the kid header parameter - the id of the key your app used to sign the token. The id is arbitrary and it’s up to you to assign it. What’s most important here - you gave the id, so you can verify it.</p>
-<h1 id="cty-content-type"><a href="#cty-content-type" class="headerlink" title="cty (content type)"></a>cty (content type)</h1><p>The spec is pretty clear here, so I will just quote:</p>
+<p>Please note the last one, none, which is the most interesting from the security perspective. It's been known to be used for a downgrade attack angle. How does it work? Imagine a JWT is generated by the client with some made up claims. It specifies the none signature algorithm in the header and it sends it for verification. If the issuer is naive it takes the alg parameter as true and grants access where it shouldn't.</p>
+<p>The baseline is, the security layer of your app should always be suspicious about the alg parameter from the header. That's where the kid comes handy.</p>
+<h1>typ (type)</h1>
+<p>This one's pretty straightforward. If it's known that it is a JWT, because the application does not expect anything else, this parameter would be ignored. Therefore it's optional. If specified though, it should be spelled in capitals - JWT.</p>
+<p>In some cases when the app accepts non-JWTs containing JWT it's important to specify it, so that the app does not go bonkers.</p>
+<h1>kid (key id)</h1>
+<p>If the security layer in your app uses just one algorithm for signing the JWTs, you don't have to worry about the alg parameter, because you are always checking integrity of the token with the same key and algorithm. If however, your app uses a bunch of different algorithms and keys, you need to be able to figure out which the token was signed with.</p>
+<p>As we saw earlier, relying on the alg parameter alone may lead to some... inconveniences. However, if your application maintained a list of key/algorithm pairs, and each of the pairs had a name (id), you could add that key id to the header and then during verification of the JWT you would have more confidence in picking the algorithm. That's what goes into the kid header parameter - the id of the key your app used to sign the token. The id is arbitrary and it's up to you to assign it. What's most important here - you gave the id, so you can verify it.</p>
+<h1>cty (content type)</h1>
+<p>The spec is pretty clear here, so I will just quote:</p>
 <blockquote>
-<p>In the normal case in which nested signing or encryption operations are not employed, the use of this Header Parameter is NOT RECOMMENDED. In the case that nested signing or encryption is employed, this Header Parameter MUST be present; in this case, the value MUST be “JWT”, to indicate that a Nested JWT is carried in this JWT. While media type names are not case sensitive, it is RECOMMENDED that “JWT” always be spelled using uppercase characters for compatibility with legacy implementations.</p>
+<p>In the normal case in which nested signing or encryption operations are not employed, the use of this Header Parameter is NOT RECOMMENDED. In the case that nested signing or encryption is employed, this Header Parameter MUST be present; in this case, the value MUST be &quot;JWT&quot;, to indicate that a Nested JWT is carried in this JWT. While media type names are not case sensitive, it is RECOMMENDED that &quot;JWT&quot; always be spelled using uppercase characters for compatibility with legacy implementations.</p>
 </blockquote>
-<h1 id="What-can-be-in-the-JWT-claims"><a href="#What-can-be-in-the-JWT-claims" class="headerlink" title="What can be in the JWT claims?"></a>What can be in the JWT claims?</h1><p>Doesn’t the name “claims” bother you? It did bother me at first. I believe you need to repeat that a few times in order to get used to it. In simple terms, the claims are the meat of the JWT - this is the data that we care so much about as to sign it. It’s called “claims” because usually that’s what it is - the client claims that the username, user role or whatever else is such that it would grant him access to the resources he’s after.</p>
+<h1>What can be in the JWT claims?</h1>
+<p>Doesn't the name &quot;claims&quot; bother you? It did bother me at first. I believe you need to repeat that a few times in order to get used to it. In simple terms, the claims are the meat of the JWT - this is the data that we care so much about as to sign it. It's called &quot;claims&quot; because usually that's what it is - the client claims that the username, user role or whatever else is such that it would grant him access to the resources he's after.</p>
 <p>Remember that lovely story I told you at the beginning? Your citizenship was the claim and your passport - the JWT.</p>
-<p>You can put whatever you wish in the claims, there is however a registered list, which should be universally recognised amongst implementations. Please note that each of them is optional and processing for most of them is application specific. Here’s the list:</p>
+<p>You can put whatever you wish in the claims, there is however a registered list, which should be universally recognised amongst implementations. Please note that each of them is optional and processing for most of them is application specific. Here's the list:</p>
 <ul>
 <li>exp - Expiration Time</li>
 <li>nbf - Not Before</li>
@@ -148,21 +167,31 @@
 <li>aud - Audience</li>
 <li>jti - JWT ID</li>
 </ul>
-<p>It’s worth noting that except for the last three (issuer, audience and JWT ID) are usually used in more complex cases, e.g. with multiple issuers. Let’s get on with it, then.</p>
-<h1 id="exp-expiration-date"><a href="#exp-expiration-date" class="headerlink" title="exp (expiration date)"></a>exp (expiration date)</h1><p>Timestamp indicating when the token becomes invalid. The spec says that “the current date/time MUST be before” the value specified in the exp claim in order to allow processing of the token. It is also indicated that some leeway (a few minutes) is allowed in order to account for clock skew.</p>
-<h1 id="nbf-not-before"><a href="#nbf-not-before" class="headerlink" title="nbf (not before)"></a>nbf (not before)</h1><p>Timestamp indicating when the token becomes valid. The spec says that “the current date/time MUST be after or equal” the value specified in the nbf claim in order to allow processing of the token. It is also indicated that some leeway (a few minutes) is allowed in order to account for clock skew.</p>
-<h1 id="iat-issued-at"><a href="#iat-issued-at" class="headerlink" title="iat (issued at)"></a>iat (issued at)</h1><p>Timestamp indicating when the token has been issued.</p>
-<h1 id="sub-subject"><a href="#sub-subject" class="headerlink" title="sub (subject)"></a>sub (subject)</h1><p>As the spec says “the claims in a JWT are normally statements about the subject”. Subject must be unique within the context of the issuer or globally unique. The sub claim can be used to identify the user, for example JIRA does that.</p>
-<h1 id="iss-issuer"><a href="#iss-issuer" class="headerlink" title="iss (issuer)"></a>iss (issuer)</h1><p>String value identifying the issuer of the token. If the value contains : it has to be an URI. It can be useful if there are many issuers with one security layer and the application needs to identify the issuer. For example Salesforce require to use OAuth client_id as the iss value.</p>
-<h1 id="aud-audience"><a href="#aud-audience" class="headerlink" title="aud (audience)"></a>aud (audience)</h1><p>String or an array of strings identifying the intended recipient(s) of the token. If the string contains : it has to be an URI. Often used as an URI of the resource for which the claims are valid. For example, in OAuth the audience is the authorisation server. The application processing the token must verify that the audience is correct or reject the token if it is intended for different audience.</p>
-<h1 id="jti-JWT-id"><a href="#jti-JWT-id" class="headerlink" title="jti (JWT id)"></a>jti (JWT id)</h1><p>Unique identifier for the token. This value must be unique for each issued token, even if there are many issuers. The jti claim can be used for one-time tokens, which cannot be replayed.</p>
-<h1 id="How-to-use-JWT-in-my-application"><a href="#How-to-use-JWT-in-my-application" class="headerlink" title="How to use JWT in my application?"></a>How to use JWT in my application?</h1><p>In the most common scenario, the client in the browser will authenticate in the authentication service and receive JWT in return. Then the client stores the token somehow (e.g. memory, localStorage) and sends it back with every request for a protected resource. Usually the token is sent as a cookie or Authorization header in HTTP request:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /api/secured-resource HTTP/1.1  &#10;Host: example.com  &#10;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJhZG1pbiI6dHJ1ZX0.OLvs36KmqB9cmsUrMpUutfhV52_iSz4bQMYJjkI_TLQ</span><br></pre></td></tr></table></figure>
+<p>It's worth noting that except for the last three (issuer, audience and JWT ID) are usually used in more complex cases, e.g. with multiple issuers. Let's get on with it, then.</p>
+<h1>exp (expiration date)</h1>
+<p>Timestamp indicating when the token becomes invalid. The spec says that &quot;the current date/time MUST be before&quot; the value specified in the exp claim in order to allow processing of the token. It is also indicated that some leeway (a few minutes) is allowed in order to account for clock skew.</p>
+<h1>nbf (not before)</h1>
+<p>Timestamp indicating when the token becomes valid. The spec says that &quot;the current date/time MUST be after or equal&quot; the value specified in the nbf claim in order to allow processing of the token. It is also indicated that some leeway (a few minutes) is allowed in order to account for clock skew.</p>
+<h1>iat (issued at)</h1>
+<p>Timestamp indicating when the token has been issued.</p>
+<h1>sub (subject)</h1>
+<p>As the spec says &quot;the claims in a JWT are normally statements about the subject&quot;. Subject must be unique within the context of the issuer or globally unique. The sub claim can be used to identify the user, for example JIRA does that.</p>
+<h1>iss (issuer)</h1>
+<p>String value identifying the issuer of the token. If the value contains : it has to be an URI. It can be useful if there are many issuers with one security layer and the application needs to identify the issuer. For example Salesforce require to use OAuth client_id as the iss value.</p>
+<h1>aud (audience)</h1>
+<p>String or an array of strings identifying the intended recipient(s) of the token. If the string contains : it has to be an URI. Often used as an URI of the resource for which the claims are valid. For example, in OAuth the audience is the authorisation server. The application processing the token must verify that the audience is correct or reject the token if it is intended for different audience.</p>
+<h1>jti (JWT id)</h1>
+<p>Unique identifier for the token. This value must be unique for each issued token, even if there are many issuers. The jti claim can be used for one-time tokens, which cannot be replayed.</p>
+<h1>How to use JWT in my application?</h1>
+<p>In the most common scenario, the client in the browser will authenticate in the authentication service and receive JWT in return. Then the client stores the token somehow (e.g. memory, localStorage) and sends it back with every request for a protected resource. Usually the token is sent as a cookie or Authorization header in HTTP request:</p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /api/secured-resource HTTP/1.1  &#10;Host: example.com  &#10;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJhZG1pbiI6dHJ1ZX0.OLvs36KmqB9cmsUrMpUutfhV52_iSz4bQMYJjkI_TLQ</span><br></pre></td></tr></table></figure></p>
 <p>The header method is preferred for security reasons - cookies would be susceptible to CSRF (Cross Site Request Forgery) unless CSRF tokens were used.</p>
 <p>Secondly, the cookies can be sent back only to the same domain (or at most second level domain) they were issued from. If the authentication service resides on a different domain, cookies require much more wild creativeness.</p>
-<h1 id="How-to-log-out-with-JWT"><a href="#How-to-log-out-with-JWT" class="headerlink" title="How to log out with JWT?"></a>How to log out with JWT?</h1><p>Because there is no session date stored on the service side, logging out cannot be performed by destroying the session. Therefore logging out is the client’s responsibility - as soon as the client forgets the token it cannot be authorised any more and therefore can be considered logged out.</p>
-<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>I think JWTs are a very clever way of authorising without sessions. They allow for creating truly RESTful services with no state remembered on the service side, meaning no session storage is required either.</p>
-<p>Unlike session cookies automatically sent by the browser to any URL matching the domain/path combination (let’s be honest, it’s just the domain in most cases), JWTs can be selectively sent only to the resources requiring authorisation.</p>
+<h1>How to log out with JWT?</h1>
+<p>Because there is no session date stored on the service side, logging out cannot be performed by destroying the session. Therefore logging out is the client's responsibility - as soon as the client forgets the token it cannot be authorised any more and therefore can be considered logged out.</p>
+<h1>Conclusion</h1>
+<p>I think JWTs are a very clever way of authorising without sessions. They allow for creating truly RESTful services with no state remembered on the service side, meaning no session storage is required either.</p>
+<p>Unlike session cookies automatically sent by the browser to any URL matching the domain/path combination (let's be honest, it's just the domain in most cases), JWTs can be selectively sent only to the resources requiring authorisation.</p>
 <p>The implementation is pretty simple, both on the client and on the server, especially that there are specialised libraries for signing and verifying the tokens.</p>
 <p>Thanks for reading!</p>
 <p>If you like this article please share it. Your comments are very welcome!</p>
