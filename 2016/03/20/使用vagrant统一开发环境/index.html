@@ -54,8 +54,7 @@
 
 	</div>
 	<div class="markdown-text">
-		<h1>场景需求</h1>
-<p>团队开发项目一般都会遇到以下问题:</p>
+		<h1 id="场景需求"><a href="#场景需求" class="headerlink" title="场景需求"></a>场景需求</h1><p>团队开发项目一般都会遇到以下问题:</p>
 <ul>
 <li>不同的人使用的系统环境不同(win平台、mac、etc.), 即使是win平台也有着很多个不同的版本</li>
 <li>开发时, 当前npm包安装成功率跟网络状况、系统环境都息息相关并不是每次都能安装成功</li>
@@ -63,25 +62,15 @@
 <li>线上线下环境不一致, 发布时偶尔出个问题有时也不能及时处理</li>
 </ul>
 <p>因此如果能够统一团队的开发环境无疑能够减少很多工作量同时遇到问题也能够有效及时的发现并处理, 以下介绍使用<a href="https://www.vagrantup.com/" target="_blank" rel="external">Vagrant</a>来解决该问题。</p>
-<h1>vagrant介绍</h1>
-<p>Vagrant是一个基于Ruby的工具, 用于创建和部署虚拟化开发环境. 可以创建基于Virtual box、VMware、KVM的虚拟化化环境.</p>
-<h2>前提</h2>
-<p>以下步骤需要先安装vagrant和virtual box, 下载链接:<a href="https://www.vagrantup.com/downloads.html" target="_blank" rel="external">vagrant</a>, <a href="http://download.virtualbox.org/virtualbox" target="_blank" rel="external">virtualbox</a>, 注意这里virtual box版本必须和制作成的box里虚拟机客户端增强版本匹配, 否则后续无法挂载物理机目录.</p>
-<h2>box下载</h2>
-<p>这里专门提供了一系列box的下载链接, 不用自己去手动制作一个box<a href="http://www.vagrantbox.es/" target="_blank" rel="external">前往下载列表</a>, 当然如果非要自己制作一个box, 过程可参考<a href="https://www.vagrantup.com/docs/boxes/base.html" target="_blank" rel="external">box制作过程</a>.</p>
-<h2>添加box</h2>
-<p>下载了一个box之后可使用如下命令添加box, 并登录虚拟机:</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vagrant box add [custom box name] [box name].box &#9;// windows&#19979;&#20250;&#29983;&#25104;.vagrant&#25991;&#20214;&#22841;&#10;$ vagrant init [custom box name] &#9;// &#29983;&#25104;Vagrantfile&#37197;&#32622;&#25991;&#20214;&#10;$ vagrant up&#9;&#9;&#9;&#9;&#9;// &#21551;&#21160;&#34394;&#25311;&#26426;&#10;$ vagrant ssh&#9;&#9;&#9;&#9;&#9;// &#30331;&#24405;&#34394;&#25311;&#26426;</span><br></pre></td></tr></table></figure></p>
+<h1 id="vagrant介绍"><a href="#vagrant介绍" class="headerlink" title="vagrant介绍"></a>vagrant介绍</h1><p>Vagrant是一个基于Ruby的工具, 用于创建和部署虚拟化开发环境. 可以创建基于Virtual box、VMware、KVM的虚拟化化环境.</p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>以下步骤需要先安装vagrant和virtual box, 下载链接:<a href="https://www.vagrantup.com/downloads.html" target="_blank" rel="external">vagrant</a>, <a href="http://download.virtualbox.org/virtualbox" target="_blank" rel="external">virtualbox</a>, 注意这里virtual box版本必须和制作成的box里虚拟机客户端增强版本匹配, 否则后续无法挂载物理机目录.</p>
+<h2 id="box下载"><a href="#box下载" class="headerlink" title="box下载"></a>box下载</h2><p>这里专门提供了一系列box的下载链接, 不用自己去手动制作一个box<a href="http://www.vagrantbox.es/" target="_blank" rel="external">前往下载列表</a>, 当然如果非要自己制作一个box, 过程可参考<a href="https://www.vagrantup.com/docs/boxes/base.html" target="_blank" rel="external">box制作过程</a>.</p>
+<h2 id="添加box"><a href="#添加box" class="headerlink" title="添加box"></a>添加box</h2><p>下载了一个box之后可使用如下命令添加box, 并登录虚拟机:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vagrant box add [custom box name] [box name].box &#9;// windows&#19979;&#20250;&#29983;&#25104;.vagrant&#25991;&#20214;&#22841;&#10;$ vagrant init [custom box name] &#9;// &#29983;&#25104;Vagrantfile&#37197;&#32622;&#25991;&#20214;&#10;$ vagrant up&#9;&#9;&#9;&#9;&#9;// &#21551;&#21160;&#34394;&#25311;&#26426;&#10;$ vagrant ssh&#9;&#9;&#9;&#9;&#9;// &#30331;&#24405;&#34394;&#25311;&#26426;</span><br></pre></td></tr></table></figure>
 <p>另外关闭虚拟机的命令为: <code>$ vagrant halt [--force]</code></p>
-<h2>配置box</h2>
-<p>添加完box之后可使用如下图所示命令配置虚拟机, Vagrantfile中各参数说明如图所示:
-<img src="/images/post/20160320/vfile.png" alt="vfile"></p>
+<h2 id="配置box"><a href="#配置box" class="headerlink" title="配置box"></a>配置box</h2><p>添加完box之后可使用如下图所示命令配置虚拟机, Vagrantfile中各参数说明如图所示:<br><img src="/images/post/20160320/vfile.png" alt="vfile"></p>
 <p>至此box制作就算完成了, 之后只需要使用<code>vagrant up &amp;&amp; vagrant ssh</code>启动并进入虚拟机即可, 项目需要的环境依赖等都可以预先在虚拟机里面安装好然后制作成box分发给团队成员即可. 如下介绍了基于已有虚拟机制作新box的命令.</p>
-<h1>box重制作</h1>
-<p>如果需要对当前正在使用的虚拟机制作一个box只需要找到Virutal box(以virtual为例)安装目录如下所示:
-<img src="/images/post/20160320/vbdir.png" alt="vbdir">
-使用如下命令生成box:
-<img src="/images/post/20160320/box.png" alt="box"></p>
+<h1 id="box重制作"><a href="#box重制作" class="headerlink" title="box重制作"></a>box重制作</h1><p>如果需要对当前正在使用的虚拟机制作一个box只需要找到Virutal box(以virtual为例)安装目录如下所示:<br><img src="/images/post/20160320/vbdir.png" alt="vbdir"><br>使用如下命令生成box:<br><img src="/images/post/20160320/box.png" alt="box"></p>
 
 	</div>
 </div>
