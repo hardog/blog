@@ -60,42 +60,63 @@
 
 	</div>
 	<div class="markdown-text">
-		<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>通过通读<code>ejs</code>(v2.4.1)源代码, 和大家分享下<code>ejs</code>实现思路, 本文期望通过提问的形式来阐述<code>ejs</code>中的一些重要部分, 有欠妥的地方望批评指正.</p>
-<h1 id="ejs实现核心思路"><a href="#ejs实现核心思路" class="headerlink" title="ejs实现核心思路"></a>ejs实现核心思路</h1><p>ejs首先将模板内容转化成一行一行的内容, 保存在<code>__output</code>数组中, 而该数组也是字符串,这样便于执行模板中js与html混合部分代码, 如下所示:</p>
-<p>模板代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;% [1,2].forEach(function(v)&#123; %&#62;&#10;&#60;span&#62;num is: &#60;%= v %&#62;&#10;&#60;% &#125;) %&#62;</span><br></pre></td></tr></table></figure></p>
-<p>ejs解析后的部分可执行代码如下(其中<code>_append</code>与<code>_output</code>的<code>push</code>函数等同):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">try &#123;&#10;&#9;var __output = [], __append = __output.push.bind(__output);&#10;&#9;with (locals || &#123;&#125;) &#123;&#10;    &#9;;  [1,2].forEach(function(v)&#123;&#10;    &#9;; __append(&#34;\n&#60;span&#62;num is: &#34;)&#10;    &#9;; __line = 2&#10;    &#9;; __append(escape(v))&#10;    &#9;; __append(&#34;\n&#34;)&#10;    &#9;; __line = 3&#10;    &#9;;  &#125;)&#10;    &#9;; __append(&#34;\n\n&#34;)&#10;    &#9;; __line = 5&#10;&#9;&#125;&#10;&#9;return __output.join(&#34;&#34;);&#10;&#125; catch (e) &#123;&#10;&#9;rethrow(e, __lines, __filename, __line);&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>最后生成的是源代码字符串, 这些字符串通过<code>new Function([变量], src)</code>生成可执行函数<code>fn</code>, 最后传入参数<code>data</code>即执行<code>fn(data)</code>函数生成最终编译后内容. </p>
-<h1 id="关于ejs模板的五种模式对应几种指令"><a href="#关于ejs模板的五种模式对应几种指令" class="headerlink" title="关于ejs模板的五种模式对应几种指令"></a>关于ejs模板的五种模式对应几种指令</h1><p><code>ejs</code>主要提供了如下几种指令:</p>
+		<h1>概要</h1>
+<p>通过通读<code>ejs</code>(v2.4.1)源代码, 和大家分享下<code>ejs</code>实现思路, 本文期望通过提问的形式来阐述<code>ejs</code>中的一些重要部分, 有欠妥的地方望批评指正.</p>
+<h1>ejs实现核心思路</h1>
+<p>ejs首先将模板内容转化成一行一行的内容, 保存在<code>__output</code>数组中, 而该数组也是字符串,这样便于执行模板中js与html混合部分代码, 如下所示:</p>
+<p>模板代码:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;% [1,2].forEach(function(v)&#123; %&#62;&#10;&#60;span&#62;num is: &#60;%= v %&#62;&#10;&#60;% &#125;) %&#62;</span><br></pre></td></tr></table></figure></p>
+<p>ejs解析后的部分可执行代码如下(其中<code>_append</code>与<code>_output</code>的<code>push</code>函数等同):
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">try &#123;&#10;&#9;var __output = [], __append = __output.push.bind(__output);&#10;&#9;with (locals || &#123;&#125;) &#123;&#10;    &#9;;  [1,2].forEach(function(v)&#123;&#10;    &#9;; __append(&#34;\n&#60;span&#62;num is: &#34;)&#10;    &#9;; __line = 2&#10;    &#9;; __append(escape(v))&#10;    &#9;; __append(&#34;\n&#34;)&#10;    &#9;; __line = 3&#10;    &#9;;  &#125;)&#10;    &#9;; __append(&#34;\n\n&#34;)&#10;    &#9;; __line = 5&#10;&#9;&#125;&#10;&#9;return __output.join(&#34;&#34;);&#10;&#125; catch (e) &#123;&#10;&#9;rethrow(e, __lines, __filename, __line);&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后生成的是源代码字符串, 这些字符串通过<code>new Function([变量], src)</code>生成可执行函数<code>fn</code>, 最后传入参数<code>data</code>即执行<code>fn(data)</code>函数生成最终编译后内容.</p>
+<h1>关于ejs模板的五种模式对应几种指令</h1>
+<p><code>ejs</code>主要提供了如下几种指令:</p>
 <ul>
-<li><p><code>&lt;%</code>, 该指令主要通过js中的<code>eval</code>来执行js代码, 如上模板代码<code>&lt;% [1,2].forEach(function(v){ %&gt;</code>将通过<code>eval</code>编译成<code>;  [1,2].forEach(function(v){</code>即直接可执行的js代码, 并且不会存放到<code>__output</code>函数中输出.</p>
+<li>
+<p><code>&lt;%</code>, 该指令主要通过js中的<code>eval</code>来执行js代码, 如上模板代码<code>&lt;% [1,2].forEach(function(v){ %&gt;</code>将通过<code>eval</code>编译成<code>; [1,2].forEach(function(v){</code>即直接可执行的js代码, 并且不会存放到<code>__output</code>函数中输出.</p>
 </li>
-<li><p><code>&lt;%=</code>, 该指令主要用于输出变量内容, 如上模板代码<code>&lt;%= v %&gt;</code>将通过<code>escape</code>函数编译成<code>__append(escape(v))</code>, 可以看到该指令用于输出变量内容, 最后将通过<code>__output</code>输出内容.</p>
+<li>
+<p><code>&lt;%=</code>, 该指令主要用于输出变量内容, 如上模板代码<code>&lt;%= v %&gt;</code>将通过<code>escape</code>函数编译成<code>__append(escape(v))</code>, 可以看到该指令用于输出变量内容, 最后将通过<code>__output</code>输出内容.</p>
 </li>
-<li><p><code>&lt;%-</code>, 该指令与<code>&lt;%=</code>区别是, <code>&lt;%=</code>指令使用<code>escape</code>函数来对特殊字符进行编码, 如将<code>&gt;</code>转为<code>%3E</code>, <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/escape" target="_blank" rel="external">查看关于escape函数</a>.</p>
+<li>
+<p><code>&lt;%-</code>, 该指令与<code>&lt;%=</code>区别是, <code>&lt;%=</code>指令使用<code>escape</code>函数来对特殊字符进行编码, 如将<code>&gt;</code>转为<code>%3E</code>, <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/escape" target="_blank" rel="external">查看关于escape函数</a>.</p>
 </li>
-<li><p><code>&lt;%#</code>, 该指令主要用于模板内注释, 既不会执行也不会输出.</p>
+<li>
+<p><code>&lt;%#</code>, 该指令主要用于模板内注释, 既不会执行也不会输出.</p>
 </li>
-<li><p><code>&lt;%%</code>, 主要用于输出字面值<code>%</code>.</p>
+<li>
+<p><code>&lt;%%</code>, 主要用于输出字面值<code>%</code>.</p>
 </li>
 </ul>
 <p>关于以上各个指令对应的解析, 可参考<code>ejs</code>源码根目录<code>lib/ejs.js</code>文件中的<code>scanLine</code>函数.</p>
-<h1 id="关于ejs的几个关键函数"><a href="#关于ejs的几个关键函数" class="headerlink" title="关于ejs的几个关键函数"></a>关于<code>ejs</code>的几个关键函数</h1><p>以下通过解析<code>ejs</code>中的几个重要函数来了解<code>ejs</code>的解析过程.</p>
-<h2 id="compile"><a href="#compile" class="headerlink" title="#compile"></a><code>#compile</code></h2><p>该函数主要负责生成模板编译函数, 其主要的两部分代码如下所示</p>
+<h1>关于<code>ejs</code>的几个关键函数</h1>
+<p>以下通过解析<code>ejs</code>中的几个重要函数来了解<code>ejs</code>的解析过程.</p>
+<h2><code>#compile</code></h2>
+<p>该函数主要负责生成模板编译函数, 其主要的两部分代码如下所示</p>
 <ul>
 <li>源代码生成组装部分</li>
 </ul>
-<p>该部分通过函数<code>generateSource</code>生成源代码字符串, 然后加上源代码字符串前缀部分<code>prepended</code>, 源代码后缀部分<code>appended</code>来生成整个源代码字符串, 源代码字符串中最后通过<code>__output.join(&quot;;&quot;)</code>作为函数的返回值:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (!this.source) &#123;&#10;    this.generateSource();&#10;    prepended += &#39;  var __output = [], __append = __output.push.bind(__output);&#39; + &#39;\n&#39;;&#10;    if (opts._with !== false) &#123;&#10;        prepended +=  &#39;  with (&#39; + opts.localsName + &#39; || &#123;&#125;) &#123;&#39; + &#39;\n&#39;;&#10;        appended += &#39;  &#125;&#39; + &#39;\n&#39;;&#10;    &#125;&#10;    appended += &#39;  return __output.join(&#34;&#34;);&#39; + &#39;\n&#39;;&#10;    this.source = prepended + this.source + appended;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>该部分通过函数<code>generateSource</code>生成源代码字符串, 然后加上源代码字符串前缀部分<code>prepended</code>, 源代码后缀部分<code>appended</code>来生成整个源代码字符串, 源代码字符串中最后通过<code>__output.join(&quot;;&quot;)</code>作为函数的返回值:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (!this.source) &#123;&#10;    this.generateSource();&#10;    prepended += &#39;  var __output = [], __append = __output.push.bind(__output);&#39; + &#39;\n&#39;;&#10;    if (opts._with !== false) &#123;&#10;        prepended +=  &#39;  with (&#39; + opts.localsName + &#39; || &#123;&#125;) &#123;&#39; + &#39;\n&#39;;&#10;        appended += &#39;  &#125;&#39; + &#39;\n&#39;;&#10;    &#125;&#10;    appended += &#39;  return __output.join(&#34;&#34;);&#39; + &#39;\n&#39;;&#10;    this.source = prepended + this.source + appended;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
 <ul>
 <li>源代码字符串生成函数过程</li>
 </ul>
-<p>以上生成的只是源代码的字符串, 而该部分即是通过<code>Function</code>函数将源代码字符串变成可执行函数<code>fn</code>, 该函数也是整个<code>compile</code>的返回值, 当然最后对该函数通过函数<code>returnedFn</code>包装了, 主要是为了递归解析模板字符串中的<code>include</code>指令.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fn = new Function(opts.localsName + &#39;, escape, include, rethrow&#39;, src);</span><br></pre></td></tr></table></figure></p>
-<h2 id="generateSource"><a href="#generateSource" class="headerlink" title="#generateSource"></a><code>#generateSource</code></h2><p>顾名思义该函数就是生成模板字符串对应的字符串源代码, 其主要通过函数<code>parseTemplateText</code>将模板内容按行解析到数组<code>matches</code>中, 然后对<code>matches</code>进行循环, 同时借助<code>scanLine</code>函数对每行模板字符串内容进行解析, 解析后的内容保存在<code>__output</code>数组中.</p>
-<h2 id="parseTemplateText"><a href="#parseTemplateText" class="headerlink" title="#parseTemplateText"></a><code>#parseTemplateText</code></h2><p>该函数主要通过匹配规则<code>_REGEX_STRING = (&lt;%%|&lt;%=|&lt;%-|&lt;%_|&lt;%#|&lt;%|%&gt;|-%&gt;|_%&gt;)</code>并借助<code>exec</code>正则循环匹配出指定模板字符串内容, 例如如下的解析示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;h1&#62;head&#60;/h1&#62;&#10;&#60;% var a = 1; %&#62;&#10;&#60;h1&#62;trail&#60;/h1&#62;</span><br></pre></td></tr></table></figure></p>
-<p>通过匹配<code>&lt;%</code>匹配成如下数组形式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr = [&#10;    &#39;&#60;h1&#62;head&#60;/h1&#62;&#39;,&#10;    &#39;&#60;%&#39;,&#10;    &#39; var a = 1; &#39;,&#10;    &#39;%&#62;&#39;&#10;    &#39;&#60;h1&#62;trail&#60;/h1&#62;&#39;&#10;];</span><br></pre></td></tr></table></figure></p>
-<h2 id="scanLine"><a href="#scanLine" class="headerlink" title="#scanLine"></a><code>#scanLine</code></h2><p>该函数应该算是编译过程中最重要的函数了, 该函数基于<code>parseTemplateText</code>将模板字符串转换成数组, 其主要根据数组中的每一项是否包含<code>ejs</code>中上述所讲的五种指令转换成对应的源代码字符串, 例如<code>&lt;%=</code>指令, 遇到该指令时将<code>this.mode</code>设置为<code>Template.modes.ESCAPED</code>, 遇到结束指令<code>%&gt;</code>时则重置<code>this.mode</code>为<code>null</code>,<code>&lt;%=</code>与<code>%&gt;</code>中间出现的字符串将通过<code>escape</code>编码并通过<code>__append</code>函数保存字符串内容, 当然这里省略了<code>ejs</code>中对于空白、回车、换行符的处理, 这里主要分析<code>ejs</code>中比较重要的部分.</p>
-<h1 id="param与locals-param异同"><a href="#param与locals-param异同" class="headerlink" title="param与locals.param异同"></a><code>param</code>与<code>locals.param</code>异同</h1><p>经常在使用<code>ejs</code>模板的时候发现传入的参数<code>param</code>既可单独的使用也可以通过<code>locals</code>访问, 那到底这两者有什么区别呢? 这里的关键就在于<code>with</code>语句, 该语句可以帮助我们省略输入对象名称从而直接访问对象的属性, 如对于对象<code>var v = {a: 1, b:2}</code>, 使用<code>with(v)</code>时可以直接使用属性<code>a,b</code>而不必<code>v.a, v.b</code>这样访问. 但是如果访问了不在<code>v</code>对象中的属性就会抛出异常而这里如果通过<code>locals.[属性名称]</code>形式访问则不会抛出异常, 因为<code>ejs</code>中默认将<code>locals</code>作为参数传入这样即使访问了不存在的对象属性最多该值为<code>undefined</code>却不会抛出异常, 可通过如下例子来理解下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#23450;&#20041;&#20989;&#25968;a:&#10;function example(locals)&#123;&#10;&#9;with(locals)&#123;&#10;&#9;&#9;console.log(a);&#10;&#9;&#9;// c&#19981;&#23384;&#22312;, &#27492;&#22788;&#25243;&#20986;ReferenceError&#24322;&#24120;&#10;&#9;&#9;console.log(c);&#10;&#9;&#9;// c&#19981;&#23384;&#22312;, &#20294;&#26159;locals&#26159;&#19968;&#20010;&#23545;&#35937;, &#27492;&#22788;&#36755;&#20986;undefined&#10;&#9;&#9;console.log(locals.c);&#10;&#9;&#125;&#10;&#125;;&#10;&#10;&#20256;&#20837;&#21442;&#25968;&#24182;&#35775;&#38382;a:&#10;data = &#123;&#10;&#9;a: 1,&#10;&#9;b: 2&#10;&#125;;&#10;example(data);</span><br></pre></td></tr></table></figure>
-<h1 id="关于ejs其它方面"><a href="#关于ejs其它方面" class="headerlink" title="关于ejs其它方面"></a>关于<code>ejs</code>其它方面</h1><p><code>ejs</code>对外暴露了两个主要函数分别是<code>render</code>及<code>renderFile</code>, 其主要区别是<code>render</code>传入模板字符串内容而<code>renderFile</code>传入模板字符串文件路径, 这样对于第三方库(如<code>koa-ejs</code>)的封装提供了更多的选择. 此外<code>ejs</code>中提供了简单的模板缓存功能, 通过<code>handleCache</code>函数缓存模板的编译函数.</p>
+<p>以上生成的只是源代码的字符串, 而该部分即是通过<code>Function</code>函数将源代码字符串变成可执行函数<code>fn</code>, 该函数也是整个<code>compile</code>的返回值, 当然最后对该函数通过函数<code>returnedFn</code>包装了, 主要是为了递归解析模板字符串中的<code>include</code>指令.
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fn = new Function(opts.localsName + &#39;, escape, include, rethrow&#39;, src);</span><br></pre></td></tr></table></figure></p>
+<h2><code>#generateSource</code></h2>
+<p>顾名思义该函数就是生成模板字符串对应的字符串源代码, 其主要通过函数<code>parseTemplateText</code>将模板内容按行解析到数组<code>matches</code>中, 然后对<code>matches</code>进行循环, 同时借助<code>scanLine</code>函数对每行模板字符串内容进行解析, 解析后的内容保存在<code>__output</code>数组中.</p>
+<h2><code>#parseTemplateText</code></h2>
+<p>该函数主要通过匹配规则<code>_REGEX_STRING = (&lt;%%|&lt;%=|&lt;%-|&lt;%_|&lt;%#|&lt;%|%&gt;|-%&gt;|_%&gt;)</code>并借助<code>exec</code>正则循环匹配出指定模板字符串内容, 例如如下的解析示例:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;h1&#62;head&#60;/h1&#62;&#10;&#60;% var a = 1; %&#62;&#10;&#60;h1&#62;trail&#60;/h1&#62;</span><br></pre></td></tr></table></figure></p>
+<p>通过匹配<code>&lt;%</code>匹配成如下数组形式:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr = [&#10;    &#39;&#60;h1&#62;head&#60;/h1&#62;&#39;,&#10;    &#39;&#60;%&#39;,&#10;    &#39; var a = 1; &#39;,&#10;    &#39;%&#62;&#39;&#10;    &#39;&#60;h1&#62;trail&#60;/h1&#62;&#39;&#10;];</span><br></pre></td></tr></table></figure></p>
+<h2><code>#scanLine</code></h2>
+<p>该函数应该算是编译过程中最重要的函数了, 该函数基于<code>parseTemplateText</code>将模板字符串转换成数组, 其主要根据数组中的每一项是否包含<code>ejs</code>中上述所讲的五种指令转换成对应的源代码字符串, 例如<code>&lt;%=</code>指令, 遇到该指令时将<code>this.mode</code>设置为<code>Template.modes.ESCAPED</code>, 遇到结束指令<code>%&gt;</code>时则重置<code>this.mode</code>为<code>null</code>,<code>&lt;%=</code>与<code>%&gt;</code>中间出现的字符串将通过<code>escape</code>编码并通过<code>__append</code>函数保存字符串内容, 当然这里省略了<code>ejs</code>中对于空白、回车、换行符的处理, 这里主要分析<code>ejs</code>中比较重要的部分.</p>
+<h1><code>param</code>与<code>locals.param</code>异同</h1>
+<p>经常在使用<code>ejs</code>模板的时候发现传入的参数<code>param</code>既可单独的使用也可以通过<code>locals</code>访问, 那到底这两者有什么区别呢? 这里的关键就在于<code>with</code>语句, 该语句可以帮助我们省略输入对象名称从而直接访问对象的属性, 如对于对象<code>var v = {a: 1, b:2}</code>, 使用<code>with(v)</code>时可以直接使用属性<code>a,b</code>而不必<code>v.a, v.b</code>这样访问. 但是如果访问了不在<code>v</code>对象中的属性就会抛出异常而这里如果通过<code>locals.[属性名称]</code>形式访问则不会抛出异常, 因为<code>ejs</code>中默认将<code>locals</code>作为参数传入这样即使访问了不存在的对象属性最多该值为<code>undefined</code>却不会抛出异常, 可通过如下例子来理解下:</p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#23450;&#20041;&#20989;&#25968;a:&#10;function example(locals)&#123;&#10;&#9;with(locals)&#123;&#10;&#9;&#9;console.log(a);&#10;&#9;&#9;// c&#19981;&#23384;&#22312;, &#27492;&#22788;&#25243;&#20986;ReferenceError&#24322;&#24120;&#10;&#9;&#9;console.log(c);&#10;&#9;&#9;// c&#19981;&#23384;&#22312;, &#20294;&#26159;locals&#26159;&#19968;&#20010;&#23545;&#35937;, &#27492;&#22788;&#36755;&#20986;undefined&#10;&#9;&#9;console.log(locals.c);&#10;&#9;&#125;&#10;&#125;;&#10;&#10;&#20256;&#20837;&#21442;&#25968;&#24182;&#35775;&#38382;a:&#10;data = &#123;&#10;&#9;a: 1,&#10;&#9;b: 2&#10;&#125;;&#10;example(data);</span><br></pre></td></tr></table></figure></p>
+<h1>关于<code>ejs</code>其它方面</h1>
+<p><code>ejs</code>对外暴露了两个主要函数分别是<code>render</code>及<code>renderFile</code>, 其主要区别是<code>render</code>传入模板字符串内容而<code>renderFile</code>传入模板字符串文件路径, 这样对于第三方库(如<code>koa-ejs</code>)的封装提供了更多的选择. 此外<code>ejs</code>中提供了简单的模板缓存功能, 通过<code>handleCache</code>函数缓存模板的编译函数.</p>
 <p>最后对于<code>ejs</code>的代码注释部分详见<a href="https://github.com/ncuzp/ejs/blob/master/lib/ejs.js" target="_blank" rel="external"><code>lib/ejs.js部分注释</code></a>;</p>
 
 	</div>
