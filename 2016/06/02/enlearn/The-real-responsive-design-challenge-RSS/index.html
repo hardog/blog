@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>EX</title>
+	<title>Hardog</title>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
 	<meta content="yes" name="apple-mobile-web-app-capable" />
@@ -16,7 +16,7 @@
 <body>
 <div class="author-meta">
 	<div class="site-title">
-		<h1><a href="http://www.startexample.com">EX</a></h1>
+		<h1><a href="http://www.hardog.net">Hardog</a></h1>
 		<h3>
 			<span>生活因折腾而精彩</span>
 			<span class="site-title-offset">技术因专注而精进</span>
@@ -55,14 +55,15 @@
 	</div>
 	<div class="markdown-text">
 		<p>原文链接: <a href="https://begriffs.com/posts/2016-05-28-rss-responsive-design.html?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=ios" target="_blank" rel="external">The real responsive design challenge? RSS.</a></p>
-<h2 id="RSS响应式设计最佳实践建议"><a href="#RSS响应式设计最佳实践建议" class="headerlink" title="RSS响应式设计最佳实践建议"></a><code>RSS响应式设计最佳实践建议</code></h2><p>The web is a diverse place, just check your server logs. You’ll see bots and fringe mobile devices, user agents on all kinds of screens and operating systems. It’s easy to get used to the way that you use the web and neglect the user experience for the world at large.</p>
+<h2><code>RSS响应式设计最佳实践建议</code></h2>
+<p>The web is a diverse place, just check your server logs. You’ll see bots and fringe mobile devices, user agents on all kinds of screens and operating systems. It’s easy to get used to the way that you use the web and neglect the user experience for the world at large.</p>
 <p>For instance I noticed that a chunk of my own traffic are the feed readers accessing my Atom feed. Out of curiousity I decided to investigate what it’s like to use these Atom readers to read my content. It wasn’t pretty. The feed problems uncovered deeper usability problems whose solution is applicable to web design in general.</p>
 <p>Before reading on you might like to try this for yourself. If you host an RSS or Atom feed then load it in a variety of readers and see how it looks. Here are ones I’ve noticed who hit my site: Newsbeuter, Newsflow, Sismics reader, Tiny Tiny RSS, Feedly, Feedbin, Akregator, Feed Wrangler, NewsBlur, FeedHQ, Feed Spot, Livedoor reader, Miniflux, Liferea, Readerrr, and Mozilla reader.</p>
 <p>The first thing you’ll notice is that they disregard Javascript and CSS but preserve images. Sometimes they add their own CSS, other times they leave the document completely unstyled. Taking control of the style allows these programs to offer adjustible line spacing and switchable themes like a darkened night browsing mode. You may not have seen your site without any CSS clothes for a while, and may realize it needs to go to the markup gym.</p>
 <p>Here are tips to make your site work better for everyone.</p>
 <ul>
 <li>Font-Awesome is not so awesome at gracefully degrading. Instead use SVG images which still resize perfectly and work without CSS. In fact loading SVGs with an img tag allows you to set the alt attribute to provide context for non-graphical and non-visual user agents. Use inline height and width styling so that the SVG will keep the correct size without CSS. You can get a full SVG replacement for Font-Awesome at encharm/Font-Awesome-SVG-PNG.</li>
-<li>Add manual workarounds for multimedia tags. For example the &lt;video&gt; tag on many of my posts looked terrible in feed readers. Some readers made it vanish without a trace! Others loaded the videos at a monstrous size, but would not allow them to play. In an environment unable to play video, the most useful information is a link to the video content itself for downloading or playing with another program. Hence I now provide links to the video files inside <noscript> tags. I also removed the video tag from the page markup and now add it with Javascript after the page loads. I can’t trust the behavior of this element in a non-Javascript situation.</noscript></li>
+<li>Add manual workarounds for multimedia tags. For example the &lt;video&gt; tag on many of my posts looked terrible in feed readers. Some readers made it vanish without a trace! Others loaded the videos at a monstrous size, but would not allow them to play. In an environment unable to play video, the most useful information is a link to the video content itself for downloading or playing with another program. Hence I now provide links to the video files inside &lt;noscript&gt; tags. I also removed the video tag from the page markup and now add it with Javascript after the page loads. I can’t trust the behavior of this element in a non-Javascript situation.</li>
 <li>Don’t duplicate titles and dates between markup and metadata. Unlike the wild west of HTML, feed formats have designated places to specify an article’s who, what, and when. Headers and footers with a timestamp, title, and email contact are unnecesary inside an Atom feed.</li>
 <li>Choose raster images of appropriate natural size. Some of my posts used CSS to shrink large images for presentation. Without CSS enabled the images were huge and crazy looking (not to mention less efficient to transmit).</li>
 <li>Mind the summary vs content in Atom items. Some static site generators (cough, hakyll…) dump the whole post body into the summary.</li>
