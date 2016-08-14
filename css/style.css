@@ -314,3 +314,9 @@ body .post .post-head h3 > a {
 #ds-thread #ds-reset .ds-login-buttons {
   display: none;
 }
+#ds-wrapper #ds-reset .ds-icons-32 {
+  display: none;
+}
+#ds-wrapper #ds-reset h2 {
+  display: none;
+}
