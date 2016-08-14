@@ -19,7 +19,6 @@
 		<h1><a href="http://hardog.net">Hardog</a></h1>
 		<h3>
 			<span>trace forever</span>
-			<span class="site-title-offset">null</span>
 		</h3>
 	</div>
 	<div class="site-popularize">
@@ -61,15 +60,24 @@
 
 	</div>
 	<div class="markdown-text">
-		<h1 id="本文目标"><a href="#本文目标" class="headerlink" title="本文目标"></a>本文目标</h1><ul>
-<li>将本站<code>startexample.com</code>域名绑定到<code>GitHub gh-pages</code>分支上。<a id="more"></a>
+		<h1>本文目标</h1>
+<ul>
+<li>将本站<code>startexample.com</code>域名绑定到<code>GitHub gh-pages</code>分支上。
+&lt;!-- more --&gt;
 注:本篇博文主要介绍如何将顶级域名解析到GitHub gh-pages repo上!</li>
 </ul>
-<h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>本站绑定的为顶级域名,更多域名绑定方式可见<a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/" target="_blank" rel="external">更多域名绑定方式</a>。</p>
-<h1 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h1><p>在<code>GitHub</code>的<code>repo</code>上有博客的<code>gh-pages</code>分支且已购买域名<code>startexample.com</code>。</p>
-<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><p>首先,在<code>gh-pages</code>的<code>repo</code>根目录中新建不带后缀的<code>CNAME</code>文件,文件中写上域名如<code>startexample.com</code>域名不带前缀<code>www</code>。</p>
-<p>其次到域名提供商控制面板管理界面,添加两个A记录到<code>192.30.252.153</code>以及<code>192.30.252.154</code>,<strong>注意</strong>这里的ip地址随时可能更改,需要在<a href="https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/" target="_blank" rel="external">GitHub域名解析</a>处确认解析ip地址。</p>
-<p><strong>注意</strong>此处选择DNSpod提供的免费DNS解析服务,如下图所示：<br>第一步选择DNSpod DNS域名解析服务器:<br><img src="/images/post/20150913/dns-server.png" alt="DNS服务器"><br>第二步添加A记录以及www<code>CNAME</code>记录:<br><img src="/images/post/20150913/dns-a.png" alt="DNS服务器"></p>
+<h1>说明</h1>
+<p>本站绑定的为顶级域名,更多域名绑定方式可见<a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/" target="_blank" rel="external">更多域名绑定方式</a>。</p>
+<h1>前提</h1>
+<p>在<code>GitHub</code>的<code>repo</code>上有博客的<code>gh-pages</code>分支且已购买域名<code>startexample.com</code>。</p>
+<h1>步骤</h1>
+<p>首先,在<code>gh-pages</code>的<code>repo</code>根目录中新建不带后缀的<code>CNAME</code>文件,文件中写上域名如<code>startexample.com</code>域名不带前缀<code>www</code>。</p>
+<p>其次到域名提供商控制面板管理界面,添加两个A记录到<code>192.30.252.153</code>以及<code>192.30.252.154</code>,__注意__这里的ip地址随时可能更改,需要在<a href="https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/" target="_blank" rel="external">GitHub域名解析</a>处确认解析ip地址。</p>
+<p>__注意__此处选择DNSpod提供的免费DNS解析服务,如下图所示：
+第一步选择DNSpod DNS域名解析服务器:
+<img src="/images/post/20150913/dns-server.png" alt="DNS服务器">
+第二步添加A记录以及www<code>CNAME</code>记录:
+<img src="/images/post/20150913/dns-a.png" alt="DNS服务器"></p>
 <p>稍等几分钟后即可访问<a href="http://www.startexample.com" target="_blank" rel="external">startexample.com</a>。</p>
 
 	</div>

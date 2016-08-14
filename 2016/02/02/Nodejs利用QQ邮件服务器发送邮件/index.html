@@ -19,7 +19,6 @@
 		<h1><a href="http://hardog.net">Hardog</a></h1>
 		<h3>
 			<span>trace forever</span>
-			<span class="site-title-offset">null</span>
 		</h3>
 	</div>
 	<div class="site-popularize">
@@ -64,26 +63,35 @@
 
 	</div>
 	<div class="markdown-text">
-		<h1 id="本文目标"><a href="#本文目标" class="headerlink" title="本文目标"></a>本文目标</h1><ul>
-<li>简单介绍Nodejs利用QQ邮件服务器发送邮件的过程(本文只阐述快速上手步骤不涉及原理疑难解答)。<a id="more"></a>
-</li>
-</ul>
-<h1 id="依赖环境说明"><a href="#依赖环境说明" class="headerlink" title="依赖环境说明"></a>依赖环境说明</h1><p>安装以下依赖:</p>
+		<h1>本文目标</h1>
 <ul>
-<li><p>安装<code>nodemailer</code>, 本文测试版本<code>2.0.0</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install nodemailer@2.0.0</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装<code>iconv-lite</code>, 最新版即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install iconv-lite</span><br></pre></td></tr></table></figure>
-</li>
+<li>简单介绍Nodejs利用QQ邮件服务器发送邮件的过程(本文只阐述快速上手步骤不涉及原理疑难解答)。
+&lt;!-- more --&gt;</li>
 </ul>
-<h1 id="QQ邮箱设置"><a href="#QQ邮箱设置" class="headerlink" title="QQ邮箱设置"></a>QQ邮箱设置</h1><p>既然是利用QQ邮箱发送邮件的, 那就需要在QQ邮箱中进行以下设置:</p>
+<h1>依赖环境说明</h1>
+<p>安装以下依赖:</p>
 <ul>
-<li>首先进入QQ邮箱设置界面, 如下图所示<br><img src="/images/post/20160202/QQEnter.png" alt="账户设置"></li>
-<li>开启<code>SMTP</code>服务并获取授权码,点击下面的授权码并记下来<br><img src="/images/post/20160202/QQMailSet.png" alt="开启服务"></li>
+<li>
+<p>安装<code>nodemailer</code>, 本文测试版本<code>2.0.0</code>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install nodemailer@2.0.0</span><br></pre></td></tr></table></figure></p>
+</li>
+<li>
+<p>安装<code>iconv-lite</code>, 最新版即可
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install iconv-lite</span><br></pre></td></tr></table></figure></p>
+</li>
 </ul>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p>其中<code>options</code>中的<code>pass</code>是上述开启邮件<code>SMTP服务</code>时的授权码而不是QQ密码, 其中以下各项对应的都有解释请看代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var nodemailer = require(&#39;nodemailer&#39;);&#10;var iconv = require(&#39;iconv-lite&#39;); &#10;&#10;var options = &#123;&#10;    service: &#39;QQ&#39;,&#10;    auth: &#123;&#10;        user: &#39;qqmail@qq.com&#39;,&#10;        pass: &#39;xxxx&#39;            &#9;&#9;&#9;// &#25480;&#26435;&#30721;&#10;    &#125;&#10;&#125;;&#10;&#10;var transporter = nodemailer.createTransport(options);&#10;&#10;var mailBody = &#123;&#10;    from: &#39;sender@qq.com &#39;,             // &#21457;&#36865;&#32773;&#37038;&#31665;, &#24517;&#39035;&#36755;&#20837;&#37038;&#20214;&#22320;&#22336;&#10;    to: &#39;recever@qq.com&#39;,                 // &#25509;&#25910;&#32773;&#37038;&#31665;, &#21487;&#35774;&#32622;&#22810;&#20010;&#10;    subject: &#39;Hello &#10004;&#39;,                     // &#23376;&#26631;&#39064;&#10;    html: &#39;&#60;b&#62;Hello world from Frand&#10004;&#60;/b&#62;&#39;  // &#37038;&#20214;&#27491;&#25991;&#10;&#125;;&#10;&#10;transporter.sendMail(mailBody, function(error, info)&#123;&#10;    if(error)&#123;&#10;        console.log(iconv.decode(error.response,&#39;GBK&#39;), error);&#10;    &#125;else&#123;&#10;        console.log(&#39;Message sent: &#39; + iconv.decode(info.response,&#39;GBK&#39;));&#10;    &#125;&#10;&#125;);</span><br></pre></td></tr></table></figure>
+<h1>QQ邮箱设置</h1>
+<p>既然是利用QQ邮箱发送邮件的, 那就需要在QQ邮箱中进行以下设置:</p>
+<ul>
+<li>首先进入QQ邮箱设置界面, 如下图所示
+<img src="/images/post/20160202/QQEnter.png" alt="账户设置"></li>
+<li>开启<code>SMTP</code>服务并获取授权码,点击下面的授权码并记下来
+<img src="/images/post/20160202/QQMailSet.png" alt="开启服务"></li>
+</ul>
+<h1>代码</h1>
+<p>其中<code>options</code>中的<code>pass</code>是上述开启邮件<code>SMTP服务</code>时的授权码而不是QQ密码, 其中以下各项对应的都有解释请看代码</p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var nodemailer = require(&#39;nodemailer&#39;);&#10;var iconv = require(&#39;iconv-lite&#39;); &#10;&#10;var options = &#123;&#10;    service: &#39;QQ&#39;,&#10;    auth: &#123;&#10;        user: &#39;qqmail@qq.com&#39;,&#10;        pass: &#39;xxxx&#39;            &#9;&#9;&#9;// &#25480;&#26435;&#30721;&#10;    &#125;&#10;&#125;;&#10;&#10;var transporter = nodemailer.createTransport(options);&#10;&#10;var mailBody = &#123;&#10;    from: &#39;sender@qq.com &#39;,             // &#21457;&#36865;&#32773;&#37038;&#31665;, &#24517;&#39035;&#36755;&#20837;&#37038;&#20214;&#22320;&#22336;&#10;    to: &#39;recever@qq.com&#39;,                 // &#25509;&#25910;&#32773;&#37038;&#31665;, &#21487;&#35774;&#32622;&#22810;&#20010;&#10;    subject: &#39;Hello &#10004;&#39;,                     // &#23376;&#26631;&#39064;&#10;    html: &#39;&#60;b&#62;Hello world from Frand&#10004;&#60;/b&#62;&#39;  // &#37038;&#20214;&#27491;&#25991;&#10;&#125;;&#10;&#10;transporter.sendMail(mailBody, function(error, info)&#123;&#10;    if(error)&#123;&#10;        console.log(iconv.decode(error.response,&#39;GBK&#39;), error);&#10;    &#125;else&#123;&#10;        console.log(&#39;Message sent: &#39; + iconv.decode(info.response,&#39;GBK&#39;));&#10;    &#125;&#10;&#125;);</span><br></pre></td></tr></table></figure></p>
+
 	</div>
 
 	<!-- 多说评论框 start -->
