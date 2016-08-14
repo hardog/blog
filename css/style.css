@@ -318,5 +318,5 @@ body .post .post-head h3 > a {
   display: none;
 }
 #ds-wrapper #ds-reset h2 {
-  display: none;
+  display: none !important;
 }
