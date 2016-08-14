@@ -311,3 +311,6 @@ body .post .post-head h3 > a {
   margin-top: -1px;
   vertical-align: middle;
 }
+#ds-thread #ds-reset .ds-login-buttons {
+  display: none;
+}
