@@ -37,7 +37,7 @@
 		
 
 <article class="article">
-		<h3> <a href="http://hardog.net/2016/08/15/libuv/关于epoll,kqueue,iocp/">关于epoll,kqueue,IOCP</a> </h3>
+		<h3> <a href="http://hardog.net/2016/08/15/libuv/libuv设计概要/">libuv设计概要</a> </h3>
 		<aside class="article-meta">
 			<span>时间: 2016-08-15 00:37:56 </span>
 			<span class="article-tag">
@@ -58,12 +58,13 @@
 	</div>
 	<div class="markdown-text">
 		<p><strong>提示</strong> 本文所讨论的相关知识都是围绕Nodejs展开!</p>
-<h1 id="关于libev与libuv及其区别"><a href="#关于libev与libuv及其区别" class="headerlink" title="关于libev与libuv及其区别?"></a>关于libev与libuv及其区别?</h1><h1 id="select-poll-epoll-kqueue简介及其区别-epoll相对kqueue的缺陷"><a href="#select-poll-epoll-kqueue简介及其区别-epoll相对kqueue的缺陷" class="headerlink" title="select/poll/epoll/kqueue简介及其区别(epoll相对kqueue的缺陷)?"></a>select/poll/epoll/kqueue简介及其区别(epoll相对kqueue的缺陷)?</h1><h1 id="IOCP简介"><a href="#IOCP简介" class="headerlink" title="IOCP简介"></a>IOCP简介</h1><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="http://www.infoq.com/cn/articles/nodejs-asynchronous-io" target="_blank" rel="external">关于异步IO</a><br><a href="http://www.ibm.com/developerworks/cn/linux/l-async/" target="_blank" rel="external">同步异步/阻塞非阻塞</a><br><a href="https://www.zhihu.com/question/20122137" target="_blank" rel="external">知乎问答, 关于epoll/kqueue</a><br><a href="https://zh.wikipedia.org/wiki/Epoll" target="_blank" rel="external">epoll 维基百科</a><br><a href="https://en.wikipedia.org/wiki/Kqueue" target="_blank" rel="external">kqueue 维基百科</a><br><a href="http://people.freebsd.org/~jlemon/papers/kqueue.pdf" target="_blank" rel="external">kqueue 实现参考</a><br><a href="https://zh.wikipedia.org/wiki/IOCP" target="_blank" rel="external">IOCP 维基百科</a></p>
+<h1 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h1><h1 id="uv架构"><a href="#uv架构" class="headerlink" title="uv架构"></a>uv架构</h1><p><img src="/images/post/20160816/uva-arch.png" alt="uv-arch"></p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://scoecomp.files.wordpress.com/2014/02/2003-unix-network-programming-vol-1-3rd-ed.pdf" target="_blank" rel="external">Unix 网络编程(英文版)</a><br><a href="http://www.infoq.com/cn/articles/nodejs-asynchronous-io" target="_blank" rel="external">关于异步IO</a><br><a href="http://www.ibm.com/developerworks/cn/linux/l-async/" target="_blank" rel="external">同步异步/阻塞非阻塞IBM</a><br><a href="https://www.zhihu.com/question/19732473" target="_blank" rel="external">知乎问答, 关于阻塞非阻塞/同步异步</a><br><a href="https://www.zhihu.com/question/20122137" target="_blank" rel="external">知乎问答, 关于epoll/kqueue</a><br><a href="https://zh.wikipedia.org/wiki/Epoll" target="_blank" rel="external">epoll 维基百科</a><br><a href="https://en.wikipedia.org/wiki/Kqueue" target="_blank" rel="external">kqueue 维基百科</a><br><a href="http://people.freebsd.org/~jlemon/papers/kqueue.pdf" target="_blank" rel="external">kqueue 实现参考</a><br><a href="https://zh.wikipedia.org/wiki/IOCP" target="_blank" rel="external">IOCP 维基百科</a></p>
 
 	</div>
 
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/2016/08/15/libuv/关于epoll,kqueue,iocp/" data-title="关于epoll,kqueue,IOCP" data-url="http://hardog.net/2016/08/15/libuv/关于epoll,kqueue,iocp/"></div>
+	<div class="ds-thread" data-thread-key="/2016/08/15/libuv/libuv设计概要/" data-title="libuv设计概要" data-url="http://hardog.net/2016/08/15/libuv/libuv设计概要/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
