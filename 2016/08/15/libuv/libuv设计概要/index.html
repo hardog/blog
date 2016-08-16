@@ -96,10 +96,10 @@
 </ul>
 <p>关于阻塞非阻塞以及同步异步之间的差别如下:</p>
 <ul>
-<li>阻塞:</li>
-<li>非阻塞:</li>
-<li>同步:</li>
-<li>异步:</li>
+<li>阻塞: 执行一个操作需要等待一段时间, 直到该操作完成再去执行下一个操作, 其中<code>等待的时间</code>程序被阻塞无法继续执行下去.</li>
+<li>非阻塞: 程序发起一个操作, 但是并不需要该操作有了结果再返回而是直接返回, 但是后续需要不断的检查该操作是否有结果返回.</li>
+<li>同步: 根据<a href="https://scoecomp.files.wordpress.com/2014/02/2003-unix-network-programming-vol-1-3rd-ed.pdf" target="_blank" rel="external">Unix 网络编程定义</a>, 进程被阻塞直到IO操作完成, 上述<code>select</code>, <code>poll</code>, <code>epoll</code>都属于同步IO(这里指的是真实的IO操作, 执行IO操作时用户态进程需要等待操作完成).</li>
+<li>异步: 本质上说, 异步IO其操作是在内核态完成的并不影响用户态进程的执行.</li>
 </ul>
 <h1 id="关于磁盘IO"><a href="#关于磁盘IO" class="headerlink" title="关于磁盘IO"></a>关于磁盘IO</h1><p>在现有操作系统中还没有很好的方式能够处理异步的磁盘IO的(这里有篇文章讨论<a href="http://blog.libtorrent.org/2012/10/asynchronous-disk-io/" target="_blank" rel="external">为什么采用多线程方式处理磁盘IO</a>以及多线程处理方式与特定于平台的处理方式之间的利弊), 因此在Nodejs中是采用线程池, 开启多个线程的方式来进行异步磁盘IO处理的, 目前在线程池中主要处理三类操作:</p>
 <ul>
