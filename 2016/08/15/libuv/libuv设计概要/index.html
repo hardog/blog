@@ -96,7 +96,7 @@
 </ul>
 <p>关于阻塞非阻塞以及同步异步之间的差别如下:</p>
 <ul>
-<li>阻塞: 执行一个操作需要等待一段时间, 直到该操作完成再去执行下一个操作, 其中<code>等待的时间</code>程序被阻塞无法继续执行下去.</li>
+<li>阻塞: 执行一个操作需要等待一段时间, 直到该操作完成再去执行下一个操作, 其中在<code>等待的时间</code>期间, 程序被阻塞无法继续执行下去.</li>
 <li>非阻塞: 程序发起一个操作, 但是并不需要该操作有了结果再返回而是直接返回, 但是后续需要不断的检查该操作是否有结果返回.</li>
 <li>同步: 根据<a href="https://scoecomp.files.wordpress.com/2014/02/2003-unix-network-programming-vol-1-3rd-ed.pdf" target="_blank" rel="external">Unix 网络编程定义</a>, 进程被阻塞直到IO操作完成, 上述<code>select</code>, <code>poll</code>, <code>epoll</code>都属于同步IO(这里指的是真实的IO操作, 执行IO操作时用户态进程需要等待操作完成).</li>
 <li>异步: 本质上说, 异步IO其操作是在内核态完成的并不影响用户态进程的执行.</li>
