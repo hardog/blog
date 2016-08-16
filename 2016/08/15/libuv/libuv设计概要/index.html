@@ -58,8 +58,32 @@
 	</div>
 	<div class="markdown-text">
 		<p><strong>提示</strong> 本文所讨论的相关知识都是围绕Nodejs展开!</p>
-<h1 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h1><h1 id="uv架构"><a href="#uv架构" class="headerlink" title="uv架构"></a>uv架构</h1><p><img src="/images/post/20160816/uv-arch.png" alt="uv-arch"></p>
-<h1 id="handle-amp-request"><a href="#handle-amp-request" class="headerlink" title="handle&amp;request"></a>handle&amp;request</h1><h1 id="uv循环过程"><a href="#uv循环过程" class="headerlink" title="uv循环过程"></a>uv循环过程</h1><h1 id="关于网络IO和磁盘IO"><a href="#关于网络IO和磁盘IO" class="headerlink" title="关于网络IO和磁盘IO"></a>关于网络IO和磁盘IO</h1><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="http://blog.libtorrent.org/2012/10/asynchronous-disk-io/" target="_blank" rel="external">关于使用多线程实现异步磁盘IO</a><br><a href="https://scoecomp.files.wordpress.com/2014/02/2003-unix-network-programming-vol-1-3rd-ed.pdf" target="_blank" rel="external">Unix 网络编程(英文版)</a><br><a href="http://www.infoq.com/cn/articles/nodejs-asynchronous-io" target="_blank" rel="external">关于异步IO</a><br><a href="http://www.ibm.com/developerworks/cn/linux/l-async/" target="_blank" rel="external">同步异步/阻塞非阻塞IBM</a><br><a href="https://www.zhihu.com/question/19732473" target="_blank" rel="external">知乎问答, 关于阻塞非阻塞/同步异步</a><br><a href="https://www.zhihu.com/question/20122137" target="_blank" rel="external">知乎问答, 关于epoll/kqueue</a><br><a href="https://zh.wikipedia.org/wiki/Epoll" target="_blank" rel="external">epoll 维基百科</a><br><a href="https://en.wikipedia.org/wiki/Kqueue" target="_blank" rel="external">kqueue 维基百科</a><br><a href="http://people.freebsd.org/~jlemon/papers/kqueue.pdf" target="_blank" rel="external">kqueue 实现参考</a><br><a href="https://zh.wikipedia.org/wiki/IOCP" target="_blank" rel="external">IOCP 维基百科</a></p>
+<h1 id="uv架构"><a href="#uv架构" class="headerlink" title="uv架构"></a>uv架构</h1><p><img src="/images/post/20160816/uv-arch.png" alt="uv-arch"></p>
+<p>从上图中可以看到libuv的架构大体分为两层, 上层包含网络IO, 磁盘IO以及一些用户代码. 下层包含<code>uv__io_t</code>这个主要代表针对类<code>*nix</code>系统封装的底层网络IO操作, <code>IOCP</code>代表封装的<code>Windows</code>平台的底层网络IO操作, 而<code>Thread Pool</code>主要是使得操作的磁盘IO可以通过异步的方式进行操作, 即磁盘IO的异步操作主要是通过多线程的方式来实现的.</p>
+<h1 id="handle-amp-request"><a href="#handle-amp-request" class="headerlink" title="handle&amp;request"></a>handle&amp;request</h1><p>libuv主要提供了两种抽象来处理事件循环过程中的操作, 一种是生命周期比较长的对象即<code>handles</code>, 另一种就是存活时间较短的对象即<code>requests</code>, 当然该抽象也可以针对<code>handles</code>进行操作.</p>
+<h1 id="关于uv循环过程分析"><a href="#关于uv循环过程分析" class="headerlink" title="关于uv循环过程分析"></a>关于uv循环过程分析</h1><p><code>TODO</code></p>
+<h1 id="关于网络IO"><a href="#关于网络IO" class="headerlink" title="关于网络IO"></a>关于网络IO</h1><p>所有的网络IO使用的都是非阻塞的<code>sockets</code>来进行处理, 并且针对不同的平台封装了不同的处理机制, 具体来说就是Linux系统上使用<code>epoll</code>机制, OSX和其他的BSDs系统使用<code>kqueue</code>机制, SunOS系统使用<code>event ports</code>机制, 而<code>Windows</code>平台则采用其独特的<code>IOCP</code>机制. 当前针对异步网络IO处理的机制还包括其他一些, 例如<code>select</code>, <code>poll</code>, <code>pselect</code>等, 以下为其差别:</p>
+<ul>
+<li>select:</li>
+<li>poll:</li>
+<li>epoll:</li>
+<li>kqueue:</li>
+<li>IOCP:</li>
+</ul>
+<p>关于阻塞非阻塞以及同步异步之间的差别如下:</p>
+<ul>
+<li>阻塞:</li>
+<li>非阻塞:</li>
+<li>同步:</li>
+<li>异步:</li>
+</ul>
+<h1 id="关于磁盘IO"><a href="#关于磁盘IO" class="headerlink" title="关于磁盘IO"></a>关于磁盘IO</h1><p>在现有操作系统中还没有很好的方式能够处理异步的磁盘IO的(这里有篇文章讨论<a href="http://blog.libtorrent.org/2012/10/asynchronous-disk-io/" target="_blank" rel="external">为什么采用多线程方式处理磁盘IO</a>以及多线程处理方式与特定于平台的处理方式之间的利弊), 因此在Nodejs中是采用线程池, 开启多个线程的方式来进行异步磁盘IO处理的, 目前在线程池中主要处理三类操作:</p>
+<ul>
+<li>文件系统操作</li>
+<li>DNS相关的操作如<code>getaddrinfo</code></li>
+<li>用户通过<code>uv_queue_work()</code>来运行的特定的代码</li>
+</ul>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="http://blog.libtorrent.org/2012/10/asynchronous-disk-io/" target="_blank" rel="external">关于使用多线程实现异步磁盘IO</a><br><a href="https://scoecomp.files.wordpress.com/2014/02/2003-unix-network-programming-vol-1-3rd-ed.pdf" target="_blank" rel="external">Unix 网络编程(英文版)</a><br><a href="http://www.infoq.com/cn/articles/nodejs-asynchronous-io" target="_blank" rel="external">关于异步IO</a><br><a href="http://www.ibm.com/developerworks/cn/linux/l-async/" target="_blank" rel="external">同步异步/阻塞非阻塞IBM</a><br><a href="https://www.zhihu.com/question/19732473" target="_blank" rel="external">知乎问答, 关于阻塞非阻塞/同步异步</a><br><a href="https://www.zhihu.com/question/20122137" target="_blank" rel="external">知乎问答, 关于epoll/kqueue</a><br><a href="https://zh.wikipedia.org/wiki/Epoll" target="_blank" rel="external">epoll 维基百科</a><br><a href="https://en.wikipedia.org/wiki/Kqueue" target="_blank" rel="external">kqueue 维基百科</a><br><a href="http://people.freebsd.org/~jlemon/papers/kqueue.pdf" target="_blank" rel="external">kqueue 实现参考</a><br><a href="https://zh.wikipedia.org/wiki/IOCP" target="_blank" rel="external">IOCP 维基百科</a></p>
 
 	</div>
 
