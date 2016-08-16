@@ -57,26 +57,37 @@
 
 	</div>
 	<div class="markdown-text">
-		<p><strong>提示</strong> 本文所讨论的相关知识都是围绕Nodejs展开!</p>
+		<p><strong>提示</strong> 本文所讨论的相关知识都是围绕Nodejs(<code>libuv@1.9.2</code>)展开!<br><strong>本文会根据最新理解即时更新</strong></p>
 <h1 id="uv架构"><a href="#uv架构" class="headerlink" title="uv架构"></a>uv架构</h1><p><img src="/images/post/20160816/uv-arch.png" alt="uv-arch"></p>
 <p>从上图中可以看到libuv的架构大体分为两层, 上层包含网络IO, 磁盘IO以及一些用户代码. 下层包含<code>uv__io_t</code>这个主要代表针对类<code>*nix</code>系统封装的底层网络IO操作, <code>IOCP</code>代表封装的<code>Windows</code>平台的底层网络IO操作, 而<code>Thread Pool</code>主要是使得操作的磁盘IO可以通过异步的方式进行操作, 即磁盘IO的异步操作主要是通过多线程的方式来实现的.</p>
 <h1 id="handle-amp-request"><a href="#handle-amp-request" class="headerlink" title="handle&amp;request"></a>handle&amp;request</h1><p>libuv主要提供了两种抽象来处理事件循环过程中的操作, 一种是生命周期比较长的对象即<code>handles</code>, 另一种就是存活时间较短的对象即<code>requests</code>, 当然该抽象也可以针对<code>handles</code>进行操作.</p>
-<h1 id="关于uv循环过程分析"><a href="#关于uv循环过程分析" class="headerlink" title="关于uv循环过程分析"></a>关于uv循环过程分析</h1><p>以下分析为浅显理解, 待后续完善(TODO):</p>
+<h1 id="关于uv迭代过程分析"><a href="#关于uv迭代过程分析" class="headerlink" title="关于uv迭代过程分析"></a>关于uv迭代过程分析</h1><p>以下分析为浅显理解, 待后续完善(TODO):</p>
 <p><img src="/images/post/20160816/loop_iteration.png" alt="loop_iteration.png"></p>
+<p>首先, 每一个事件队列对应着一个单独的线程, 每一轮事件队列循环执行的是<code>while</code>语句.</p>
 <ul>
-<li>loop alive:</li>
-<li>Run due timers:</li>
-<li>Call Pending callbacks:</li>
-<li>Run idle handles:</li>
-<li>Run prepare handles:</li>
-<li>Poll for I/O:</li>
-<li>Run check handles:</li>
-<li>Call close callbacks:</li>
-<li>Update loop time:</li>
+<li>Update loop time: 在每一次事件队列开始前都会缓存下当前时间以尽可能减少时间相关系统调用的数量.</li>
+<li>loop alive: 首先检查当前迭代队列是否仍然存活, 如果存活则迭代开始, 否则迭代立即退出. 判断事件队列是否存活的指标包括: 1. 队列仍在运行切有被引用的<code>handles</code>存在. 2. 仍然有效的<code>requests</code>. 3. 正在但还未完全关闭的<code>handles</code>.</li>
+<li>Run due timers: 运行计时器函数, 例如<code>setInterval</code>, <code>setTimeout</code>等当然不仅限于此.</li>
+<li>Call Pending callbacks: 每一轮IO轮循的过程中, 都有相应的被挂起的回调函数被执行, 例如计时器函数到了预设的超市时间, 此时其回调函数将被调用. 当然也存在一些特列, 由于上一次被延迟执行的回调函数将在该次轮循中被执行.</li>
+<li>Run idle handles: 对于一些当前还未有处理任务的闲置<code>handles</code>, 如果它们仍然是存活的, 其回调函数也将在此时被执行.</li>
+<li>Run prepare handles: 在执行阻塞式的IO操作前, 运行一些事先预置的<code>handles</code>任务.</li>
+<li>Poll for I/O: 监视文件描述符(fd), 如果存在可对fd进行的读或写的操作则调用对应的回调函数进行返回进行处理. 具体IO操作多长时间返回取决于以下判断, 以下按照前后顺序判断:<ul>
+<li>如果当前事件队列传入了<code>UV_RUN_NOWAIT</code>标记, 即表示不等待继续向下运行.</li>
+<li>如果当前事件队列调用了<code>uv_stop()</code>函数停止运行, 不等待继续向下运行.</li>
+<li>如果当前没有活动的<code>handles</code>或<code>requests</code>可用, 不等待继续向下运行.</li>
+<li>当以上条件都不成立但是存在闲置的<code>handles</code>, 不等待继续向下运行.</li>
+<li>如果存在任何的<code>handles</code>被挂起正等待关闭, 不等待继续向下运行.</li>
+<li>如果以上条件都不满足, 则超时时间为与当前时间最接近的<code>timers</code>时间, 简单的如为当前事件队列设置了一个超时时间, 如果当前连<code>timers</code>时间都不存在, 则一直被阻塞.</li>
+</ul>
+</li>
+<li>Run check handles: 正如<code>prepare handles</code>一样, 此处对上一步<code>handles</code>操作完成之后的状态进行检测.</li>
+<li>Call close callbacks: <code>handle</code>被关闭之后, 将会调用<code>uv_close()</code>来完成回调函数的调用.</li>
+<li>如果事件队列运行方式为<code>UV_RUN_NOWAIT</code>或<code>UV_RUN_ONCE</code>则本轮执行完成后<code>uv_run()</code>将返回, 如果执行的是<code>UV_RUN_DEFAULT</code>模式, 则事件队列从头开始运行, 否则其它情况则直接返回.</li>
 </ul>
 <h1 id="关于网络IO"><a href="#关于网络IO" class="headerlink" title="关于网络IO"></a>关于网络IO</h1><p>所有的网络IO使用的都是非阻塞的<code>sockets</code>来进行处理, 并且针对不同的平台封装了不同的处理机制, 具体来说就是Linux系统上使用<code>epoll</code>机制, OSX和其他的BSDs系统使用<code>kqueue</code>机制, SunOS系统使用<code>event ports</code>机制, 而<code>Windows</code>平台则采用其独特的<code>IOCP</code>机制. 当前针对异步网络IO处理的机制还包括其他一些, 例如<code>select</code>, <code>poll</code>, <code>pselect</code>等, 以下为其差别:</p>
 <ul>
-<li>select:</li>
+<li>read: </li>
+<li>select: </li>
 <li>poll:</li>
 <li>epoll:</li>
 <li>kqueue:</li>
