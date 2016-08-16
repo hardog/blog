@@ -84,14 +84,15 @@
 <li>Call close callbacks: <code>handle</code>被关闭之后, 将会调用<code>uv_close()</code>来完成回调函数的调用.</li>
 <li>如果事件队列运行方式为<code>UV_RUN_NOWAIT</code>或<code>UV_RUN_ONCE</code>则本轮执行完成后<code>uv_run()</code>将返回, 如果执行的是<code>UV_RUN_DEFAULT</code>模式, 则事件队列从头开始运行, 否则其它情况则直接返回.</li>
 </ul>
-<h1 id="关于网络IO"><a href="#关于网络IO" class="headerlink" title="关于网络IO"></a>关于网络IO</h1><p>所有的网络IO使用的都是非阻塞的<code>sockets</code>来进行处理, 并且针对不同的平台封装了不同的处理机制, 具体来说就是Linux系统上使用<code>epoll</code>机制, OSX和其他的BSDs系统使用<code>kqueue</code>机制, SunOS系统使用<code>event ports</code>机制, 而<code>Windows</code>平台则采用其独特的<code>IOCP</code>机制. 当前针对异步网络IO处理的机制还包括其他一些, 例如<code>select</code>, <code>poll</code>, <code>pselect</code>等, 以下为其差别:</p>
+<h1 id="关于网络IO"><a href="#关于网络IO" class="headerlink" title="关于网络IO"></a>关于网络IO</h1><p>所有的网络IO使用的都是非阻塞的<code>sockets</code>来进行处理, 并且针对不同的平台封装了不同的处理机制, 具体来说就是Linux系统上使用<code>epoll</code>机制, OSX和其他的BSDs系统使用<code>kqueue</code>机制, SunOS系统使用<code>event ports</code>机制, 而<code>Windows</code>平台则采用其独特的<code>IOCP</code>机制. 当前针对异步网络IO处理的机制还包括其他一些, 例如<code>read</code>, <code>select</code>, <code>poll</code>等, 以下为其差别:</p>
+<p>其中<code>select</code>, <code>poll</code>, <code>epoll</code>以及<code>kqueue</code>有一个词描述它们:<code>IO复用</code>(IO multiplexing), 简单解释下该词, 复用的意思是指开始一个线程只能处理一个流的操作, 复用之后一个线程可以同时处理多个流, 关于什么是流可以参考这边知乎问答<a href="https://www.zhihu.com/question/20122137" target="_blank" rel="external">知乎问答, 关于epoll/kqueue</a>. </p>
 <ul>
-<li>read: </li>
-<li>select: </li>
-<li>poll:</li>
-<li>epoll:</li>
-<li>kqueue:</li>
-<li>IOCP:</li>
+<li>read: 这里列出了最简单的一种情形, 即执行一个操作然后等待结果返回继续执行下一个操作.</li>
+<li>select: 该机制采用忙轮询的方式对所有的流进行循环遍历, 以发现流当前是否可进行操作. 同时轮询的方式也会耗用一定的cpu操作时间.</li>
+<li>poll: 该机制与<code>select</code>区别不大只是结构体变了, 同时存储文件描述符的方式也变成了链表存储, 因此其支持的文件描述符没有限制, 而<code>select</code>机制限制到1024.</li>
+<li>epoll: 该机制相对来说效率比较高, 是<code>select</code>与<code>poll</code>的增强版本`, 其基于事件通知, 可以监视到哪些文件描述符的哪些事件变更了, 只关注当前活跃着的描述符, 从而有针对性的进行操作.</li>
+<li>kqueue: 该机制相对<code>epoll</code>来说支持的范围更宽泛, 同时由于<code>epoll</code>设计是为了提高<code>select&amp;poll</code>的性能, 因此其支持的文件描述符种类也有限.</li>
+<li>IOCP: Windows平台上实现的异步IO, 创建单独的线程来检测文件描述符是否可进行相应的操作, 如果可以则调用<code>read&amp;write</code>执行操作并立即返回由系统本身执行处理并不会被阻塞.</li>
 </ul>
 <p>关于阻塞非阻塞以及同步异步之间的差别如下:</p>
 <ul>
@@ -106,7 +107,7 @@
 <li>DNS相关的操作如<code>getaddrinfo</code></li>
 <li>用户通过<code>uv_queue_work()</code>来运行的特定的代码</li>
 </ul>
-<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="http://blog.libtorrent.org/2012/10/asynchronous-disk-io/" target="_blank" rel="external">关于使用多线程实现异步磁盘IO</a><br><a href="https://scoecomp.files.wordpress.com/2014/02/2003-unix-network-programming-vol-1-3rd-ed.pdf" target="_blank" rel="external">Unix 网络编程(英文版)</a><br><a href="http://www.infoq.com/cn/articles/nodejs-asynchronous-io" target="_blank" rel="external">关于异步IO</a><br><a href="http://www.ibm.com/developerworks/cn/linux/l-async/" target="_blank" rel="external">同步异步/阻塞非阻塞IBM</a><br><a href="https://www.zhihu.com/question/19732473" target="_blank" rel="external">知乎问答, 关于阻塞非阻塞/同步异步</a><br><a href="https://www.zhihu.com/question/20122137" target="_blank" rel="external">知乎问答, 关于epoll/kqueue</a><br><a href="https://zh.wikipedia.org/wiki/Epoll" target="_blank" rel="external">epoll 维基百科</a><br><a href="https://en.wikipedia.org/wiki/Kqueue" target="_blank" rel="external">kqueue 维基百科</a><br><a href="http://people.freebsd.org/~jlemon/papers/kqueue.pdf" target="_blank" rel="external">kqueue 实现参考</a><br><a href="https://zh.wikipedia.org/wiki/IOCP" target="_blank" rel="external">IOCP 维基百科</a></p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="http://blog.libtorrent.org/2012/10/asynchronous-disk-io/" target="_blank" rel="external">关于使用多线程实现异步磁盘IO</a><br><a href="https://scoecomp.files.wordpress.com/2014/02/2003-unix-network-programming-vol-1-3rd-ed.pdf" target="_blank" rel="external">Unix 网络编程(英文版)</a><br><a href="http://www.infoq.com/cn/articles/nodejs-asynchronous-io" target="_blank" rel="external">关于异步IO</a><br><a href="http://www.ibm.com/developerworks/cn/linux/l-async/" target="_blank" rel="external">同步异步/阻塞非阻塞IBM</a><br><a href="https://www.zhihu.com/question/19732473" target="_blank" rel="external">知乎问答, 关于阻塞非阻塞/同步异步</a><br><a href="https://www.zhihu.com/question/20122137" target="_blank" rel="external">知乎问答, 关于epoll/kqueue</a><br><a href="https://zh.wikipedia.org/wiki/Epoll" target="_blank" rel="external">epoll 维基百科</a><br><a href="https://en.wikipedia.org/wiki/Kqueue" target="_blank" rel="external">kqueue 维基百科</a><br><a href="http://people.freebsd.org/~jlemon/papers/kqueue.pdf" target="_blank" rel="external">kqueue 实现参考</a><br><a href="https://zh.wikipedia.org/wiki/IOCP" target="_blank" rel="external">IOCP 维基百科</a><br><a href="https://www.ibm.com/developerworks/cn/java/j-lo-iocp/" target="_blank" rel="external">IOCP IBM</a></p>
 
 	</div>
 
