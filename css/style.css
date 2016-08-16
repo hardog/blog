@@ -107,7 +107,6 @@ body {
 }
 .markdown-text img {
   max-width: 600px;
-  width: 100%;
 }
 .markdown-text blockquote p {
   background: #f0f0f0;
