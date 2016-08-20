@@ -70,10 +70,10 @@
 <ul>
 <li>Update loop time: 在每一次事件队列开始前都会缓存下当前时间以尽可能减少时间相关系统调用的数量.</li>
 <li>loop alive: 首先检查当前迭代队列是否仍然存活, 如果存活则迭代开始, 否则迭代立即退出. 判断事件队列是否存活的指标包括: 1. 队列仍在运行切有被引用的<code>handles</code>存在. 2. 仍然有效的<code>requests</code>. 3. 正在但还未完全关闭的<code>handles</code>.</li>
-<li>Run due timers: 运行计时器函数, 例如<code>setInterval</code>, <code>setTimeout</code>等当然不仅限于此.</li>
-<li>Call Pending callbacks: 每一轮IO轮循的过程中, 都有相应的被挂起的回调函数被执行, 例如计时器函数到了预设的超市时间, 此时其回调函数将被调用. 当然也存在一些特列, 由于上一次被延迟执行的回调函数将在该次轮循中被执行.</li>
-<li>Run idle handles: 对于一些当前还未有处理任务的闲置<code>handles</code>, 如果它们仍然是存活的, 其回调函数也将在此时被执行.</li>
-<li>Run prepare handles: 在执行阻塞式的IO操作前, 运行一些事先预置的<code>handles</code>任务.</li>
+<li>Run due timers: 运行计时器函数, <code>setInterval</code>, <code>setTimeout</code>.</li>
+<li>Call Pending callbacks: 每一轮IO轮循的过程中, 都有相应的被挂起的回调函数被执行, 例如计时器函数到了预设的超时时间, 此时其回调函数将被调用. 当然也存在一些特列, 由于上一次被延迟执行的回调函数将在该次轮循中被执行. 除了timers, setImmedate(), close.</li>
+<li>Run idle handles: 内部任务, 执行空转<code>handles</code>.</li>
+<li>Run prepare handles: 内部任务, 在执行阻塞式的IO操作前, 运行一些事先预置的<code>handles</code>任务.</li>
 <li>Poll for I/O: 监视文件描述符(fd), 如果存在可对fd进行的读或写的操作则调用对应的回调函数进行返回进行处理. 具体IO操作多长时间返回取决于以下判断, 以下按照前后顺序判断:<ul>
 <li>如果当前事件队列传入了<code>UV_RUN_NOWAIT</code>标记, 即表示不等待继续向下运行.</li>
 <li>如果当前事件队列调用了<code>uv_stop()</code>函数停止运行, 不等待继续向下运行.</li>
@@ -83,7 +83,7 @@
 <li>如果以上条件都不满足, 则超时时间为与当前时间最接近的<code>timers</code>时间, 简单的如为当前事件队列设置了一个超时时间, 如果当前连<code>timers</code>时间都不存在, 则一直被阻塞.</li>
 </ul>
 </li>
-<li>Run check handles: 正如<code>prepare handles</code>一样, 此处对上一步<code>handles</code>操作完成之后的状态进行检测.</li>
+<li>Run check handles: 执行setImmediate(), 正如<code>prepare handles</code>一样, 此处对上一步<code>handles</code>操作完成之后的状态进行检测.</li>
 <li>Call close callbacks: <code>handle</code>被关闭之后, 将会调用<code>uv_close()</code>来完成回调函数的调用.</li>
 <li>如果事件队列运行方式为<code>UV_RUN_NOWAIT</code>或<code>UV_RUN_ONCE</code>则本轮执行完成后<code>uv_run()</code>将返回, 如果执行的是<code>UV_RUN_DEFAULT</code>模式, 则事件队列从头开始运行, 否则其它情况则直接返回.</li>
 </ul>
