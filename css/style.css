@@ -163,6 +163,9 @@ body .site-title {
 body .site-title h1 {
   font-size: 2.4em;
 }
+body .site-title h1 a {
+  font-size: 35px;
+}
 body .site-title h3 span {
   font-size: 1em;
   line-height: 1.8em;
