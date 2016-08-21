@@ -57,14 +57,16 @@
 
 	</div>
 	<div class="markdown-text">
-		<h1 id="什么决定了浏览器是下载还是直接显示文件"><a href="#什么决定了浏览器是下载还是直接显示文件" class="headerlink" title="什么决定了浏览器是下载还是直接显示文件?"></a>什么决定了浏览器是下载还是直接显示文件?</h1><p>根据<a href="https://tools.ietf.org/html/rfc2183" target="_blank" rel="external">rfc2138</a>说明, 最终显示还是下载文件是由浏览器端的实现决定的, 对于浏览器来说其一般遵循标准规范, 服务端可以通过头<code>Content-Disposition</code>来设置是直接显示还是下载文档, 该头具有以下几个可选值:</p>
+		<h1>什么决定了浏览器是下载还是直接显示文件?</h1>
+<p>根据<a href="https://tools.ietf.org/html/rfc2183" target="_blank" rel="external">rfc2138</a>说明, 最终显示还是下载文件是由浏览器端的实现决定的, 对于浏览器来说其一般遵循标准规范, 服务端可以通过头<code>Content-Disposition</code>来设置是直接显示还是下载文档, 该头具有以下几个可选值:</p>
 <ul>
-<li>inline              // 告诉浏览器直接显示文档</li>
-<li>attachment         // 告诉浏览器这是一个文件需要下载</li>
-<li>extension-token    // NA, 用的很少</li>
+<li>inline  			// 告诉浏览器直接显示文档</li>
+<li>attachment 		// 告诉浏览器这是一个文件需要下载</li>
+<li>extension-token	// NA, 用的很少</li>
 </ul>
 <p>同时通过头<code>Content-Type</code>来设置文档类型, 通过头<code>Content-Description</code>来设置文档描述. 但是最终是直接显示还是下载取决于浏览器是否支持<code>Content-Type</code>指定类型文件的解析, 例如<code>Content-Type</code>设置为<code>application/csv</code>格式, 此时<code>Content-Disposition</code>设置为<code>inline</code>即需要在浏览器直接显示也是没有用的, 浏览器(chrome 52.0.2743.116 (64-bit))也是会将该文件下载. 可以通过以下Nodejs代码来测试:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;use strict&#39;;&#10;// Nodejs@4.3.0&#10;&#10;let koa = require(&#39;koa&#39;);&#10;let app = koa();&#10;&#10;app.use(function *(next)&#123;&#10;&#9;this.body = &#39;hello world!&#39;;&#10;&#9;this.set(&#39;Content-Type&#39;, &#39;application/csv&#39;);&#10;&#9;this.set(&#39;Content-Disposition&#39;, `inline`);&#10;&#9;yield next;&#10;&#125;);&#10;&#10;app.listen(3000);</span><br></pre></td></tr></table></figure>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;use strict&#39;;&#10;// Nodejs@4.3.0&#10;&#10;let koa = require(&#39;koa&#39;);&#10;let app = koa();&#10;&#10;app.use(function *(next)&#123;&#10;&#9;this.body = &#39;hello world!&#39;;&#10;&#9;this.set(&#39;Content-Type&#39;, &#39;application/csv&#39;);&#10;&#9;this.set(&#39;Content-Disposition&#39;, `inline`);&#10;&#9;yield next;&#10;&#125;);&#10;&#10;app.listen(3000);</span><br></pre></td></tr></table></figure></p>
+
 	</div>
 
 	<!-- 多说评论框 start -->
