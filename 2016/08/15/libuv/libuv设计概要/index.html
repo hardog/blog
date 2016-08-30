@@ -80,10 +80,10 @@
 <li>如果当前没有活动的<code>handles</code>或<code>requests</code>可用, 不等待继续向下运行.</li>
 <li>当以上条件都不成立但是存在闲置的<code>handles</code>, 不等待继续向下运行.</li>
 <li>如果存在任何的<code>handles</code>被挂起正等待关闭, 不等待继续向下运行.</li>
-<li>如果以上条件都不满足, 则超时时间为与当前时间最接近的<code>timers</code>时间, 简单的如为当前事件队列设置了一个超时时间, 如果当前连<code>timers</code>时间都不存在, 则一直被阻塞.</li>
+<li>如果以上条件都不满足, 则超时时间为下一个即将超时的<code>timers</code>(setTimeout or setInterval)时间, 如果不存在激活的<code>timers</code>, 则一直被阻塞.</li>
 </ul>
 </li>
-<li>Run check handles: 执行setImmediate(), 正如<code>prepare handles</code>一样, 此处对上一步<code>handles</code>操作完成之后的状态进行检测.</li>
+<li>Run check handles: 执行setImmediate(), <code>check handles</code>与<code>prepare handles</code>是对应的, 此处对上一步<code>handles</code>操作完成之后的状态进行检测.</li>
 <li>Call close callbacks: <code>handle</code>被关闭之后, 将会调用<code>uv_close()</code>来完成回调函数的调用.</li>
 <li>如果事件队列运行方式为<code>UV_RUN_NOWAIT</code>或<code>UV_RUN_ONCE</code>则本轮执行完成后<code>uv_run()</code>将返回, 如果执行的是<code>UV_RUN_DEFAULT</code>模式, 则事件队列从头开始运行, 否则其它情况则直接返回.</li>
 </ul>
