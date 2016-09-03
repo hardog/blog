@@ -63,6 +63,7 @@
 <p>V8 implements a generational garbage collector - meaning it has a memory segment called new space for the young generation, and has an old space for the old generation. New objects are allocated in the new space, and if they survive two garbage collections in the new space, they are moved to the old space.</p>
 <h1 id="1-Parallelised-JavaScript-Garbage-Collection"><a href="#1-Parallelised-JavaScript-Garbage-Collection" class="headerlink" title="#1: Parallelised JavaScript Garbage Collection"></a>#1: Parallelised JavaScript Garbage Collection</h1><p>The problem with the two spaces is that moving objects between them is expensive: the objects need to be copied over, and the pointers must be updated. Moving out from the young generation is called evacuation, while adding it to the old generation is called compaction.</p>
 <p>Since there are no dependencies between young generation evacuation and old generation compaction, the garbage collector can perform these in parallel, resulting in a reduction of compaction time of 75% from ~7ms to under 2ms on average.</p>
+<p><img src="/images/post/20160903/Node_js_garbage_collector_parallel_from_JavaScript_Garbage__Collection-1472542845811.png" alt="Node_js_garbage_collector"></p>
 <blockquote>
 <p>“The Parallelised Garbage Collector can reduce compaction time by 75%” via @RisingStack #javascript #nodejs</p>
 </blockquote>
