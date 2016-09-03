@@ -58,17 +58,15 @@
 	</div>
 	<div class="markdown-text">
 		<p>原文链接: <a href="https://blog.risingstack.com/javascript-garbage-collection-orinoco/?utm_source=nodeweekly&amp;utm_medium=email" target="_blank" rel="external">JavaScript Garbage Collection Improvements - Orinoco</a></p>
-<p>This article summarizes the three main effect of the new V8 upgrade (5.0) on JavaScript garbage collection.</p>
+<p>This article summarizes the three main effect of the new V8 upgrade (5.0) on JavaScript garbage collection.<br><code>这篇文章主要总结下v8升级到5.0以后, 在JavaScript垃圾回收机制上所带来的效果提升!</code></p>
 <p>In the latest releases of Node.js, the V8 JavaScript engine was upgraded to version 5.0. Among new ES2015 features, it includes three major improvements for the garbage collector. These changes lay the groundwork for a new garbage collector in V8, code-named Orinoco.</p>
 <p>V8 implements a generational garbage collector - meaning it has a memory segment called new space for the young generation, and has an old space for the old generation. New objects are allocated in the new space, and if they survive two garbage collections in the new space, they are moved to the old space.</p>
-<h1>#1: Parallelised JavaScript Garbage Collection</h1>
-<p>The problem with the two spaces is that moving objects between them is expensive: the objects need to be copied over, and the pointers must be updated. Moving out from the young generation is called evacuation, while adding it to the old generation is called compaction.</p>
+<h1 id="1-Parallelised-JavaScript-Garbage-Collection"><a href="#1-Parallelised-JavaScript-Garbage-Collection" class="headerlink" title="#1: Parallelised JavaScript Garbage Collection"></a>#1: Parallelised JavaScript Garbage Collection</h1><p>The problem with the two spaces is that moving objects between them is expensive: the objects need to be copied over, and the pointers must be updated. Moving out from the young generation is called evacuation, while adding it to the old generation is called compaction.</p>
 <p>Since there are no dependencies between young generation evacuation and old generation compaction, the garbage collector can perform these in parallel, resulting in a reduction of compaction time of 75% from ~7ms to under 2ms on average.</p>
 <blockquote>
-<p>&quot;The Parallelised Garbage Collector can reduce compaction time by 75%&quot; via @RisingStack #javascript #nodejs</p>
+<p>“The Parallelised Garbage Collector can reduce compaction time by 75%” via @RisingStack #javascript #nodejs</p>
 </blockquote>
-<h1>#2: Track Pointers Improvement</h1>
-<p>When an object is moved on the heap, the garbage collector has to update all the pointers - but first, it has to find all the pointers to the old location. For this V8 uses a data structure called remembered set to keep track of interesting pointers in the heap. A pointer is classified interesting if the next garbage collector run may move it:</p>
+<h1 id="2-Track-Pointers-Improvement"><a href="#2-Track-Pointers-Improvement" class="headerlink" title="#2: Track Pointers Improvement"></a>#2: Track Pointers Improvement</h1><p>When an object is moved on the heap, the garbage collector has to update all the pointers - but first, it has to find all the pointers to the old location. For this V8 uses a data structure called remembered set to keep track of interesting pointers in the heap. A pointer is classified interesting if the next garbage collector run may move it:</p>
 <ul>
 <li>moving objects from the young generation to the old generation,</li>
 <li>pointers to objects in fragmented pages, as objects may be moved to other pages during compaction</li>
@@ -76,8 +74,7 @@
 <p>In older versions of V8, remembered sets are implemented using store buffers. This contains addresses of all incoming pointers. The problem is that it may result in duplicated entries, because a store buffer may end up including a pointer multiple times and two store buffers may have the same pointer. This would make parallelization of the pointer update really complex.</p>
 <p>Instead of dealing with the extra complexity, Orinoco removes it by reorganizing the remembered set. Instead of the previous approach, now each page stores the offsets of the interesting pointers originating from the given page. With this technique the parallel updates of the pointers become feasible.</p>
 <p>It has a huge performance impact - it can reduce the maximum pause time of compacting garbage collection by 40%.</p>
-<h1>#3: Black Allocation</h1>
-<p>The Black Allocation introduced by Orinoco is involved in the marking phase of the garbage collector. With this, once an object is allocated in the old generation, they are marked black instantly, meaning that they are &quot;live&quot; objects. The goal of this allocation is that objects allocated in the old space are likely to live longer, so they should survive the next garbage collector. Objects colored black are not visited by the garbage collector - they are put on black pages of the old space.</p>
+<h1 id="3-Black-Allocation"><a href="#3-Black-Allocation" class="headerlink" title="#3: Black Allocation"></a>#3: Black Allocation</h1><p>The Black Allocation introduced by Orinoco is involved in the marking phase of the garbage collector. With this, once an object is allocated in the old generation, they are marked black instantly, meaning that they are “live” objects. The goal of this allocation is that objects allocated in the old space are likely to live longer, so they should survive the next garbage collector. Objects colored black are not visited by the garbage collector - they are put on black pages of the old space.</p>
 <p>It speeds up the garbage collection due the faster-marking progress as well as less garbage collection work in general.</p>
 
 	</div>

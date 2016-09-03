@@ -61,13 +61,10 @@
 	</div>
 	<div class="markdown-text">
 		<p><strong>提示</strong> 本文所讨论的相关知识都是围绕Nodejs(<code>libuv@1.9.2</code>)展开!</p>
-<h1>uv架构</h1>
-<p><img src="/images/post/20160816/uv-arch.png" alt="uv-arch"></p>
+<h1 id="uv架构"><a href="#uv架构" class="headerlink" title="uv架构"></a>uv架构</h1><p><img src="/images/post/20160816/uv-arch.png" alt="uv-arch"></p>
 <p>从上图中可以看到libuv的架构大体分为两层, 上层包含网络IO, 磁盘IO以及一些用户代码. 下层包含<code>uv__io_t</code>这个主要代表针对类<code>*nix</code>系统封装的底层网络IO操作, <code>IOCP</code>代表封装的<code>Windows</code>平台的底层网络IO操作, 而<code>Thread Pool</code>主要是使得操作的磁盘IO可以通过异步的方式进行操作, 即磁盘IO的异步操作主要是通过多线程的方式来实现的.</p>
-<h1>handle&amp;request</h1>
-<p>libuv主要提供了两种抽象来处理事件循环过程中的操作, 一种是生命周期比较长的对象即<code>handles</code>, 另一种就是存活时间较短的对象即<code>requests</code>, 当然该抽象也可以针对<code>handles</code>进行操作.</p>
-<h1>关于uv迭代过程分析</h1>
-<p>以下分析为浅显理解, 待后续完善(TODO):</p>
+<h1 id="handle-amp-request"><a href="#handle-amp-request" class="headerlink" title="handle&amp;request"></a>handle&amp;request</h1><p>libuv主要提供了两种抽象来处理事件循环过程中的操作, 一种是生命周期比较长的对象即<code>handles</code>, 另一种就是存活时间较短的对象即<code>requests</code>, 当然该抽象也可以针对<code>handles</code>进行操作.</p>
+<h1 id="关于uv迭代过程分析"><a href="#关于uv迭代过程分析" class="headerlink" title="关于uv迭代过程分析"></a>关于uv迭代过程分析</h1><p>以下分析为浅显理解, 待后续完善(TODO):</p>
 <p><img src="/images/post/20160816/loop_iteration.png" alt="loop_iteration.png"></p>
 <p>首先, 每一个事件队列对应着一个单独的线程, 每一轮事件队列循环执行的是<code>while</code>语句.</p>
 <ul>
@@ -77,8 +74,7 @@
 <li>Call Pending callbacks: 每一轮IO轮循的过程中, 都有相应的被挂起的回调函数被执行, 例如计时器函数到了预设的超时时间, 此时其回调函数将被调用. 当然也存在一些特列, 由于上一次被延迟执行的回调函数将在该次轮循中被执行. 除了timers, setImmedate(), close.</li>
 <li>Run idle handles: 内部任务, 执行空转<code>handles</code>.</li>
 <li>Run prepare handles: 内部任务, 在执行阻塞式的IO操作前, 运行一些事先预置的<code>handles</code>任务.</li>
-<li>Poll for I/O: 监视文件描述符(fd), 如果存在可对fd进行的读或写的操作则调用对应的回调函数进行返回进行处理. 具体IO操作多长时间返回取决于以下判断, 以下按照前后顺序判断:
-<ul>
+<li>Poll for I/O: 监视文件描述符(fd), 如果存在可对fd进行的读或写的操作则调用对应的回调函数进行返回进行处理. 具体IO操作多长时间返回取决于以下判断, 以下按照前后顺序判断:<ul>
 <li>如果当前事件队列传入了<code>UV_RUN_NOWAIT</code>标记, 即表示不等待继续向下运行.</li>
 <li>如果当前事件队列调用了<code>uv_stop()</code>函数停止运行, 不等待继续向下运行.</li>
 <li>如果当前没有活动的<code>handles</code>或<code>requests</code>可用, 不等待继续向下运行.</li>
@@ -91,9 +87,8 @@
 <li>Call close callbacks: <code>handle</code>被关闭之后, 将会调用<code>uv_close()</code>来完成回调函数的调用.</li>
 <li>如果事件队列运行方式为<code>UV_RUN_NOWAIT</code>或<code>UV_RUN_ONCE</code>则本轮执行完成后<code>uv_run()</code>将返回, 如果执行的是<code>UV_RUN_DEFAULT</code>模式, 则事件队列从头开始运行, 否则其它情况则直接返回.</li>
 </ul>
-<h1>关于网络IO</h1>
-<p>所有的网络IO使用的都是非阻塞的<code>sockets</code>来进行处理, 并且针对不同的平台封装了不同的处理机制, 具体来说就是Linux系统上使用<code>epoll</code>机制, OSX和其他的BSDs系统使用<code>kqueue</code>机制, SunOS系统使用<code>event ports</code>机制, 而<code>Windows</code>平台则采用其独特的<code>IOCP</code>机制. 当前针对异步网络IO处理的机制还包括其他一些, 例如<code>read</code>, <code>select</code>, <code>poll</code>等, 以下为其差别:</p>
-<p>其中<code>select</code>, <code>poll</code>, <code>epoll</code>以及<code>kqueue</code>有一个词描述它们:<code>IO复用</code>(IO multiplexing), 简单解释下该词, 复用的意思是指开始一个线程只能处理一个流的操作, 复用之后一个线程可以同时处理多个流, 关于什么是流可以参考这边知乎问答<a href="https://www.zhihu.com/question/20122137" target="_blank" rel="external">知乎问答, 关于epoll/kqueue</a>.</p>
+<h1 id="关于网络IO"><a href="#关于网络IO" class="headerlink" title="关于网络IO"></a>关于网络IO</h1><p>所有的网络IO使用的都是非阻塞的<code>sockets</code>来进行处理, 并且针对不同的平台封装了不同的处理机制, 具体来说就是Linux系统上使用<code>epoll</code>机制, OSX和其他的BSDs系统使用<code>kqueue</code>机制, SunOS系统使用<code>event ports</code>机制, 而<code>Windows</code>平台则采用其独特的<code>IOCP</code>机制. 当前针对异步网络IO处理的机制还包括其他一些, 例如<code>read</code>, <code>select</code>, <code>poll</code>等, 以下为其差别:</p>
+<p>其中<code>select</code>, <code>poll</code>, <code>epoll</code>以及<code>kqueue</code>有一个词描述它们:<code>IO复用</code>(IO multiplexing), 简单解释下该词, 复用的意思是指开始一个线程只能处理一个流的操作, 复用之后一个线程可以同时处理多个流, 关于什么是流可以参考这边知乎问答<a href="https://www.zhihu.com/question/20122137" target="_blank" rel="external">知乎问答, 关于epoll/kqueue</a>. </p>
 <ul>
 <li>read: 这里列出了最简单的一种情形, 即执行一个操作然后等待结果返回继续执行下一个操作.</li>
 <li>select: 该机制采用忙轮询的方式对所有的流进行循环遍历, 以发现流当前是否可进行操作. 同时轮询的方式也会耗用一定的cpu操作时间.</li>
@@ -109,25 +104,13 @@
 <li>同步: 根据<a href="https://scoecomp.files.wordpress.com/2014/02/2003-unix-network-programming-vol-1-3rd-ed.pdf" target="_blank" rel="external">Unix 网络编程定义</a>, 进程被阻塞直到IO操作完成, 上述<code>select</code>, <code>poll</code>, <code>epoll</code>都属于同步IO(这里指的是真实的IO操作, 执行IO操作时用户态进程需要等待操作完成).</li>
 <li>异步: 本质上说, 异步IO其操作是在内核态完成的并不影响用户态进程的执行.</li>
 </ul>
-<h1>关于磁盘IO</h1>
-<p>在现有操作系统中还没有很好的方式能够处理异步的磁盘IO的(这里有篇文章讨论<a href="http://blog.libtorrent.org/2012/10/asynchronous-disk-io/" target="_blank" rel="external">为什么采用多线程方式处理磁盘IO</a>以及多线程处理方式与特定于平台的处理方式之间的利弊), 因此在Nodejs中是采用线程池, 开启多个线程的方式来进行异步磁盘IO处理的, 目前在线程池中主要处理三类操作:</p>
+<h1 id="关于磁盘IO"><a href="#关于磁盘IO" class="headerlink" title="关于磁盘IO"></a>关于磁盘IO</h1><p>在现有操作系统中还没有很好的方式能够处理异步的磁盘IO的(这里有篇文章讨论<a href="http://blog.libtorrent.org/2012/10/asynchronous-disk-io/" target="_blank" rel="external">为什么采用多线程方式处理磁盘IO</a>以及多线程处理方式与特定于平台的处理方式之间的利弊), 因此在Nodejs中是采用线程池, 开启多个线程的方式来进行异步磁盘IO处理的, 目前在线程池中主要处理三类操作:</p>
 <ul>
 <li>文件系统操作</li>
 <li>DNS相关的操作如<code>getaddrinfo</code></li>
 <li>用户通过<code>uv_queue_work()</code>来运行的特定的代码</li>
 </ul>
-<h1>参考链接</h1>
-<p><a href="http://blog.libtorrent.org/2012/10/asynchronous-disk-io/" target="_blank" rel="external">关于使用多线程实现异步磁盘IO</a>
-<a href="https://scoecomp.files.wordpress.com/2014/02/2003-unix-network-programming-vol-1-3rd-ed.pdf" target="_blank" rel="external">Unix 网络编程(英文版)</a>
-<a href="http://www.infoq.com/cn/articles/nodejs-asynchronous-io" target="_blank" rel="external">关于异步IO</a>
-<a href="http://www.ibm.com/developerworks/cn/linux/l-async/" target="_blank" rel="external">同步异步/阻塞非阻塞IBM</a>
-<a href="https://www.zhihu.com/question/19732473" target="_blank" rel="external">知乎问答, 关于阻塞非阻塞/同步异步</a>
-<a href="https://www.zhihu.com/question/20122137" target="_blank" rel="external">知乎问答, 关于epoll/kqueue</a>
-<a href="https://zh.wikipedia.org/wiki/Epoll" target="_blank" rel="external">epoll 维基百科</a>
-<a href="https://en.wikipedia.org/wiki/Kqueue" target="_blank" rel="external">kqueue 维基百科</a>
-<a href="http://people.freebsd.org/~jlemon/papers/kqueue.pdf" target="_blank" rel="external">kqueue 实现参考</a>
-<a href="https://zh.wikipedia.org/wiki/IOCP" target="_blank" rel="external">IOCP 维基百科</a>
-<a href="https://www.ibm.com/developerworks/cn/java/j-lo-iocp/" target="_blank" rel="external">IOCP IBM</a></p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="http://blog.libtorrent.org/2012/10/asynchronous-disk-io/" target="_blank" rel="external">关于使用多线程实现异步磁盘IO</a><br><a href="https://scoecomp.files.wordpress.com/2014/02/2003-unix-network-programming-vol-1-3rd-ed.pdf" target="_blank" rel="external">Unix 网络编程(英文版)</a><br><a href="http://www.infoq.com/cn/articles/nodejs-asynchronous-io" target="_blank" rel="external">关于异步IO</a><br><a href="http://www.ibm.com/developerworks/cn/linux/l-async/" target="_blank" rel="external">同步异步/阻塞非阻塞IBM</a><br><a href="https://www.zhihu.com/question/19732473" target="_blank" rel="external">知乎问答, 关于阻塞非阻塞/同步异步</a><br><a href="https://www.zhihu.com/question/20122137" target="_blank" rel="external">知乎问答, 关于epoll/kqueue</a><br><a href="https://zh.wikipedia.org/wiki/Epoll" target="_blank" rel="external">epoll 维基百科</a><br><a href="https://en.wikipedia.org/wiki/Kqueue" target="_blank" rel="external">kqueue 维基百科</a><br><a href="http://people.freebsd.org/~jlemon/papers/kqueue.pdf" target="_blank" rel="external">kqueue 实现参考</a><br><a href="https://zh.wikipedia.org/wiki/IOCP" target="_blank" rel="external">IOCP 维基百科</a><br><a href="https://www.ibm.com/developerworks/cn/java/j-lo-iocp/" target="_blank" rel="external">IOCP IBM</a></p>
 
 	</div>
 
