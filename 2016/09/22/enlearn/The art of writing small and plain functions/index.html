@@ -55,8 +55,8 @@
 	</div>
 	<div class="markdown-text">
 		<p>原文链接: <a href="https://rainsoft.io/the-art-of-writing-small-and-plain-functions/?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=ios" target="_blank" rel="external">The art of writing small and plain functions</a></p>
-<p>The complexity of software applications is growing. The code quality is important in order to make the application stable and easily extensible.</p>
-<p>Unfortunately almost every developer, including myself, in his career faced with bad quality code. And it’s a swamp.<br>Such code has the following harmful characteristics:</p>
+<p>The complexity of software applications is growing. The code quality is important in order to make the application stable and easily extensible.<br><code>软件应用正变的越来越复杂. 要想使得应用变的稳定和易扩展, 代码质量起到至关重要的作用.</code></p>
+<p>Unfortunately almost every developer, including myself, in his career faced with bad quality code. And it’s a swamp.<br>Such code has the following harmful characteristics:<br><code>不幸的是, 包括我自己在内几乎所有的软件开发者在他的职业生涯中都遇到过质量差的代码, 它带给我们很多的麻烦. 质量差的代码大致有如下几个特点:</code></p>
 <ul>
 <li>Functions are too long and do too many things</li>
 <li>Often functions have side effects that are difficult to understand or even debug</li>
@@ -64,6 +64,7 @@
 <li>Fragile code: a small modification unexpectedly breaks other application components</li>
 <li>Poor or missing code coverage</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1. &#19968;&#20010;&#20989;&#25968;&#32844;&#36131;&#22826;&#22810;, &#20989;&#25968;&#20307;&#24456;&#38271;.&#10;2. &#36825;&#26679;&#30340;&#20989;&#25968;&#26377;&#24456;&#22823;&#30340;&#21103;&#20316;&#29992;&#23548;&#33268;&#24456;&#38590;&#29702;&#35299;&#21644;&#35843;&#35797;.&#10;3. &#21547;&#31946;&#19981;&#28165;&#30340;&#20989;&#25968;&#21644;&#21464;&#37327;&#21629;&#21517;.&#10;4. &#19981;&#20581;&#22766;&#20195;&#30721;, &#23567;&#23567;&#30340;&#20462;&#25913;&#23601;&#21487;&#33021;&#23548;&#33268;&#31243;&#24207;&#20869;&#20854;&#20182;&#21151;&#33021;&#26080;&#27861;&#27491;&#24120;&#24037;&#20316;.&#10;5. &#32570;&#23569;&#25110;&#32773;&#27809;&#26377;&#20195;&#30721;&#35206;&#30422;&#29575;&#27979;&#35797;.</span><br></pre></td></tr></table></figure>
 <p>It sounds very common: “I don’t understand how this code works”, “this code is a mess”, “it’s hard to modify this code” and the like.</p>
 <p>Once I had a situation when my colleague quit his job because he dealt with a REST API on Ruby that was hard to maintain. He received this project from previous team of developers.<br>Fixing current bugs creates new ones, adding new features creates a new series of bugs and so on (fragile code). The client didn’t want to rebuild the application with a better design, and the developer made the correct decision to quit.</p>
 <p><img src="/images/post/20160922/mac-sick.jpg" alt="mac-sick"></p>
