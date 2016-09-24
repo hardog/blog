@@ -62,88 +62,55 @@
 <p><code>高效率的使用npm是一项比较有挑战性的任务. 对于想尝试学习npm的人来说, npm内置的大量特性也会使人心生恐惧!</code></p>
 <p>Personally, even learning and using just one of these tricks (npm prune, which is #4) saved me from getting rid of unused modules manually by deleting node_modules and re-installing everything with npm install. As you can probably imagine, that was insanely stressful.</p>
 <p><code>于我个人而言, 仅仅学习和使用众多npm小技巧中的一个例如npm prune也能使我不用为重新安装模块和手动删除没有使用的模块而苦恼. 正如你可以想象的那样, 那真的能让人抓狂和倍感压力.</code></p>
-<p>We've compiled this list of 11 simple-to-use npm tricks that will allow you to speed up development using npm, no matter what project you're working on.</p>
+<p>We’ve compiled this list of 11 simple-to-use npm tricks that will allow you to speed up development using npm, no matter what project you’re working on.</p>
 <p><code>我们总结了11个npm的简单使用技巧, 无论你现在正在做着怎样的工作, 这些npm技巧的使用都将能够提高你的开发速度</code></p>
-<h1>1. Open a package’s homepage</h1>
-<p><code>打开npm包的首页</code></p>
-<p><strong>Run</strong>: <code>npm home $package</code>
-<code>执行命令: npm home 包名称</code></p>
-<p>Running the home command will open the homepage of the package you're running it against. Running against the lodash package will bring you to the Lodash website. This command can run without needing to have the package installed globally on your machine or within the current project.</p>
+<h1 id="1-Open-a-package’s-homepage"><a href="#1-Open-a-package’s-homepage" class="headerlink" title="1. Open a package’s homepage"></a>1. Open a package’s homepage</h1><p><code>打开npm包的首页</code></p>
+<p><strong>Run</strong>: <code>npm home $package</code><br><code>执行命令: npm home 包名称</code></p>
+<p>Running the home command will open the homepage of the package you’re running it against. Running against the lodash package will bring you to the Lodash website. This command can run without needing to have the package installed globally on your machine or within the current project.</p>
 <p><code>运行npm home命令将会访问包所在的首页地址. 如果你运行npm home loadsh将会引导你访问到loadsh的首页地址. 运行该命令并不需要你在机器上全局安装模块, 也不需要当前所处的目录在你工程下面.</code></p>
-<h1>2. Open package’s GitHub repo</h1>
-<p><code>打开包的GitHub仓库地址</code></p>
-<p><strong>Run</strong>: <code>npm repo $package</code>
-<code>执行命令: npm repo 包名</code></p>
-<p>Similar to home, the repo command will open the GitHub repository of the package you're running it against. Running against the express package will bring you to the official Express repo. Also like home, you don’t need to have the package installed.</p>
+<h1 id="2-Open-package’s-GitHub-repo"><a href="#2-Open-package’s-GitHub-repo" class="headerlink" title="2. Open package’s GitHub repo"></a>2. Open package’s GitHub repo</h1><p><code>打开包的GitHub仓库地址</code></p>
+<p><strong>Run</strong>: <code>npm repo $package</code><br><code>执行命令: npm repo 包名</code></p>
+<p>Similar to home, the repo command will open the GitHub repository of the package you’re running it against. Running against the express package will bring you to the official Express repo. Also like home, you don’t need to have the package installed.</p>
 <p><code>跟home命令一样, 执行repo命令将会打开该包所在的GitHub仓库地址. 例如如果你执行npm repo express将会引导你进入官方express仓库地址. 另外一点, 使用该命令同样也不需要你先安装包.</code></p>
-<h1>3. Check a package for outdated dependencies</h1>
-<p><code>检查过期的依赖包</code></p>
-<p><strong>Run</strong>: <code>npm outdated</code>
-<code>执行命令: npm outdated</code></p>
+<h1 id="3-Check-a-package-for-outdated-dependencies"><a href="#3-Check-a-package-for-outdated-dependencies" class="headerlink" title="3. Check a package for outdated dependencies"></a>3. Check a package for outdated dependencies</h1><p><code>检查过期的依赖包</code></p>
+<p><strong>Run</strong>: <code>npm outdated</code><br><code>执行命令: npm outdated</code></p>
 <p>You can run the outdated command within a project, and it will check the npm registry to see if any of your packages are outdated. It will print out a list in your command line of the current version, the wanted version, and the latest version.</p>
 <p><code>你可以在一个项目中执行该命令, 然后该命令将会检查npm注册源与项目中的包进行比对从而判断出包是否过期. 最后将在命令行中打印出一个列表项该列表包含三个字段包的当前版本、期望的版本以及包的最新版本.</code></p>
 <p><img src="/images/post/20160902/11_sample_npm_1.png" alt="11_sample_npm_1"></p>
-<h1>4. Check for packages not declared in package.json</h1>
-<p><code>检测出不在package.json中声明的包</code></p>
-<p><strong>Run</strong>: <code>npm prune</code>
-<code>执行命令: npm prune</code></p>
-<p>When you run prune, the npm CLI will run through your package.json and compare it to your project’s /node_modules directory. It will print a list of modules that aren’t in your package.json.
-<code>当你运行该命令的时候, 该命令会比较工程目录下的node_modules模块与package.json声明的依赖. 最后会在命令行中打印出并未在package.json中声明的模块列表.</code></p>
-<p>The npm prune command then strips out those packages, and removes any you haven't manually added to package.json or that were npm installed without using the --save flag.
-<code>然后该命令会删除未添加到package.json文件者是安装包时没有带--save参数的包.</code></p>
+<h1 id="4-Check-for-packages-not-declared-in-package-json"><a href="#4-Check-for-packages-not-declared-in-package-json" class="headerlink" title="4. Check for packages not declared in package.json"></a>4. Check for packages not declared in package.json</h1><p><code>检测出不在package.json中声明的包</code></p>
+<p><strong>Run</strong>: <code>npm prune</code><br><code>执行命令: npm prune</code></p>
+<p>When you run prune, the npm CLI will run through your package.json and compare it to your project’s /node_modules directory. It will print a list of modules that aren’t in your package.json.<br><code>当你运行该命令的时候, 该命令会比较工程目录下的node_modules模块与package.json声明的依赖. 最后会在命令行中打印出并未在package.json中声明的模块列表.</code></p>
+<p>The npm prune command then strips out those packages, and removes any you haven’t manually added to package.json or that were npm installed without using the –save flag.<br><code>然后该命令会删除未添加到package.json文件者是安装包时没有带--save参数的包.</code></p>
 <p><img src="/images/post/20160902/11_sample_npm_2.png" alt="11_sample_npm_2"></p>
-<p>Update: Thanks to @EvanHahn for noticing a personal config setting that made npm prune provide a slightly different result than the default npm would provide!
-<code>更新: 感谢@EvanHahn带来的个人配置, 与npm默认行为相比使得该命令带来了不一样的展示结果</code></p>
-<h1>5. Lock down your dependencies versions</h1>
-<p><code>锁定依赖包版本</code></p>
-<p><strong>Run</strong>: <code>npm shrinkwrap</code>
-<code>执行命令: npm shrinkwrap</code></p>
-<p>Using shrinkwrap in your project generates an npm-shrinkwrap.json file. This allows you to pin the dependencies of your project to the specific version you’re currently using within your node_modules directory. When you run npm install and there is a npm-shrinkwrap.json present, it will override the listed dependencies and any semver ranges in package.json.
-<code>在你的项目中使用shrinkwrap将会生成文件名为npm-shrinkwrap.json的文件. 该命令允许你固定你项目中正在使用包的具体版本. 运行该命令时将会生成npm-shrinkwrap.json文件, 当安装模块时如果目录下存在shrinkwrap文件, 将会优先使用该文件里面的包版本.</code></p>
-<p>If you need verified consistency across package.json, npm-shrinkwrap.json and node_modules for your project, you should consider using <a href="https://github.com/uber/npm-shrinkwrap" target="_blank" rel="external">npm-shrinkwrap</a>.
-<code>如果你想验证package.json、npm-shrinkwrap.json和项目目录下的node_modules包的一致性, 你应该尝试使用npm-shrinkwrap包</code></p>
+<p>Update: Thanks to @EvanHahn for noticing a personal config setting that made npm prune provide a slightly different result than the default npm would provide!<br><code>更新: 感谢@EvanHahn带来的个人配置, 与npm默认行为相比使得该命令带来了不一样的展示结果</code></p>
+<h1 id="5-Lock-down-your-dependencies-versions"><a href="#5-Lock-down-your-dependencies-versions" class="headerlink" title="5. Lock down your dependencies versions"></a>5. Lock down your dependencies versions</h1><p><code>锁定依赖包版本</code></p>
+<p><strong>Run</strong>: <code>npm shrinkwrap</code><br><code>执行命令: npm shrinkwrap</code></p>
+<p>Using shrinkwrap in your project generates an npm-shrinkwrap.json file. This allows you to pin the dependencies of your project to the specific version you’re currently using within your node_modules directory. When you run npm install and there is a npm-shrinkwrap.json present, it will override the listed dependencies and any semver ranges in package.json.<br><code>在你的项目中使用shrinkwrap将会生成文件名为npm-shrinkwrap.json的文件. 该命令允许你固定你项目中正在使用包的具体版本. 运行该命令时将会生成npm-shrinkwrap.json文件, 当安装模块时如果目录下存在shrinkwrap文件, 将会优先使用该文件里面的包版本.</code></p>
+<p>If you need verified consistency across package.json, npm-shrinkwrap.json and node_modules for your project, you should consider using <a href="https://github.com/uber/npm-shrinkwrap" target="_blank" rel="external">npm-shrinkwrap</a>.<br><code>如果你想验证package.json、npm-shrinkwrap.json和项目目录下的node_modules包的一致性, 你应该尝试使用npm-shrinkwrap包</code></p>
 <p><img src="/images/post/20160902/11_sample_npm_3.png" alt="11_sample_npm_3"></p>
-<h1>6. Use npm v3 with Node.js v4 LTS</h1>
-<p><code>在Nodejs v4 LTS版本中使用第三版的npm</code></p>
+<h1 id="6-Use-npm-v3-with-Node-js-v4-LTS"><a href="#6-Use-npm-v3-with-Node-js-v4-LTS" class="headerlink" title="6. Use npm v3 with Node.js v4 LTS"></a>6. Use npm v3 with Node.js v4 LTS</h1><p><code>在Nodejs v4 LTS版本中使用第三版的npm</code></p>
 <p><strong>Run</strong>: <code>npm install -g npm@3</code></p>
-<p>Installing npm@3 globally with npm will update your npm v2 to npm v3, including on the Node.js v4 LTS release (“Argon”) ships with the npm v2 LTS release. This will install the latest stable release of npm v3 within your v4 LTS runtime.
-<code>全局安装npm3会将你本地的npm2升级到npm3版本, 包括Nodejs4 LTS附带的npm2 LTS. 该命令将在Nodejs v4 LTS版本中安装最新的npm v3稳定版本.</code></p>
-<h1>7. Allow npm install -g without needing sudo</h1>
-<p><code>免sudo全局安装模块</code></p>
-<p><strong>Run</strong>: <code>npm config set prefix $dir</code>
-<code>执行命令: npm config set prefix 目录</code></p>
-<p>After running the command, where $dir is the directory you want npm to install your global modules to, you won’t need to use sudo to install modules globally anymore. The directory you use in the command becomes your global bin directory. The only caveat: you will need to make sure you adjust your user permissions for that directory with chown -R $USER $dir.
-<code>执行该命令后, $dir目录将成为npm安装全局模块的默认路径, 再也不需要使用sudo来安装全局模块了. 你在命令行设置的路径将成为全局bin目录. 你唯一需要注意的是: 你需要使用命令chown -R $USER $dir命令来改变目录的用户权限.</code></p>
-<h1>8. Change the default save prefix for all your projects</h1>
-<p><code>改变包安装时保存到package.json模块的版本前缀</code></p>
+<p>Installing npm@3 globally with npm will update your npm v2 to npm v3, including on the Node.js v4 LTS release (“Argon”) ships with the npm v2 LTS release. This will install the latest stable release of npm v3 within your v4 LTS runtime.<br><code>全局安装npm3会将你本地的npm2升级到npm3版本, 包括Nodejs4 LTS附带的npm2 LTS. 该命令将在Nodejs v4 LTS版本中安装最新的npm v3稳定版本.</code></p>
+<h1 id="7-Allow-npm-install-g-without-needing-sudo"><a href="#7-Allow-npm-install-g-without-needing-sudo" class="headerlink" title="7. Allow npm install -g without needing sudo"></a>7. Allow npm install -g without needing sudo</h1><p><code>免sudo全局安装模块</code></p>
+<p><strong>Run</strong>: <code>npm config set prefix $dir</code><br><code>执行命令: npm config set prefix 目录</code></p>
+<p>After running the command, where $dir is the directory you want npm to install your global modules to, you won’t need to use sudo to install modules globally anymore. The directory you use in the command becomes your global bin directory. The only caveat: you will need to make sure you adjust your user permissions for that directory with chown -R $USER $dir.<br><code>执行该命令后, $dir目录将成为npm安装全局模块的默认路径, 再也不需要使用sudo来安装全局模块了. 你在命令行设置的路径将成为全局bin目录. 你唯一需要注意的是: 你需要使用命令chown -R $USER $dir命令来改变目录的用户权限.</code></p>
+<h1 id="8-Change-the-default-save-prefix-for-all-your-projects"><a href="#8-Change-the-default-save-prefix-for-all-your-projects" class="headerlink" title="8. Change the default save prefix for all your projects"></a>8. Change the default save prefix for all your projects</h1><p><code>改变包安装时保存到package.json模块的版本前缀</code></p>
 <p><strong>Run</strong>: <code>npm config set save-prefix ~</code></p>
-<p>The tilde (~) is more conservative than what npm defaults to, the caret (^), when installing a new package with the --save or --save-dev flags. The tilde pins the dependency to the minor version, allowing patch releases to be installed with npm update. The caret pins the dependency to the major version, allowing minor releases to be installed with npm update.
-<code>波浪符号相比npm默认的保存包安装前缀插入符号更保守. 波浪符号会固定住次版本号, 当执行npm update命令时允许升级patch版本, 而插入符号固定的是主版本号, 当执行npm update命令时允许更新次版本号.</code></p>
-<h1>9. Strip your project's devDependencies for a production environment</h1>
-<p><code>生产环境中跳过开发依赖包</code></p>
-<p>When your project is ready for production, make sure you install your packages with the added --production flag. The --production flag installs your dependencies, ignoring your devDependencies. This ensures that your development tooling and packages won’t go into the production environment.
-<code>当你的项目准备上线, 在安装依赖包的时候带上--production参数. 该参数会忽略开发依赖包, 这个功能能够确保在你开发环境中的一些开发工具以及开发时依赖的包不会被安装到线上环境.</code></p>
-<p>Additionally, you can set your NODE_ENV environment variable to production to ensure that your project’s devDependencies are never installed.
-<code>另外, 你也可以通过在生产环境中设置NODE_ENV环境变量来确保每次安装依赖包的时候都不会安装只有开发环境才依赖的包.</code></p>
-<h1>10. Be careful when using .npmignore</h1>
-<p><code>小心的使用.npmignore</code></p>
-<p>If you haven't been using .npmignore, it defaults to .gitignore with a few additional sane defaults.
-<code>如果你还没有使用.npmignore文件, 默认.gitignore文件会提供一些额外的功能</code></p>
-<p>What many don't realize that once you add a .npmignore file to your project the .gitignore rules are (ironically) ignored. The result is you will need to audit the two ignore files in sync to prevent sensitive leaks when publishing.
-<code>许多人可能没有意识到, 一旦你在项目中添加.npmignore文件, .gitignore规则就会被忽略, 这很讽刺. 结果是你需要同步的审计ignore文件以防止在发布时泄漏敏感信息.</code></p>
-<h1>11. Automate npm init with defaults</h1>
-<p><code>使得npm init默认自动初始化</code></p>
-<p>When you run npm init in a new project, you’re able to go through and set up your package.json’s details. If you want to set defaults that npm init will always use, you can use the config set command, with some extra arguments:
-<code>当你使用npm init来开始一个新项目时, 你可以通过该初始化命令来设置package.json文件. 如果你每次在npm init时都有一些默认参数需要设置, 你可以使用以下附带参数的配置命令:</code></p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config set init.author.name $name  &#10;npm config set init.author.email $email</span><br></pre></td></tr></table></figure></p>
-<p>If, instead, you want to completely customize your init script, you can point to a self-made default init script by running
-<code>然后, 如果你想完全的自定义你的init脚本, 你可以使用如下命令指向你的自定义脚本</code></p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config set init-module ~/.npm-init.js`</span><br></pre></td></tr></table></figure></p>
-<p>Here’s a sample script that prompts for private settings and creates a GitHub repo if you want. Make sure you change the default GitHub username (YOUR_GITHUB_USERNAME) as the fallback for the GitHub username environment variable.
-<code>以下是一个简单的样例脚本来创建GitHub仓库, 以及如果有需要会有提示让你输入一些私人的设置. 使用之前请确保你修改了GitHub的用户名</code></p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var cp = require(&#39;child_process&#39;);  &#10;var priv;&#10;&#10;var USER = process.env.GITHUB_USERNAME || &#39;YOUR_GITHUB_USERNAME&#39;;&#10;&#10;module.exports = &#123;&#10;&#10;  name: prompt(&#39;name&#39;, basename || package.name),&#10;&#10;  version: &#39;0.0.1&#39;,&#10;&#10;  private: prompt(&#39;private&#39;, &#39;true&#39;, function(val)&#123;&#10;    return priv = (typeof val === &#39;boolean&#39;) ? val : !!val.match(&#39;true&#39;)&#10;  &#125;),&#10;&#10;  create: prompt(&#39;create github repo&#39;, &#39;yes&#39;, function(val)&#123;&#10;    val = val.indexOf(&#39;y&#39;) !== -1 ? true : false;&#10;&#10;    if(val)&#123;&#10;      console.log(&#39;enter github password:&#39;);&#10;      cp.execSync(&#34;curl -u &#39;&#34;+USER+&#34;&#39; https://api.github.com/user/repos -d &#34; +&#10;        &#34;&#39;&#123;\&#34;name\&#34;: \&#34;&#34;+basename+&#34;\&#34;, \&#34;private\&#34;: &#34;+ ((priv) ? &#39;true&#39; : &#39;false&#39;)  +&#34;&#125;&#39; &#34;);&#10;      cp.execSync(&#39;git remote add origin &#39;+ &#39;https://github.com/&#39;+USER+&#39;/&#39; + basename + &#39;.git&#39;);&#10;    &#125;&#10;&#10;    return undefined;&#10;  &#125;),&#10;&#10;  main: prompt(&#39;entry point&#39;, &#39;index.js&#39;),&#10;&#10;  repository: &#123;&#10;    type: &#39;git&#39;,&#10;    url: &#39;git://github.com/&#39;+USER+&#39;/&#39; + basename + &#39;.git&#39; &#125;,&#10;&#10;  bugs: &#123; url: &#39;https://github.com/&#39;+USER+&#39;/&#39; + basename + &#39;/issues&#39; &#125;,&#10;&#10;  homepage: &#34;https://github.com/&#34;+USER+&#34;/&#34; + basename,&#10;&#10;  keywords: prompt(function (s) &#123; return s.split(/\s+/) &#125;),&#10;&#10;  license: &#39;MIT&#39;,&#10;&#10;  cleanup: function(cb)&#123;&#10;&#10;    cb(null, undefined)&#10;  &#125;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<h1>One last thing...</h1>
-<p>If you want to learn more about npm, Node.js, JavaScript, Docker, Kubernetes, Electron, and tons more, you should follow @NodeSource on Twitter. We're always around and would love to hear from you!</p>
+<p>The tilde (~) is more conservative than what npm defaults to, the caret (^), when installing a new package with the –save or –save-dev flags. The tilde pins the dependency to the minor version, allowing patch releases to be installed with npm update. The caret pins the dependency to the major version, allowing minor releases to be installed with npm update.<br><code>波浪符号相比npm默认的保存包安装前缀插入符号更保守. 波浪符号会固定住次版本号, 当执行npm update命令时允许升级patch版本, 而插入符号固定的是主版本号, 当执行npm update命令时允许更新次版本号.</code></p>
+<h1 id="9-Strip-your-project’s-devDependencies-for-a-production-environment"><a href="#9-Strip-your-project’s-devDependencies-for-a-production-environment" class="headerlink" title="9. Strip your project’s devDependencies for a production environment"></a>9. Strip your project’s devDependencies for a production environment</h1><p><code>生产环境中跳过开发依赖包</code></p>
+<p>When your project is ready for production, make sure you install your packages with the added –production flag. The –production flag installs your dependencies, ignoring your devDependencies. This ensures that your development tooling and packages won’t go into the production environment.<br><code>当你的项目准备上线, 在安装依赖包的时候带上--production参数. 该参数会忽略开发依赖包, 这个功能能够确保在你开发环境中的一些开发工具以及开发时依赖的包不会被安装到线上环境.</code></p>
+<p>Additionally, you can set your NODE_ENV environment variable to production to ensure that your project’s devDependencies are never installed.<br><code>另外, 你也可以通过在生产环境中设置NODE_ENV环境变量来确保每次安装依赖包的时候都不会安装只有开发环境才依赖的包.</code></p>
+<h1 id="10-Be-careful-when-using-npmignore"><a href="#10-Be-careful-when-using-npmignore" class="headerlink" title="10. Be careful when using .npmignore"></a>10. Be careful when using .npmignore</h1><p><code>小心的使用.npmignore</code></p>
+<p>If you haven’t been using .npmignore, it defaults to .gitignore with a few additional sane defaults.<br><code>如果你还没有使用.npmignore文件, 默认.gitignore文件会提供一些额外的功能</code></p>
+<p>What many don’t realize that once you add a .npmignore file to your project the .gitignore rules are (ironically) ignored. The result is you will need to audit the two ignore files in sync to prevent sensitive leaks when publishing.<br><code>许多人可能没有意识到, 一旦你在项目中添加.npmignore文件, .gitignore规则就会被忽略, 这很讽刺. 结果是你需要同步的审计ignore文件以防止在发布时泄漏敏感信息.</code></p>
+<h1 id="11-Automate-npm-init-with-defaults"><a href="#11-Automate-npm-init-with-defaults" class="headerlink" title="11. Automate npm init with defaults"></a>11. Automate npm init with defaults</h1><p><code>使得npm init默认自动初始化</code></p>
+<p>When you run npm init in a new project, you’re able to go through and set up your package.json’s details. If you want to set defaults that npm init will always use, you can use the config set command, with some extra arguments:<br><code>当你使用npm init来开始一个新项目时, 你可以通过该初始化命令来设置package.json文件. 如果你每次在npm init时都有一些默认参数需要设置, 你可以使用以下附带参数的配置命令:</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config set init.author.name $name  &#10;npm config set init.author.email $email</span><br></pre></td></tr></table></figure>
+<p>If, instead, you want to completely customize your init script, you can point to a self-made default init script by running<br><code>然后, 如果你想完全的自定义你的init脚本, 你可以使用如下命令指向你的自定义脚本</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config set init-module ~/.npm-init.js`</span><br></pre></td></tr></table></figure>
+<p>Here’s a sample script that prompts for private settings and creates a GitHub repo if you want. Make sure you change the default GitHub username (YOUR_GITHUB_USERNAME) as the fallback for the GitHub username environment variable.<br><code>以下是一个简单的样例脚本来创建GitHub仓库, 以及如果有需要会有提示让你输入一些私人的设置. 使用之前请确保你修改了GitHub的用户名</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var cp = require(&#39;child_process&#39;);  &#10;var priv;&#10;&#10;var USER = process.env.GITHUB_USERNAME || &#39;YOUR_GITHUB_USERNAME&#39;;&#10;&#10;module.exports = &#123;&#10;&#10;  name: prompt(&#39;name&#39;, basename || package.name),&#10;&#10;  version: &#39;0.0.1&#39;,&#10;&#10;  private: prompt(&#39;private&#39;, &#39;true&#39;, function(val)&#123;&#10;    return priv = (typeof val === &#39;boolean&#39;) ? val : !!val.match(&#39;true&#39;)&#10;  &#125;),&#10;&#10;  create: prompt(&#39;create github repo&#39;, &#39;yes&#39;, function(val)&#123;&#10;    val = val.indexOf(&#39;y&#39;) !== -1 ? true : false;&#10;&#10;    if(val)&#123;&#10;      console.log(&#39;enter github password:&#39;);&#10;      cp.execSync(&#34;curl -u &#39;&#34;+USER+&#34;&#39; https://api.github.com/user/repos -d &#34; +&#10;        &#34;&#39;&#123;\&#34;name\&#34;: \&#34;&#34;+basename+&#34;\&#34;, \&#34;private\&#34;: &#34;+ ((priv) ? &#39;true&#39; : &#39;false&#39;)  +&#34;&#125;&#39; &#34;);&#10;      cp.execSync(&#39;git remote add origin &#39;+ &#39;https://github.com/&#39;+USER+&#39;/&#39; + basename + &#39;.git&#39;);&#10;    &#125;&#10;&#10;    return undefined;&#10;  &#125;),&#10;&#10;  main: prompt(&#39;entry point&#39;, &#39;index.js&#39;),&#10;&#10;  repository: &#123;&#10;    type: &#39;git&#39;,&#10;    url: &#39;git://github.com/&#39;+USER+&#39;/&#39; + basename + &#39;.git&#39; &#125;,&#10;&#10;  bugs: &#123; url: &#39;https://github.com/&#39;+USER+&#39;/&#39; + basename + &#39;/issues&#39; &#125;,&#10;&#10;  homepage: &#34;https://github.com/&#34;+USER+&#34;/&#34; + basename,&#10;&#10;  keywords: prompt(function (s) &#123; return s.split(/\s+/) &#125;),&#10;&#10;  license: &#39;MIT&#39;,&#10;&#10;  cleanup: function(cb)&#123;&#10;&#10;    cb(null, undefined)&#10;  &#125;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="One-last-thing…"><a href="#One-last-thing…" class="headerlink" title="One last thing…"></a>One last thing…</h1><p>If you want to learn more about npm, Node.js, JavaScript, Docker, Kubernetes, Electron, and tons more, you should follow @NodeSource on Twitter. We’re always around and would love to hear from you!</p>
 
 	</div>
 
