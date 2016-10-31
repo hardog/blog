@@ -71,6 +71,10 @@
 <h2 id="配置box"><a href="#配置box" class="headerlink" title="配置box"></a>配置box</h2><p>添加完box之后可使用如下图所示命令配置虚拟机, Vagrantfile中各参数说明如图所示:<br><img src="/images/post/20160320/vfile.png" alt="vfile"></p>
 <p>至此box制作就算完成了, 之后只需要使用<code>vagrant up &amp;&amp; vagrant ssh</code>启动并进入虚拟机即可, 项目需要的环境依赖等都可以预先在虚拟机里面安装好然后制作成box分发给团队成员即可. 如下介绍了基于已有虚拟机制作新box的命令.</p>
 <h1 id="box重制作"><a href="#box重制作" class="headerlink" title="box重制作"></a>box重制作</h1><p>如果需要对当前正在使用的虚拟机制作一个box只需要找到Virutal box(以virtual为例)安装目录如下所示:<br><img src="/images/post/20160320/vbdir.png" alt="vbdir"><br>使用如下命令生成box:<br><img src="/images/post/20160320/box.png" alt="box"></p>
+<h2 id="让脚本跟随box自动启动"><a href="#让脚本跟随box自动启动" class="headerlink" title="让脚本跟随box自动启动"></a>让脚本跟随box自动启动</h2><p><img src="/images/post/20161031/image.png" alt="image"></p>
+<p>如图所示：在Vagrantfile文件开头添加如下ruby定义的变量脚本, 可自由修改:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$script = &#60;&#60;SCRIPT&#10;// &#27492;&#22788;&#24320;&#22987;&#21040;SCRIPT&#32467;&#26463;&#20026;&#26222;&#36890;&#21629;&#20196;&#34892;&#21629;&#20196;, &#26681;&#25454;&#38656;&#35201;&#20462;&#25913;&#10;echo auto task&#10;sudo su root&#10;which node&#10;node -v&#10;cd /data/webroot/HMP2-polymer&#10;pwd&#10;whoami&#10;/usr/local/bin/npm start&#10;echo visit http://hmp-dev.fi.beibei.com&#10;SCRIPT</span><br></pre></td></tr></table></figure></p>
+<p>行下面添加行:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vagrant.configure(2) do |config| &#35813;&#34892;&#21518;&#38754;&#28155;&#21152;&#22914;&#19979;&#34892;&#10;config.vm.provision &#34;shell&#34;, inline: $script</span><br></pre></td></tr></table></figure></p>
+<p>添加provision后，使用如下命令启动box即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$vagrant up --provision</span><br></pre></td></tr></table></figure></p>
 
 	</div>
 
