@@ -53,7 +53,7 @@ var stage = window.stage = {
             frames: atlas.getSprite('fish'),
             x: 0,
             y: 100,
-            interval: 6,
+            interval: 10,
             timeBased: false,
             loop: true,
             onUpdate: function(){
@@ -71,7 +71,7 @@ var stage = window.stage = {
             x: 0,
             y: 200,
             alpha:0.5,
-            interval: 6,
+            interval: 10,
             timeBased: false,
             loop: true,
             onEnterFrame: function(frameIndex){
