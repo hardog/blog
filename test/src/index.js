@@ -22,8 +22,8 @@ var BM = window.BM = {
         self.stage = new Hilo.Stage({
             renderType:'canvas',
             container: document.body,
-            width: window.screen.width,
-            height: window.screen.height,
+            width: BM.utils.getWidth(),
+            height: BM.utils.getHeight(),
             background: '#e3ece9'
         });
 
