@@ -7,13 +7,18 @@ var Land = bm.scenes.Land = Hilo.Class.create({
     enterEase: Hilo.Ease.Linear.EaseNone,
     outEase: Hilo.Ease.Linear.EaseNone,
     constructor: function(bg){
+        this.bmp = this.toBitmap(bg);
         Land.superclass.constructor.call(this, {
-            children: [this.toBitmap(bg)]
+            children: [this.bmp]
         });
 
         this.alpha = 0;
-        this.width = bm.stage.width;
-        this.height = bm.stage.height;
+        this.width = this.bmp.width;
+        this.height = this.bmp.height;
+        this.x = -550;
+        this.y = -100;
+        this.scaleX = 1.5;
+        this.scaleY = 1.5;
     },
 
     toBitmap: function(img){
@@ -31,25 +36,12 @@ var Land = bm.scenes.Land = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
-            alpha: 1
+            scaleX: 1,
+            scaleY: 1,
+            alpha: 0.8
         }, {
-            duration: 1500,
+            duration: 3000,
             ease: self.enterEase,
-            onComplete: function(){
-                self.hideNow();
-            }
-        });
-    },
-
-    // 淡出方式, right => left
-    hideNow: function(){
-        var self = this;
-
-        bm.tween.to(self, {
-            alpha: 0.1,
-        }, {
-            duration: 1000,
-            ease: self.outEase,
             onComplete: function(){
                 bm.loaded('land');
             }
