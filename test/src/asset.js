@@ -8,6 +8,8 @@ var Asset = bm.Asset = Hilo.Class.create({
         var self = this;
         var resources = [
             {id:'land', src:'images/land.jpg'},
+            {id:'square', src:'images/square.png'},
+            {id:'rose', src:'images/rose.png'},
             {id:'0', src:'images/0.jpg'},
             {id:'1', src:'images/1.jpg'},
             {id:'2', src:'images/2.jpg'},

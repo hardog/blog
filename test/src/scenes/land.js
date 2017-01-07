@@ -15,10 +15,10 @@ var Land = bm.scenes.Land = Hilo.Class.create({
         this.alpha = 0;
         this.width = this.bmp.width;
         this.height = this.bmp.height;
-        this.x = -550;
-        this.y = -100;
-        this.scaleX = 1.5;
-        this.scaleY = 1.5;
+        this.x = -1050;
+        this.y = -200;
+        this.scaleX = 1.6;
+        this.scaleY = 1.6;
     },
 
     toBitmap: function(img){
@@ -36,6 +36,8 @@ var Land = bm.scenes.Land = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
+            x: -550,
+            y: -100,
             scaleX: 1,
             scaleY: 1,
             alpha: 0.8
@@ -43,8 +45,120 @@ var Land = bm.scenes.Land = Hilo.Class.create({
             duration: 3000,
             ease: self.enterEase,
             onComplete: function(){
-                bm.loaded('land');
+                self.createSquare();
+                // bm.loaded('land');
             }
+        });
+    },
+
+    createSquare: function(){
+        var self = this;
+        self.square = self.toBitmap(bm.asset.get('square'));
+        self.square.scaleX = .8;
+        self.square.scaleY = .8;
+        self.alpha = .8;
+        self.square.x = (bm.stage.width - self.square.width*0.8) / 2;
+        self.square.y = bm.stage.height;
+
+        bm.stage.addChild(self.square);
+        bm.tween.to(self.square, {
+            y: (bm.stage.height - self.square.height) / 2
+        }, {
+            duration: 1000,
+            ease: self.enterEase,
+            onComplete: function(){
+                // bm.stage.removeChild(self.square);
+                // bm.stage.removeChild(self);
+                // bm.loaded('words');
+                self.createLRWords();
+                self.lrTween();
+                self.showFlowers();
+            }
+        });
+    },
+
+    createLRWords: function(){
+        var self = this;
+        self.left = new Hilo.Text({
+            text: 'Marry Me!',
+            font: '30px 微软雅黑',
+            color: '#779046',
+            maxWidth: self.square.width,
+            x: -(bm.stage.width - self.square.width) / 2,
+            y: self.square.y + 40
+        }).addTo(bm.stage);
+
+        self.right = new Hilo.Text({
+            text: 'My Girl, DONG!',
+            font: '30px 微软雅黑',
+            color: '#779046',
+            maxWidth: self.square.width,
+            x: bm.stage.width,
+            y: self.square.y + 120
+        }).addTo(bm.stage);
+    },
+
+    lrTween: function(){
+        var self = this;
+
+        bm.tween.to(self.left, {
+            x: (bm.stage.width - 120) / 2
+        }, {
+            duration: 1000,
+            delay: 5,
+            ease: self.enterEase
+        });
+
+        bm.tween.to(self.right, {
+            x: (bm.stage.width - 200) / 2
+        }, {
+            duration: 1000,
+            delay: 5,
+            ease: self.enterEase
+        });
+    },
+
+    showFlowers: function(){
+        var self = this;
+
+        self.flower = self.toBitmap(bm.asset.get('rose'));
+        self.flower.x = (bm.stage.width - 50) / 2;
+        self.flower.y = self.left.y + 35;
+        self.flower.scaleX = .8;
+        self.flower.scaleY = .8;
+        self.flower.alpha = 0;
+
+        bm.stage.addChild(self.flower);
+        bm.tween.to(self.flower, {
+            alpha: 1
+        }, {
+            duration: 1050,
+            ease: self.enterEase,
+            onComplete: function(){
+                self.showILoveU();
+            }
+        });
+    },
+
+    showILoveU: function(){
+        var self = this;
+
+        self.iloveu = new Hilo.Text({
+            text: 'I  ❤️  U',
+            font: '30px 微软雅黑',
+            color: '#e23946',
+            x: (bm.stage.width - 50) / 2,
+            y: self.square.y + 200
+        }).addTo(bm.stage);
+
+        bm.tween.to(self.iloveu, {
+            x: self.iloveu.x - 50,
+            scaleX: 1.8,
+            scaleY: 1.8
+        }, {
+            duration: 1500,
+            delay: 10,
+            ease: self.enterEase
         });
     }
 });
