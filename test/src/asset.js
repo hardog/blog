@@ -2,39 +2,66 @@
 
 var Asset = bm.Asset = Hilo.Class.create({
     Mixes: Hilo.EventMixin,
-    queue: null,
+    firstQueue: null,
+    resStage1: [
+        {id:'land', src:'images/land.jpg'},
+        {id:'square', src:'images/square.png'},
+        {id:'rose', src:'images/rose.png'}
+    ],
+    resStage2: [
+        {id:'s1', src:'images/1.jpg'},
+        {id:'s2', src:'images/2.jpg'},
+        {id:'s3', src:'images/3.jpg'},
+        {id:'s4', src:'images/4.jpg'}
+    ],
+    resStage3: [
+        {id:'s5', src:'images/5.jpg'},
+        {id:'s6', src:'images/6.jpg'},
+        {id:'s7', src:'images/7.jpg'}
+    ],
 
     load: function(){
         var self = this;
-        var resources = [
-            {id:'land', src:'images/land.jpg'},
-            {id:'square', src:'images/square.png'},
-            {id:'rose', src:'images/rose.png'},
-            {id:'s1', src:'images/1.jpg'},
-            {id:'s2', src:'images/2.jpg'},
-            {id:'s3', src:'images/3.jpg'},
-            {id:'s4', src:'images/4.jpg'},
-            {id:'s5', src:'images/5.jpg'},
-            {id:'s6', src:'images/6.jpg'},
-            {id:'s7', src:'images/7.jpg'}
-        ];
 
-        self.queue = new Hilo.LoadQueue();
-        self.queue.add(resources);
-        self.queue.on('complete', function(){
-            self.queue.off('complete');
-            self.fire('complete');
+        self.firstQueue = new Hilo.LoadQueue(this.resStage1);
+        self.firstQueue.on('complete', function(){
+            self.firstQueue.off('complete');
+            self.fire('stage1');
+            self.stage2();
         });
-        self.queue.start();
+        self.firstQueue.start();
+    },
+
+    stage2: function(){
+        var self = this;
+
+        self.firstQueue.add(this.resStage2);
+        self.firstQueue.on('complete', function(){
+            self.firstQueue.off('complete');
+            self.fire('stage2');
+            self.stage3();
+        });
+        self.firstQueue.start();
+    },
+
+    stage3: function(){
+        var self = this;
+
+        self.firstQueue.add(this.resStage3);
+        self.firstQueue.on('complete', function(){
+            self.firstQueue.off('complete');
+            self.fire('stage3');
+        });
+        self.firstQueue.start();
     },
 
     get: function(id){
-        return this.queue.get(id);
+        return this.firstQueue.get(id);
     },
 
     rate: function(){
-        var loaded = this.queue.getLoaded();
-        var total = this.queue.getTotal();
+        var loaded = this.firstQueue.getLoaded();
+        var total = this.firstQueue.getTotal();
 
         if(!total){return '0%';}
 

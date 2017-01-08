@@ -52,11 +52,7 @@ var nexts6 = bm.scenes.nexts6 = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
-            alpha: 0,
-            scaleX: 0,
-            scaleY: 0,
-            x: -bm.stage.width,
-            y: -bm.stage.height
+            alpha: 0
         }, {
             duration: 4000,
             delay: 1500,
