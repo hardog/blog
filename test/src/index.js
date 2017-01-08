@@ -46,7 +46,7 @@ var BM = window.BM = {
     },
 
     startFlow: function(){
-        // this.pre = new BM.scenes.nexts4(this.asset.get('s4'));
+        // this.pre = new BM.scenes.nexts3(this.asset.get('s3'));
         // this.stage.addChild(this.pre);
         // this.pre.start();
         this.pre = new BM.scenes.Land(this.asset.get('land'));

@@ -48,8 +48,8 @@ var nexts3 = bm.scenes.nexts3 = Hilo.Class.create({
         bm.tween.to(self, {
             x: -self.width
         }, {
-            duration: 2000,
-            delay: 1000,
+            duration: 3500,
+            delay: 1500,
             ease: self.outEase,
             onStart: function(){
                 bm.loadNext('s4');

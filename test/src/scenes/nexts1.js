@@ -34,7 +34,7 @@ var nexts1 = bm.scenes.nexts1 = Hilo.Class.create({
         bm.tween.to(self, {
             alpha: 1
         }, {
-            duration: 1000,
+            duration: 1500,
             ease: self.enterEase,
             onComplete: function(){
                 self.leftToRight();
@@ -49,7 +49,7 @@ var nexts1 = bm.scenes.nexts1 = Hilo.Class.create({
             alpha: 1,
             x: -self.width / 3
         }, {
-            duration: 2000,
+            duration: 4000,
             ease: self.enterEase,
             onComplete: function(){
                 self.rightToLeft();
@@ -64,7 +64,7 @@ var nexts1 = bm.scenes.nexts1 = Hilo.Class.create({
             alpha: 0.8,
             x: 0
         }, {
-            duration: 2000,
+            duration: 4000,
             ease: self.enterEase,
             onComplete: function(){
                 self.hide();
@@ -78,7 +78,7 @@ var nexts1 = bm.scenes.nexts1 = Hilo.Class.create({
         bm.tween.to(self, {
             alpha: 0
         }, {
-            duration: 1000,
+            duration: 1500,
             ease: self.outEase,
             onStart: function(){
                 bm.loadNext('s2');
