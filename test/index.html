@@ -7,7 +7,16 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="white" />
     <link rel="apple-touch-icon" href="images/icon.png"/>
     <link rel="apple-touch-startup-image" href="images/icon.png" />
+    <script type="text/javascript">
+        function start(){
+            var ym = document.getElementById('bmMusic');
+            ym.play();
+        }
 
+        document.addEventListener("WeixinJSBridgeReady", function(){
+            start();
+        }, false);
+    </script>
     <style type="text/css">
         body, div, canvas{
             image-rendering: optimizeSpeed;
@@ -44,11 +53,12 @@
 </head>
 
 <body>
+<audio id="bmMusic" style="position:absolute;" preload="" src="./music/yourman.mp3" autoplay="autoplay">你的浏览器不支持audio标签。</audio>
 <!-- <audio id="bmMusic1" style="position:absolute;" preload="" src="./music/ym01.mp3" autoplay="autoplay">你的浏览器不支持audio标签。</audio>
 <audio id="bmMusic2" style="position:absolute;" preload="" src="./music/ym02.mp3">你的浏览器不支持audio标签。</audio>
 <audio id="bmMusic3" style="position:absolute;" preload="" src="./music/ym03.mp3">你的浏览器不支持audio标签。</audio>
 <audio id="bmMusic4" style="position:absolute;" preload="" src="./music/ym04.mp3">你的浏览器不支持audio标签。</audio> -->
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     function start(){
         var ym2 = Hilo.WebSound.getAudio({
             src: './music/ym02.mp3',
@@ -121,6 +131,6 @@
     document.addEventListener("WeixinJSBridgeReady", function(){
         start();
     }, false);
-</script>
+</script> -->
 </body>
 </html>
