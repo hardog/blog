@@ -63,6 +63,7 @@ var BM = window.BM = {
     },
 
     playMusic: function(){
+        Hilo.WebSound.enableAudio();
         var audio = Hilo.WebSound.getAudio({
             src: './music/zzydjd.mp3',
             loop: false
