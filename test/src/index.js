@@ -35,8 +35,7 @@ var BM = window.BM = {
         self.asset = new BM.Asset();
         var loading = new BM.Loading();
         self.asset.on('complete', function(){
-            var music = document.getElementById('bmMusic');
-            // music.play();
+            self.playMusic();
             loading.stop();
             self.stage.removeChild(loading);
             self.startFlow();
@@ -61,6 +60,15 @@ var BM = window.BM = {
         self['next' + nextId] = new BM.scenes['next' + nextId](self.asset.get(nextId));
         self.stage.addChild(self['next' + nextId]);
         self['next' + nextId].start();
+    },
+
+    playMusic: function(){
+        var audio = Hilo.WebSound.getAudio({
+            src: './music/zzydjd.mp3',
+            loop: false
+        }).play();
+        // var music = document.getElementById('bmMusic');
+        // music.play();
     }
 };
 
