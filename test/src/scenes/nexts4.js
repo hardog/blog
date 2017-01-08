@@ -13,6 +13,7 @@ var nexts4 = bm.scenes.nexts4 = Hilo.Class.create({
         });
 
         this.x = bm.stage.width;
+        this.alpha = 0.2;
         this.width = this.bmp.width;
         this.height = this.bmp.height;
     },
@@ -32,9 +33,10 @@ var nexts4 = bm.scenes.nexts4 = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
-            x: -150
+            x: -150,
+            alpha: 1
         }, {
-            duration: 4500,
+            duration: 6000,
             ease: self.enterEase,
             onComplete: function(){
                 self.hide();
@@ -46,9 +48,9 @@ var nexts4 = bm.scenes.nexts4 = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
-            alpha: .1
+            alpha: 0
         }, {
-            duration: 1500,
+            duration: 1000,
             delay: 1500,
             ease: self.outEase,
             onStart: function(){

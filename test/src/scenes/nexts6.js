@@ -1,6 +1,6 @@
 (function(bm){
 
-var nexts1 = bm.scenes.nexts1 = Hilo.Class.create({
+var nexts6 = bm.scenes.nexts6 = Hilo.Class.create({
     Extends: Hilo.Container,
     Mixes: Hilo.EventMixin,
 
@@ -8,11 +8,11 @@ var nexts1 = bm.scenes.nexts1 = Hilo.Class.create({
     outEase: Hilo.Ease.Linear.EaseNone,
     constructor: function(bg){
         this.bmp = this.toBitmap(bg);
-        nexts1.superclass.constructor.call(this, {
+        nexts6.superclass.constructor.call(this, {
             children: [this.bmp]
         });
 
-        this.alpha = 0;
+        this.x = bm.stage.width;
         this.width = this.bmp.width;
         this.height = this.bmp.height;
     },
@@ -32,39 +32,9 @@ var nexts1 = bm.scenes.nexts1 = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
-            alpha: 1
+            x: -150
         }, {
-            duration: 1500,
-            ease: self.enterEase,
-            onComplete: function(){
-                self.leftToRight();
-            }
-        });
-    },
-
-    leftToRight: function(){
-        var self = this;
-
-        bm.tween.to(self, {
-            alpha: 1,
-            x: -self.width / 3
-        }, {
-            duration: 6000,
-            ease: self.enterEase,
-            onComplete: function(){
-                self.rightToLeft();
-            }
-        });
-    },
-
-    rightToLeft: function(){
-        var self = this;
-
-        bm.tween.to(self, {
-            alpha: 0.8,
-            x: 0
-        }, {
-            duration: 6000,
+            duration: 4500,
             ease: self.enterEase,
             onComplete: function(){
                 self.hide();
@@ -76,15 +46,16 @@ var nexts1 = bm.scenes.nexts1 = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
-            alpha: 0
+            alpha: .1
         }, {
-            duration: 3000,
+            duration: 1500,
+            delay: 1500,
             ease: self.outEase,
             onStart: function(){
-                bm.loadNext('s2');
+                bm.loadNext('s5');
             },
             onComplete: function(){
-                bm.stage.removeChild(self);
+               bm.stage.removeChild(self);
             }
         });
     }

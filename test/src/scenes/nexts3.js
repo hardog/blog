@@ -34,7 +34,7 @@ var nexts3 = bm.scenes.nexts3 = Hilo.Class.create({
         bm.tween.to(self, {
             x: -(self.width - bm.stage.width)
         }, {
-            duration: 2500,
+            duration: 7000,
             ease: self.enterEase,
             onComplete: function(){
                 self.hide();
@@ -46,9 +46,10 @@ var nexts3 = bm.scenes.nexts3 = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
-            x: -self.width
+            x: -self.width,
+            alpha: 0
         }, {
-            duration: 3500,
+            duration: 5000,
             delay: 1500,
             ease: self.outEase,
             onStart: function(){

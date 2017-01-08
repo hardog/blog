@@ -35,6 +35,8 @@ var BM = window.BM = {
         self.asset = new BM.Asset();
         var loading = new BM.Loading();
         self.asset.on('complete', function(){
+            var music = document.getElementById('bmMusic');
+            // music.play();
             loading.stop();
             self.stage.removeChild(loading);
             self.startFlow();
@@ -46,7 +48,7 @@ var BM = window.BM = {
     },
 
     startFlow: function(){
-        // this.pre = new BM.scenes.nexts3(this.asset.get('s3'));
+        // this.pre = new BM.scenes.nexts5(this.asset.get('s5'));
         // this.stage.addChild(this.pre);
         // this.pre.start();
         this.pre = new BM.scenes.Land(this.asset.get('land'));
