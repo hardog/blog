@@ -65,7 +65,7 @@ var Asset = bm.Asset = Hilo.Class.create({
 
         if(!total){return '0%';}
 
-        let rate = parseInt((loaded / total).toFixed(2) * 100);
+        var rate = parseInt((loaded / total).toFixed(2) * 100);
         return rate + '%';
     }
 });
