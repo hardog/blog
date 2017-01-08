@@ -35,7 +35,7 @@ var BM = window.BM = {
         self.asset = new BM.Asset();
         var loading = new BM.Loading();
         self.asset.on('complete', function(){
-            self.playMusic();
+            // self.playMusic();
             loading.stop();
             self.stage.removeChild(loading);
             self.startFlow();
@@ -64,6 +64,7 @@ var BM = window.BM = {
 
     playMusic: function(){
         Hilo.WebSound.enableAudio();
+        
         var audio = Hilo.WebSound.getAudio({
             src: './music/zzydjd.mp3',
             loop: false

@@ -7,7 +7,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="white" />
     <link rel="apple-touch-icon" href="images/icon.png"/>
     <link rel="apple-touch-startup-image" href="images/icon.png" />
-
+    <script type="text/javascript">
+        document.addEventListener("WeixinJSBridgeReady", function () {
+            var music = document.getElementById('bmMusic');
+            music.play();
+        }, false);
+    </script>
     <style type="text/css">
         body, div, canvas{
             image-rendering: optimizeSpeed;
@@ -41,6 +46,6 @@
 </head>
 
 <body>
-<!-- <audio id="bmMusic" style="position:absolute;" preload="" src="./music/zzydjd.mp3" loop="loop">你的浏览器不支持audio标签。</audio> -->
+<audio id="bmMusic" style="position:absolute;" preload="" src="./music/zzydjd.mp3" autoplay="autoplay" loop="loop">你的浏览器不支持audio标签。</audio>
 </body>
 </html>
