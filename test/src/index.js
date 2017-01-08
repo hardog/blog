@@ -46,14 +46,19 @@ var BM = window.BM = {
     },
 
     startFlow: function(){
-        this.land = new BM.scenes.Land(this.asset.get('land'));
-        this.stage.addChild(this.land);
-        this.land.start();
+        // this.pre = new BM.scenes.nexts4(this.asset.get('s4'));
+        // this.stage.addChild(this.pre);
+        // this.pre.start();
+        this.pre = new BM.scenes.Land(this.asset.get('land'));
+        this.stage.addChild(this.pre);
+        this.pre.start();
     },
 
-    loaded: function(id){
-        // this.stage.removeChild(this[id]);
-        console.log('loaded:', id)
+    loadNext: function(nextId){
+        var self = this;
+        self['next' + nextId] = new BM.scenes['next' + nextId](self.asset.get(nextId));
+        self.stage.addChild(self['next' + nextId]);
+        self['next' + nextId].start();
     }
 };
 

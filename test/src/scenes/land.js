@@ -15,14 +15,14 @@ var Land = bm.scenes.Land = Hilo.Class.create({
         this.alpha = 0;
         this.width = this.bmp.width;
         this.height = this.bmp.height;
-        this.x = -1050;
+        this.x = -250;
         this.y = -200;
         this.scaleX = 1.6;
         this.scaleY = 1.6;
     },
 
     toBitmap: function(img){
-        let content = img.content;
+        var content = img.content;
         return new Hilo.Bitmap({
             id: img.id,
             image: content,
@@ -36,8 +36,8 @@ var Land = bm.scenes.Land = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
-            x: -550,
-            y: -100,
+            x: -100,
+            y: -10,
             scaleX: 1,
             scaleY: 1,
             alpha: 0.8
@@ -46,7 +46,6 @@ var Land = bm.scenes.Land = Hilo.Class.create({
             ease: self.enterEase,
             onComplete: function(){
                 self.createSquare();
-                // bm.loaded('land');
             }
         });
     },
@@ -132,7 +131,7 @@ var Land = bm.scenes.Land = Hilo.Class.create({
         bm.tween.to(self.flower, {
             alpha: 1
         }, {
-            duration: 1050,
+            duration: 1550,
             ease: self.enterEase,
             onComplete: function(){
                 self.showILoveU();
@@ -147,18 +146,64 @@ var Land = bm.scenes.Land = Hilo.Class.create({
             text: 'I  ❤️  U',
             font: '30px 微软雅黑',
             color: '#e23946',
+            alpha: 0,
             x: (bm.stage.width - 50) / 2,
             y: self.square.y + 200
         }).addTo(bm.stage);
 
         bm.tween.to(self.iloveu, {
             x: self.iloveu.x - 50,
+            alpha: 1,
             scaleX: 1.8,
             scaleY: 1.8
         }, {
             duration: 1500,
             delay: 10,
-            ease: self.enterEase
+            ease: self.enterEase,
+            onComplete: function(){
+                self.hide();
+                bm.loadNext('s1');
+            }
+        });
+    },
+
+    hide: function(){
+        var self = this;
+        bm.tween.to(self.square, {alpha: 0}, {
+            duration: 1500,
+            onComplete: function(){
+                bm.stage.removeChild(self.square);
+            }
+        });
+        bm.tween.to(this.left, {alpha: 0}, {
+            duration: 1500,
+            onComplete: function(){
+                bm.stage.removeChild(self.left);
+            }
+        });
+        bm.tween.to(this.flower, {alpha: 0}, {
+            duration: 1500,
+            onComplete: function(){
+                bm.stage.removeChild(self.flower);
+            }
+        });
+        bm.tween.to(this.right, {alpha: 0}, {
+            duration: 1500,
+            onComplete: function(){
+                bm.stage.removeChild(self.right);
+            }
+        });
+        bm.tween.to(this.iloveu, {alpha: 0}, {
+            duration: 1500,
+            onComplete: function(){
+                bm.stage.removeChild(self.iloveu);
+            }
+        });
+        bm.tween.to(this, {alpha: 0}, {
+            duration: 1500,
+            onComplete: function(){
+                bm.stage.removeChild(self);
+            }
         });
     }
 });
