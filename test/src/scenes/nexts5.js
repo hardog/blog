@@ -47,7 +47,6 @@ var nexts5 = bm.scenes.nexts5 = Hilo.Class.create({
             alpha: 1
         }, {
             duration: 2000,
-            delay: 500,
             ease: self.enterEase,
             onComplete: function(){
                 self.hide();
