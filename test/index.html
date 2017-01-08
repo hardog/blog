@@ -7,11 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="white" />
     <link rel="apple-touch-icon" href="images/icon.png"/>
     <link rel="apple-touch-startup-image" href="images/icon.png" />
-    <script type="text/javascript">
-        document.addEventListener("WeixinJSBridgeReady", function(){
-            start();
-        }, false);
-    </script>
+
     <style type="text/css">
         body, div, canvas{
             image-rendering: optimizeSpeed;
@@ -122,6 +118,9 @@
     }
 
     start();
+    document.addEventListener("WeixinJSBridgeReady", function(){
+        start();
+    }, false);
 </script>
 </body>
 </html>
