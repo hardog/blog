@@ -12,7 +12,7 @@ var nexts2 = bm.scenes.nexts2 = Hilo.Class.create({
             children: [this.bmp]
         });
 
-        this.alpha = 0.2;
+        this.alpha = 0.1;
         this.scaleX = 1.2;
         this.scaleY = 1.2;
         this.x = -100;
@@ -38,6 +38,7 @@ var nexts2 = bm.scenes.nexts2 = Hilo.Class.create({
         bm.tween.to(self, {
             x: 0,
             y: 0,
+            depth: 1,
             alpha: 1
         }, {
             duration: 3000,

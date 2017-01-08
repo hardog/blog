@@ -73,12 +73,12 @@ var nexts5 = bm.scenes.nexts5 = Hilo.Class.create({
         bm.tween.to(self.left, {
             alpha: 0
         }, {
-            duration: 1000,
+            duration: 2000,
             delay: 1200,
             ease: self.outEase,
             onStart: function(){
                 if(!self.hided()){return;}
-                // bm.loadNext('s6');
+                bm.loadNext('s6');
             },
             onComplete: function(){
                bm.stage.removeChild(self.left);
@@ -88,12 +88,12 @@ var nexts5 = bm.scenes.nexts5 = Hilo.Class.create({
         bm.tween.to(self.right, {
             alpha: 0
         }, {
-            duration: 1000,
+            duration: 3000,
             delay: 1200,
             ease: self.outEase,
             onStart: function(){
                 if(!self.hided()){return;}
-                // bm.loadNext('s6');
+                bm.loadNext('s6');
             },
             onComplete: function(){
                bm.stage.removeChild(self.right);

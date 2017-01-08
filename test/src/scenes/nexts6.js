@@ -12,7 +12,10 @@ var nexts6 = bm.scenes.nexts6 = Hilo.Class.create({
             children: [this.bmp]
         });
 
-        this.x = bm.stage.width;
+        this.scaleX = .1;
+        this.scaleY = .1;
+        this.x = bm.stage.width - 100;
+        this.y = bm.stage.height - 100;
         this.width = this.bmp.width;
         this.height = this.bmp.height;
     },
@@ -32,9 +35,12 @@ var nexts6 = bm.scenes.nexts6 = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
-            x: -150
+            x: 0,
+            y: 0,
+            scaleX: 1,
+            scaleY: 1
         }, {
-            duration: 4500,
+            duration: 3000,
             ease: self.enterEase,
             onComplete: function(){
                 self.hide();
@@ -46,13 +52,17 @@ var nexts6 = bm.scenes.nexts6 = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
-            alpha: .1
+            alpha: 0,
+            scaleX: 0,
+            scaleY: 0,
+            x: -bm.stage.width,
+            y: -bm.stage.height
         }, {
-            duration: 1500,
+            duration: 4000,
             delay: 1500,
             ease: self.outEase,
             onStart: function(){
-                bm.loadNext('s5');
+                bm.loadNext('s7');
             },
             onComplete: function(){
                bm.stage.removeChild(self);
