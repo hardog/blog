@@ -25,21 +25,21 @@
             });
         }
 
-        function autoPlayAudio2() {
-            window.onload = function() {
-                // alert(typeof WeixinJSBridge);
-                WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
-                    // 在这里拿到 e.err_msg, 这里面就包含了所有的网络类型
-                    // alert(e.err_msg);
-                    document.getElementById('bmMusic').play();
-                });
-            };
-        }
-
-        autoPlayAudio1();
-        autoPlayAudio2();
+        // autoPlayAudio1();
     </script>
     <style type="text/css">
+        @keyframes heart
+        {
+            0%   {transform: scale(.1, .1);}
+            25%  {transform: scale(3, 3);}
+            50% {transform: scale(.1, .1);}
+            100%  {transform: scale(3, 3);}
+        }
+
+        title{
+            animation：heart 6s infinite;
+        }
+
         body, div, canvas{
             image-rendering: optimizeSpeed;
             -webkit-image-rendering: optimizeSpeed;
@@ -75,102 +75,5 @@
 </head>
 
 <body>
-<!-- <script type="text/javascript">
-    var started = false;
-    function start(){
-        if(started){return;}
-
-        started = true;
-        Hilo.WebSound.getAudio({
-            src: './music/yourman.mp3',
-            loop: false
-        }).play();
-    }
-
-    document.addEventListener("WeixinJSBridgeReady", function(){
-        start();
-    }, false);
-
-    start();
-</script>
- -->
-<!-- <audio id="bmMusic1" style="position:absolute;" preload="" src="./music/ym01.mp3" autoplay="autoplay">你的浏览器不支持audio标签。</audio>
-<audio id="bmMusic2" style="position:absolute;" preload="" src="./music/ym02.mp3">你的浏览器不支持audio标签。</audio>
-<audio id="bmMusic3" style="position:absolute;" preload="" src="./music/ym03.mp3">你的浏览器不支持audio标签。</audio>
-<audio id="bmMusic4" style="position:absolute;" preload="" src="./music/ym04.mp3">你的浏览器不支持audio标签。</audio> -->
-<!-- <script type="text/javascript">
-    function start(){
-        var ym2 = Hilo.WebSound.getAudio({
-            src: './music/ym02.mp3',
-            loop: false
-        });
-
-        var ym3 = Hilo.WebSound.getAudio({
-            src: './music/ym03.mp3',
-            loop: false
-        });
-
-        var ym4 = Hilo.WebSound.getAudio({
-            src: './music/ym04.mp3',
-            loop: false
-        });
-
-        ym2.on('end', function(){
-            console.log(2, 'end-', ym2.duration);
-            ym3.play();
-        });
-        ym3.on('end', function(){
-            console.log(3, 'end-', ym3.duration);
-            ym4.play();
-        });
-
-        Hilo.WebSound.getAudio({
-            src: './music/ym01.mp3',
-            loop: false,
-            autoPlay: true,
-        }).on('end', function(e){
-            console.log(1, 'end-', this.duration);
-            ym2.play();
-        }).play();
-
-
-        // var ym1 = document.getElementById('bmMusic1');
-        // var ym2 = document.getElementById('bmMusic2');
-        // var ym3 = document.getElementById('bmMusic3');
-        // var ym4 = document.getElementById('bmMusic4');
-
-        // ym1.onended = function(){
-        //     console.log(1);
-        //     ym2.play();
-        // };
-        // ym2.oncanplaythrough = function(){
-        //     console.log('y2 can play')
-        //     // ym2.play();
-        // };
-        // ym2.onended = function(){
-        //     console.log(2);
-        //     ym3.play();
-        // };
-
-        // ym3.oncanplaythrough = function(){
-        //     // ym3.play();
-        //     console.log('y3 can play')
-        // };
-        // ym3.onended = function(){
-        //     console.log(3);
-        //     ym4.play();
-        // };
-
-        // ym4.oncanplaythrough = function(){
-        //     console.log('y4 can play')
-        //     // ym4.play();
-        // };
-    }
-
-    start();
-    document.addEventListener("WeixinJSBridgeReady", function(){
-        start();
-    }, false);
-</script> -->
 </body>
 </html>
