@@ -15,10 +15,10 @@ var Land = bm.scenes.Land = Hilo.Class.create({
         this.alpha = 0;
         this.width = this.bmp.width;
         this.height = this.bmp.height;
-        this.x = -250;
-        this.y = -200;
-        this.scaleX = 1.6;
-        this.scaleY = 1.6;
+        this.x = -100;
+        // this.y = -200;
+        this.scaleX = 1.4;
+        this.scaleY = 1.4;
     },
 
     toBitmap: function(img){
@@ -36,8 +36,7 @@ var Land = bm.scenes.Land = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
-            x: -100,
-            y: -10,
+            x: 0,
             scaleX: 1,
             scaleY: 1,
             alpha: 0.8
