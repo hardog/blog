@@ -13,6 +13,8 @@ var BM = window.BM = {
     asset: null,
     scenes: {},
 
+    pos: 3,
+
     // scenes
     land: null,
     s1Ready: false,
@@ -106,6 +108,71 @@ var BM = window.BM = {
         this.pre = new BM.scenes.Land(this.asset.get('land'));
         this.stage.addChild(this.pre);
         this.pre.start();
+        this.particle();
+    },
+
+    particle: function(){
+        var self = this;
+        var img = document.getElementById('texture');
+        var particleSystem = new Hilo.ParticleSystem({
+            x:0,
+            y:0,
+            emitNum: 40,
+            emitTime: 3,
+            emitterX: 0,
+            emitterY: 0,
+            particle:{
+                frame:[
+                    [0, 0, 10, 10],
+                    [10, 0, 20, 10],
+                    [20, 0, 30, 10]
+                ],
+                image: img,
+                life: 150,
+                alphaV:.1,
+                vxVar:50,
+                vyVar:50,
+                axVar:30,
+                ayVar:30,
+                pivotX:.5,
+                pivotY:.5
+            }
+        });
+        self.stage.addChild(particleSystem);
+        particleSystem.start();
+
+        self.ticker.addTick({
+            tick:function(){
+                var rand = parseInt(Math.random()*6);
+
+                if(rand % self.pos === 0
+                    || rand % self.pos === 5){
+                    particleSystem.emitterX = self.stage.width / 2;
+                    particleSystem.emitterY = self.stage.height / 2;
+                }
+
+                if(rand % self.pos === 2){
+                    particleSystem.emitterX = -10;
+                    particleSystem.emitterY = self.stage.height / 2;
+                }
+
+                if(rand % self.pos === 3){
+                    particleSystem.emitterX = self.stage.width + 10;
+                    particleSystem.emitterY = self.stage.height / 2;
+                }
+
+                if(rand % self.pos === 1){
+                    particleSystem.emitterX = self.stage.width / 2;
+                    particleSystem.emitterY = -10;
+                }
+
+                if(rand % self.pos === 4){
+                    particleSystem.emitterX = self.stage.width / 2;
+                    particleSystem.emitterY = self.stage.height + 10;
+                }
+
+            }
+        });
     },
 
     loadNext: function(nextId){
@@ -154,6 +221,7 @@ var BM = window.BM = {
         self['next' + nextId] = new BM.scenes['next' + nextId](self.asset.get(nextId));
         self.stage.addChild(self['next' + nextId]);
         self['next' + nextId].start();
+        self.particle();
     }
 };
 
