@@ -32,6 +32,7 @@ var Asset = bm.Asset = Hilo.Class.create({
         var self = this;
 
         self.firstQueue = new Hilo.LoadQueue(this.resStage1);
+        self.firstQueue.maxConnections = 4;
         self.firstQueue.on('complete', function(){
             self.firstQueue.off('complete');
             self.fire('stage1');
