@@ -6,6 +6,8 @@ var nexts2 = bm.scenes.nexts2 = Hilo.Class.create({
 
     enterEase: Hilo.Ease.Linear.EaseNone,
     outEase: Hilo.Ease.Linear.EaseNone,
+
+    text: null,
     constructor: function(bg){
         this.bmp = this.toBitmap(bg);
         nexts2.superclass.constructor.call(this, {
@@ -32,6 +34,12 @@ var nexts2 = bm.scenes.nexts2 = Hilo.Class.create({
         });
     },
 
+    showText: function(){
+        this.text = new bm.Text('2016| 那迷人的令我沉醉的眼神和脸蛋', 'rtl', 12);
+        bm.stage.addChild(this.text);
+        this.text.ready(3000);
+    },
+
     start: function(){
         var self = this;
 
@@ -44,6 +52,9 @@ var nexts2 = bm.scenes.nexts2 = Hilo.Class.create({
             duration: 3000,
             delay: 100,
             ease: self.enterEase,
+            onStart: function(){
+                self.showText();
+            },
             onComplete: function(){
                 self.back();
             }
@@ -60,6 +71,7 @@ var nexts2 = bm.scenes.nexts2 = Hilo.Class.create({
             duration: 2500,
             ease: self.enterEase,
             onComplete: function(){
+                self.text.hideAnimateRTOL();
                 self.hide();
             }
         });
@@ -72,8 +84,10 @@ var nexts2 = bm.scenes.nexts2 = Hilo.Class.create({
             alpha: 0
         }, {
             duration: 4500,
+            delay: 1000,
             ease: self.outEase,
             onStart: function(){
+                bm.stage.removeChild(self.text);
                 bm.loadNext('s3');
             },
             onComplete: function(){

@@ -31,6 +31,12 @@ var nexts6 = bm.scenes.nexts6 = Hilo.Class.create({
         });
     },
 
+    showText: function(){
+        this.text = new bm.Text('2017| 希望成为你最温暖的臂膀', 'trtl', 12);
+        bm.stage.addChild(this.text);
+        this.text.ready(3000);
+    },
+
     start: function(){
         var self = this;
 
@@ -40,8 +46,13 @@ var nexts6 = bm.scenes.nexts6 = Hilo.Class.create({
             scaleX: 1,
             scaleY: 1
         }, {
-            duration: 3000,
+            duration: 5000,
             ease: self.enterEase,
+            onStart: function(){
+                setTimeout(function(){
+                    self.showText();
+                }, 4000);
+            },
             onComplete: function(){
                 self.hide();
             }
@@ -54,10 +65,11 @@ var nexts6 = bm.scenes.nexts6 = Hilo.Class.create({
         bm.tween.to(self, {
             alpha: 0
         }, {
-            duration: 4000,
-            delay: 1500,
+            duration: 5000,
+            delay: 3000,
             ease: self.outEase,
             onStart: function(){
+                self.text.hideAnimateTRTOL();
                 bm.loadNext('s7');
             },
             onComplete: function(){

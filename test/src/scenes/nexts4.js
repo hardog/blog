@@ -29,6 +29,12 @@ var nexts4 = bm.scenes.nexts4 = Hilo.Class.create({
         });
     },
 
+    showText: function(){
+        this.text = new bm.Text('2016| 我的宝贝是最漂亮的新娘', 'rtl', 12);
+        bm.stage.addChild(this.text);
+        this.text.ready(7000);
+    },
+
     start: function(){
         var self = this;
 
@@ -38,6 +44,9 @@ var nexts4 = bm.scenes.nexts4 = Hilo.Class.create({
         }, {
             duration: 6000,
             ease: self.enterEase,
+            onStart: function(){
+                self.showText();
+            },
             onComplete: function(){
                 self.hide();
             }
@@ -54,6 +63,7 @@ var nexts4 = bm.scenes.nexts4 = Hilo.Class.create({
             delay: 1500,
             ease: self.outEase,
             onStart: function(){
+                bm.stage.removeChild(self.text);
                 bm.loadNext('s5');
             },
             onComplete: function(){

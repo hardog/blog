@@ -39,6 +39,16 @@ var nexts5 = bm.scenes.nexts5 = Hilo.Class.create({
         });
     },
 
+    showText: function(){
+        this.text = new bm.Text('2016| 我们玩过, 二过, 闹过也笑过', 'taping', 12, {
+            txtIntr: 400,
+            background: 'transparent',
+            txtColor: '#fff'
+        });
+        bm.stage.addChild(this.text);
+        this.text.ready();
+    },
+
     start: function(){
         var self = this;
 
@@ -46,8 +56,14 @@ var nexts5 = bm.scenes.nexts5 = Hilo.Class.create({
             x: this.left.width/2,
             alpha: 1
         }, {
-            duration: 2000,
+            duration: 7000,
             ease: self.enterEase,
+            onStart: function(){
+                if(!self.textShowed){
+                    self.showText();
+                    self.textShowed = true;
+                }
+            },
             onComplete: function(){
                 self.hide();
             }
@@ -57,8 +73,14 @@ var nexts5 = bm.scenes.nexts5 = Hilo.Class.create({
             x: this.left.width/2,
             alpha: .2
         }, {
-            duration: 2000,
+            duration: 7000,
             ease: self.enterEase,
+            onStart: function(){
+                if(!self.textShowed){
+                    self.showText();
+                    self.textShowed = true;
+                }
+            },
             onComplete: function(){
                 self.hide();
             }
@@ -73,11 +95,12 @@ var nexts5 = bm.scenes.nexts5 = Hilo.Class.create({
         bm.tween.to(self.left, {
             alpha: 0
         }, {
-            duration: 2000,
-            delay: 1200,
+            duration: 5000,
+            delay: 2500,
             ease: self.outEase,
             onStart: function(){
                 if(!self.hided()){return;}
+                bm.stage.removeChild(self.text);
                 bm.loadNext('s6');
             },
             onComplete: function(){
@@ -88,11 +111,12 @@ var nexts5 = bm.scenes.nexts5 = Hilo.Class.create({
         bm.tween.to(self.right, {
             alpha: 0
         }, {
-            duration: 3000,
-            delay: 1200,
+            duration: 5000,
+            delay: 2500,
             ease: self.outEase,
             onStart: function(){
                 if(!self.hided()){return;}
+                bm.stage.removeChild(self.text);
                 bm.loadNext('s6');
             },
             onComplete: function(){

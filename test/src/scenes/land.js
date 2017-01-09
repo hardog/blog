@@ -66,9 +66,6 @@ var Land = bm.scenes.Land = Hilo.Class.create({
             duration: 1000,
             ease: self.enterEase,
             onComplete: function(){
-                // bm.stage.removeChild(self.square);
-                // bm.stage.removeChild(self);
-                // bm.loaded('words');
                 self.createLRWords();
                 self.lrTween();
                 self.showFlowers();
@@ -159,10 +156,12 @@ var Land = bm.scenes.Land = Hilo.Class.create({
         }, {
             duration: 1500,
             delay: 10,
-            ease: self.enterEase,
+            ease: self.outEase,
             onComplete: function(){
-                self.hide();
-                bm.loadNext('s1');
+                setTimeout(function(){
+                    self.hide();
+                    bm.loadNext('s1');
+                }, 1000);
             }
         });
     },

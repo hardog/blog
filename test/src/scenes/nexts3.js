@@ -30,6 +30,15 @@ var nexts3 = bm.scenes.nexts3 = Hilo.Class.create({
         });
     },
 
+    showText: function(){
+        this.text = new bm.Text('2016| 我见到天底下最可爱的表情', 'ltr', 12);
+        this.text2 = new bm.Text('2016| 也见到天底下最蠢的/[加班狗]', 'rtl', 12);
+        bm.stage.addChild(this.text);
+        bm.stage.addChild(this.text2);
+        this.text.ready(5000);
+        this.text2.ready(5000);
+    },
+
     start: function(){
         var self = this;
 
@@ -39,6 +48,9 @@ var nexts3 = bm.scenes.nexts3 = Hilo.Class.create({
         }, {
             duration: 7000,
             ease: self.enterEase,
+            onStart: function(){
+                self.showText();
+            },
             onComplete: function(){
                 self.hide();
             }
@@ -56,6 +68,8 @@ var nexts3 = bm.scenes.nexts3 = Hilo.Class.create({
             delay: 1500,
             ease: self.outEase,
             onStart: function(){
+                bm.stage.removeChild(self.text);
+                bm.stage.removeChild(self.text2);
                 bm.loadNext('s4');
             },
             onComplete: function(){

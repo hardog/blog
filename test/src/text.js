@@ -11,23 +11,29 @@ var Text = bm.Text = Hilo.Class.create({
     txt: null,
 
     // container config
-    background: '#aaa', 
+    background: '#fff', //#fdfbf8
 
     // text config
-    txtIntr: 100,
+    txtIntr: 300,
     txtUseIntr: false,
     txtIntrHandle: null,
     txtNumPerLine: 10,
-    txtFontSize: 18,
+    txtFontSize: 25,
     txtLineSpacing: 3,
-    txtColor: '#fff',
+    txtColor: '#779046',//'#779046',
     txtAlign: 'left',
     txtFontStyle: '楷体',
     txtX: 10,
     txtY: 10,
 
-    constructor: function(text, type, perline){
+    constructor: function(text, type, perline, ext){
         Text.superclass.constructor.call(this, {});
+
+        ext = ext || {};
+        this.background = ext.background || this.background;
+        this.txtColor = ext.txtColor || this.txtColor;
+        this.txtFontSize = ext.txtFontSize || this.txtFontSize;
+        this.txtIntr = ext.txtIntr || this.txtIntr;
 
         // get scale relative to square image
         this.txtNumPerLine = perline || this.txtNumPerLine;
@@ -35,6 +41,7 @@ var Text = bm.Text = Hilo.Class.create({
         this.width = wh.w;
         this.height = wh.h;
         this.txt = text;
+        this.depth = 10;
         this.background = this.background;
         this.parseType(type);
     },
@@ -60,10 +67,16 @@ var Text = bm.Text = Hilo.Class.create({
             this.y = bm.stage.height - this.height - 60;
             this.alpha = 0;
             break;
+        case 'trtl':
+            this.x = bm.stage.width;
+            this.y = 60;
+            this.alpha = 0;
+            break;
         case 'last':
             this.x = (bm.stage.width - this.width) / 2;
             this.y = (bm.stage.height - this.height) / 2;
             this.alpha = 0;
+            break;
         default:
             this.x = 40;
             this.y = 60;
@@ -86,7 +99,7 @@ var Text = bm.Text = Hilo.Class.create({
         };
     },
 
-    updateText: function(){console.log('enter')
+    updateText: function(){
         var self = this;
         var index = 0;
 
@@ -109,6 +122,7 @@ var Text = bm.Text = Hilo.Class.create({
         return new Hilo.Text({
             maxWidth: self.width - 2 * self.txtX,
             text: txt,
+            outline: false,
             color: self.txtColor,
             lineSpacing: self.txtLineSpacing,
             textAlign: self.txtAlign,
@@ -118,27 +132,28 @@ var Text = bm.Text = Hilo.Class.create({
         });
     },
 
-    start: function(){
+    ready: function(time){
         switch(this.type){
         case 'taping':
-            this.updateText();
+            this.updateText(time);
             break;
         case 'ltr':
-            this.animateLTOR();
+            this.animateLTOR(time);
             break;
         case 'rtl':
-            this.animateRTOL();
+            this.animateRTOL(time);
+            break;
+        case 'trtl':
+            this.animateTRTOL(time);
             break;
         case 'last':
-            this.animateDft();
-            break;
         default:
-            this.animateDft();
+            this.animateDft(time);
             break;
         }
     },
 
-    animateLTOR: function(){
+    animateLTOR: function(time){
         var self = this;
 
         self.text = self.createText(self.txt);
@@ -148,11 +163,11 @@ var Text = bm.Text = Hilo.Class.create({
             alpha: 1,
             x: 40
         }, {
-            duration: 2000
+            duration: time || 2000
         });
     },
 
-    animateRTOL: function(){
+    animateRTOL: function(time){
         var self = this;
 
         self.text = self.createText(self.txt);
@@ -162,11 +177,27 @@ var Text = bm.Text = Hilo.Class.create({
             alpha: 1,
             x: bm.stage.width - self.width - 40
         }, {
-            duration: 2000
+            duration: time || 2000
         });
     },
 
-    animateDft: function(){
+    hideAnimateRTOL: function(time){
+        var self = this;
+
+        self.text = self.createText(self.txt);
+        self.addChild(self.text);
+
+        bm.tween.to(self, {
+            alpha: 0
+        }, {
+            duration: time || 2000,
+            onComplete: function(){
+                bm.stage.removeChild(self);
+            }
+        });
+    },
+
+    animateDft: function(time){
         var self = this;
 
         self.text = self.createText(self.txt);
@@ -175,7 +206,34 @@ var Text = bm.Text = Hilo.Class.create({
         bm.tween.to(self, {
             alpha: 1
         }, {
-            duration: 2000
+            duration: time || 2000
+        });
+    },
+
+    animateTRTOL: function(time){
+        var self = this;
+
+        self.text = self.createText(self.txt);
+        self.addChild(self.text);
+
+        bm.tween.to(self, {
+            alpha: 1,
+            x: bm.stage.width - self.width - 30
+        }, {
+            duration: time || 2000
+        });
+    },
+
+    hideAnimateTRTOL: function(){
+        var self = this;
+        bm.tween.to(self, {
+            alpha: 0
+        }, {
+            duration: 2000,
+            delay: 1000,
+            onComplete: function(){
+                bm.stage.removeChild(self);
+            }
         });
     }
 });

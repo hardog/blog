@@ -6,6 +6,8 @@ var nexts1 = bm.scenes.nexts1 = Hilo.Class.create({
 
     enterEase: Hilo.Ease.Linear.EaseNone,
     outEase: Hilo.Ease.Linear.EaseNone,
+
+    text: null,
     constructor: function(bg){
         this.bmp = this.toBitmap(bg);
         nexts1.superclass.constructor.call(this, {
@@ -28,14 +30,23 @@ var nexts1 = bm.scenes.nexts1 = Hilo.Class.create({
         });
     },
 
+    showText: function(){
+        this.text = new bm.Text('2016| 那令我一眼着迷的地方', 'ltr', 12);
+        bm.stage.addChild(this.text);
+        this.text.ready(9000);
+    },
+
     start: function(){
         var self = this;
 
         bm.tween.to(self, {
-            alpha: 1
+            alpha: .8
         }, {
             duration: 1500,
             ease: self.enterEase,
+            onStart: function(){
+                self.showText();
+            },
             onComplete: function(){
                 self.leftToRight();
             }
@@ -46,10 +57,10 @@ var nexts1 = bm.scenes.nexts1 = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
-            alpha: 1,
+            alpha: .8,
             x: -self.width / 3
         }, {
-            duration: 6000,
+            duration: 5000,
             ease: self.enterEase,
             onComplete: function(){
                 self.rightToLeft();
@@ -61,10 +72,10 @@ var nexts1 = bm.scenes.nexts1 = Hilo.Class.create({
         var self = this;
 
         bm.tween.to(self, {
-            alpha: 0.8,
+            alpha: .6,
             x: 0
         }, {
-            duration: 6000,
+            duration: 5000,
             ease: self.enterEase,
             onComplete: function(){
                 self.hide();
@@ -84,6 +95,7 @@ var nexts1 = bm.scenes.nexts1 = Hilo.Class.create({
                 bm.loadNext('s2');
             },
             onComplete: function(){
+                bm.stage.removeChild(self.text);
                 bm.stage.removeChild(self);
             }
         });
