@@ -25,7 +25,19 @@
             });
         }
 
+        function autoPlayAudio2() {
+            window.onload = function() {
+                // alert(typeof WeixinJSBridge);
+                WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
+                    // 在这里拿到 e.err_msg, 这里面就包含了所有的网络类型
+                    // alert(e.err_msg);
+                    document.getElementById('bgmusic').play();
+                });
+            };
+        }
+
         autoPlayAudio1();
+        autoPlayAudio2();
     </script>
     <style type="text/css">
         body, div, canvas{

@@ -19,6 +19,14 @@ var BM = window.BM = {
     s1NeedRunned: false,
     s3Ready: false,
     s3NeedRunned: false,
+    s4Ready: false,
+    s4NeedRunned: false,
+    s5Ready: false,
+    s5NeedRunned: false,
+    s6Ready: false,
+    s6NeedRunned: false,
+    s7Ready: false,
+    s7NeedRunned: false,
 
     init: function(){
         var self = this;
@@ -58,6 +66,34 @@ var BM = window.BM = {
             }
         });
 
+        self.asset.on('stage4', function(){
+            self.s4Ready = true;
+            if(self.s4NeedRunned){
+                self.loadNext(this.curStageId);
+            }
+        });
+
+        self.asset.on('stage5', function(){
+            self.s5Ready = true;
+            if(self.s5NeedRunned){
+                self.loadNext(this.curStageId);
+            }
+        });
+
+        self.asset.on('stage6', function(){
+            self.s6Ready = true;
+            if(self.s6NeedRunned){
+                self.loadNext(this.curStageId);
+            }
+        });
+
+        self.asset.on('stage7', function(){
+            self.s7Ready = true;
+            if(self.s7NeedRunned){
+                self.loadNext(this.curStageId);
+            }
+        });
+
         self.stage.addChild(loading);
         loading.start();
         self.asset.load();
@@ -84,6 +120,30 @@ var BM = window.BM = {
         if(nextId === 's3' && !self.s3Ready){
             self.curStageId = nextId;
             self.s3NeedRunned = true;
+            return;
+        }
+
+        if(nextId === 's4' && !self.s4Ready){
+            self.curStageId = nextId;
+            self.s4NeedRunned = true;
+            return;
+        }
+
+        if(nextId === 's5' && !self.s5Ready){
+            self.curStageId = nextId;
+            self.s5NeedRunned = true;
+            return;
+        }
+
+        if(nextId === 's6' && !self.s6Ready){
+            self.curStageId = nextId;
+            self.s6NeedRunned = true;
+            return;
+        }
+
+        if(nextId === 's7' && !self.s7Ready){
+            self.curStageId = nextId;
+            self.s7NeedRunned = true;
             return;
         }
         

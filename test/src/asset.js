@@ -10,13 +10,21 @@ var Asset = bm.Asset = Hilo.Class.create({
     ],
     resStage2: [
         {id:'s1', src:'images/1.jpg'},
-        {id:'s2', src:'images/2.jpg'},
-        {id:'s3', src:'images/3.jpg'},
-        {id:'s4', src:'images/4.jpg'}
+        {id:'s2', src:'images/2.jpg'}
     ],
     resStage3: [
-        {id:'s5', src:'images/5.jpg'},
-        {id:'s6', src:'images/6.jpg'},
+        {id:'s3', src:'images/3.jpg'}
+    ],
+    resStage4: [
+        {id:'s4', src:'images/4.jpg'}
+    ],
+    resStage5: [
+        {id:'s5', src:'images/5.jpg'}
+    ],
+    resStage6: [
+        {id:'s6', src:'images/6.jpg'}
+    ],
+    resStage7: [
         {id:'s7', src:'images/7.jpg'}
     ],
 
@@ -51,6 +59,54 @@ var Asset = bm.Asset = Hilo.Class.create({
         self.firstQueue.on('complete', function(){
             self.firstQueue.off('complete');
             self.fire('stage3');
+            self.stage4();
+        });
+        self.firstQueue.start();
+    },
+
+    stage4: function(){
+        var self = this;
+
+        self.firstQueue.add(this.resStage4);
+        self.firstQueue.on('complete', function(){
+            self.firstQueue.off('complete');
+            self.fire('stage4');
+            self.stage5();
+        });
+        self.firstQueue.start();
+    },
+
+    stage5: function(){
+        var self = this;
+
+        self.firstQueue.add(this.resStage5);
+        self.firstQueue.on('complete', function(){
+            self.firstQueue.off('complete');
+            self.fire('stage5');
+            self.stage6();
+        });
+        self.firstQueue.start();
+    },
+
+    stage6: function(){
+        var self = this;
+
+        self.firstQueue.add(this.resStage6);
+        self.firstQueue.on('complete', function(){
+            self.firstQueue.off('complete');
+            self.fire('stage6');
+            self.stage7();
+        });
+        self.firstQueue.start();
+    },
+
+    stage7: function(){
+        var self = this;
+
+        self.firstQueue.add(this.resStage7);
+        self.firstQueue.on('complete', function(){
+            self.firstQueue.off('complete');
+            self.fire('stage7');
         });
         self.firstQueue.start();
     },
