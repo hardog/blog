@@ -42,7 +42,6 @@ var nexts7 = bm.scenes.nexts7 = Hilo.Class.create({
             ease: self.enterEase,
             onComplete: function(){
                 console.log('over');
-                // self.hide();
             }
         });
     }

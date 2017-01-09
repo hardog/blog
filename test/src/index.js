@@ -64,7 +64,7 @@ var BM = window.BM = {
     },
 
     startFlow: function(){
-        // this.pre = new BM.scenes.nexts5(this.asset.get('s5'));
+        // this.pre = new BM.scenes.nexts7(this.asset.get('test'));
         // this.stage.addChild(this.pre);
         // this.pre.start();
         this.pre = new BM.scenes.Land(this.asset.get('land'));
@@ -91,7 +91,6 @@ var BM = window.BM = {
             nextId = self.curStageId;
         }
 
-        console.log('nid:', nextId, self.curStageId)
         self['next' + nextId] = new BM.scenes['next' + nextId](self.asset.get(nextId));
         self.stage.addChild(self['next' + nextId]);
         self['next' + nextId].start();
