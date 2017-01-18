@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hardog&#39;s blog</title>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	
+	
+    <link rel="icon" href="/favicon.ico">
+  	
+  	<link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+<div class="author-meta">
+	<div class="site-title">
+		<h1><a href="http://hardog.net">Hardog&#39;s blog</a></h1>
+		<h3>
+			<span>trace forever</span>
+		</h3>
+	</div>
+	<div class="site-popularize">
+		<div><span>Group: </span>572218159</div>
+		<div><span>Email: </span>1273203953@qq.com</div>
+		<div><span>Location: </span>hangzhou·zhejiang</div>
+		<div><span>GitHub: </span><a target="_blank" href="https://github.com/hardog">https://github.com/hardog</a></div>
+	</div>
+</div>
+<div class="translate">
+	<span class="show-text"></span>
+	<input type="button" value="Trans" class="translate-btn" />
+</div>
+<div class="post">
+	<div class="post-head">
+		
+
+<article class="article">
+		<h3> <a href="http://hardog.net/2017/01/11/nginx/Nginx-Caveats/">Nginx Basic Caveats</a> </h3>
+		<aside class="article-meta">
+			<span>时间: 2017-01-11 11:17:01 </span>
+			<span class="article-tag">
+			标签:
+			
+				
+				<a href="/tags/nginx/">nginx</a>
+			
+			</span>
+		</aside>
+</article>
+
+
+
+	</div>
+	<div class="markdown-text">
+		<p><strong><a href="http://nginx.org/en/docs/" target="_blank" rel="external">Nginx Home</a></strong></p>
+<h1 id="root指令最好采用绝对路径"><a href="#root指令最好采用绝对路径" class="headerlink" title="root指令最好采用绝对路径"></a><code>root</code>指令最好采用绝对路径</h1><p>除非父级<code>Context</code> 已经定义了<code>root</code>指令, 否则在location指令中最好才用绝对路径, 因为默认的路径是相对Nginx的<br>安装路径, 例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server &#123;&#10;    root     /data/www;&#10;&#10;    location / &#123;&#10;        index ./index2.html;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>如上, location中的index路径是相对server中的root即<code>/data/www</code>的.</p>
+<h1 id="Nginx配置文件指令集合"><a href="#Nginx配置文件指令集合" class="headerlink" title="Nginx配置文件指令集合"></a>Nginx配置文件指令集合</h1><p>(配置文件指令集合](<a href="http://nginx.org/en/docs/dirindex.html" target="_blank" rel="external">http://nginx.org/en/docs/dirindex.html</a>)</p>
+<h1 id="Logging-rsyslog"><a href="#Logging-rsyslog" class="headerlink" title="Logging rsyslog"></a>Logging <code>rsyslog</code></h1><p>经试验Centos7系统可以配置syslog, 使用的是rsyslog服务, rsyslog配置文件可以通过<code>$whereis rsyslog</code>可查看, Nginx开启syslog服务需要进行以下设置:</p>
+<ul>
+<li><p><code>nginx.conf</code><br>设置<code>error_log</code>或<code>access_log</code>, 设置格式可参考<a href="http://nginx.org/en/docs/syslog.html" target="_blank" rel="external">syslog Nginx配置参考</a></p>
+</li>
+<li><p><code>rsyslog</code><br>通过命令<code>$whereis rsyslog</code>来获取rsyslog的配置文件目录, 启用配置文件中的<code>UDP</code>或<code>TCP</code> reception, 具体来说就是将以下行选择性的取消注释, 默认Nginx需要开启<code>UDP</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># Provides UDP syslog reception&#10;$ModLoad imudp&#10;$UDPServerRun 514 &#10;&#10;# Provides TCP syslog reception&#10;#$ModLoad imtcp&#10;#$InputTCPServerRun 514</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>修改后保存并重启rsyslog服务(<code>$systemctl restart rsyslog</code>), 最后, 具体的日志文件路径, 根据设置项<code>facility</code>决定, 默认是<code>local7</code>对应文件<code>/var/log/boot.log</code>.</p>
+<p><strong>扩展</strong></p>
+<p>自定义<code>facility</code>, 首先配置<code>nginx.conf</code>, 例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">access_log syslog:facility=user,...;</span><br></pre></td></tr></table></figure></p>
+<p>保存后, 配置<code>rsyslog.conf</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># user nginx log&#10;user.*    /var/log/nginx_user.log # &#26085;&#24535;&#25991;&#20214;&#36335;&#24452;, `*`&#34920;&#31034;&#35760;&#24405;&#26085;&#24535;&#30340;&#32423;&#21035;</span><br></pre></td></tr></table></figure></p>
+<p>保存后, 分别重启Nginx以及rsyslog进程即可!</p>
+<h1 id="知晓Nginx完整配置参数"><a href="#知晓Nginx完整配置参数" class="headerlink" title="知晓Nginx完整配置参数"></a>知晓Nginx完整配置参数</h1><p>Nginx配置文件有<code>Context</code>的概念, 其中<code>main</code>指全局上下文, 这些配置在<a href="http://nginx.org/en/docs/ngx_core_module.html" target="_blank" rel="external"><code>Core Functionality</code></a>可以看到, 例如如下<code>pid</code>配置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Syntax:   pid file;&#10;Default:  pid nginx.pid;&#10;Context:  main</span><br></pre></td></tr></table></figure></p>
+<p><code>Syntax</code>表明该条配置的语法即pid后面跟一个指定路径的文件, Default是示例, Context表示该条配置需要配置在<code>*.conf</code>文件的最外层全局上下文中.</p>
+<h1 id="虚拟机部署Nginx"><a href="#虚拟机部署Nginx" class="headerlink" title="虚拟机部署Nginx"></a>虚拟机部署Nginx</h1><p>测试时如果将Nginx安装在虚拟机里面, 然后Nginx处理的文件目录是与宿主机共享的文件夹,<br>此时需要考虑到在宿主机文件, Nginx并不能及时知道文件被更新过, 因此返回给客户端的文件<br>不是最新修改的.</p>
+<h1 id="location-指令"><a href="#location-指令" class="headerlink" title="location 指令"></a><code>location</code> 指令</h1><p>有如下配置片段:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server &#123;&#10;    location /images #@1 &#123;&#10;        root   /Users/Frand/work/personal-github/nginx; #@2&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当链接访问图片时@2处的物理路径无需包含@1的<code>images</code>目录, Nginx默认会加上匹配的路径!</p>
+<h1 id="自定义配置文件"><a href="#自定义配置文件" class="headerlink" title="自定义配置文件"></a>自定义配置文件</h1><p>使用自定义配置文件启动Nginx时, 注意修改配置文件中对应参数的顺序:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http &#123;&#10;    include       /usr/local/etc/nginx/mime.types;&#10;    #xxxx&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上<code>mime.types</code>需要修改为相对当前配置文件的路径, 默认情况下如果<code>mime.types</code>与nginx.conf<br>配置文件在同一目录, 可直接配置为<code>mime.types</code>.</p>
+
+	</div>
+
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/2017/01/11/nginx/Nginx-Caveats/" data-title="Nginx Basic Caveats" data-url="http://hardog.net/2017/01/11/nginx/Nginx-Caveats/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"hardog"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+
+<script src="//cdn.bootcss.com/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+<script src="/js/translate.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76506889-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>
